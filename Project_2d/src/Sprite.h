@@ -4,10 +4,11 @@
 #include "Vector3.h"
 #include "Matrix.h"
 #include "Utils.h"
+#include "TextureManager.h"
 
 class Sprite{
 public:
-	Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, const std::string &filename);
+	Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id textureId, TextureManager* tm);
 
 	void draw();
 
@@ -19,7 +20,6 @@ public:
 	~Sprite();
 
 protected:
-	bool loadTexture(const std::string &filename);
 	void setupCoords(GLfloat x, GLfloat y, GLfloat width, GLfloat height);
 	void setupTexCoords();
 	void setupArrays();
@@ -37,6 +37,7 @@ protected:
 	GLuint vertexArrayObject;
 	GLuint vertexArrayBuffers[NUM_BUFFERS];
 	Vector3 vectors[6];
+	unsigned int indices[6];
 	GLfloat textureCoords[12];
 	unsigned int drawCount;
 
@@ -47,6 +48,8 @@ protected:
 	GLuint fragmentShader;
 	GLuint shaderProgram;
 	GLuint texture;
-
+	GLuint index_vbo;
+	texture_id textureId;
+	TextureManager* tm;
 };
 #endif

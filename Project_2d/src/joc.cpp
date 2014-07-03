@@ -13,13 +13,37 @@
 #include "Sprite.h"
 #include "SpriteTriangle.h"
 #include "SpriteCircle.h"
+#include "GLM\glm.hpp"
+#include "SpriteManager.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Projectile.h"
+#include <stack>
+#include "EnemyFactory.h"
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+
+
+
+#ifdef _DEBUG
+   #ifndef DBG_NEW
+      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+      #define new DBG_NEW
+   #endif
+#endif  // _DEBUG
+
+
+
 /*
 	AICI SE AFLA TIPURILE DE SETARI PE CARE LE PUTEM 
 	MODIFICA DIN FISIERUL settings.xml
 */
 
 enum setting{
-	SPEED_CIRCLE,
+	SPEED_PLAYER,
 	SPEED_SQUARE,
 	WINDOW_WIDTH,
 	WINDOW_HEIGHT,
@@ -31,7 +55,7 @@ enum setting{
 	CORESPUNZATOARE TIPURILOR DE SETARI)
 
 */
-float speedCircle;
+float speedPlayer;
 float speedSquare;
 
 int g_gl_width = 640;
@@ -44,6 +68,7 @@ int g_gl_fullscreen = 0;
 	TASTEI L
 */
 void loadSettings(){
+	
 	rapidxml::xml_document<> doc;
 	std::ifstream file("../data/settings.xml");
 	std::stringstream ss;
@@ -58,8 +83,8 @@ void loadSettings(){
 		//std::string name = pNode->first_attribute("name")->value();
 		float value = atof(pNode->first_attribute("value")->value());
 		switch(counter){
-		case SPEED_CIRCLE:
-			speedCircle = value;
+		case SPEED_PLAYER:
+			speedPlayer = value;
 			//std::cout << "speed circle " << speedCircle << std::endl;
 			break;
 		case SPEED_SQUARE:
@@ -86,9 +111,11 @@ void loadSettings(){
 	}
 
 }
-
- 
-
+/*
+void APIENTRY openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, void* userParam){
+	//std::cout << "Crap! " << std::endl;
+}
+*/
 void glfw_error_callback (int error, const char* description) {
   std::cout << "GLFW ERROR: code "<<error <<" msg: "<<description << std::endl;
 }
@@ -101,6 +128,8 @@ void glfw_window_size_callback (GLFWwindow* window, int width, int height) {
 }
 
 int main () {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	loadSettings();
 	
 
@@ -131,27 +160,51 @@ int main () {
     glfwTerminate();
     return 1;
   }
+  /*
 
-   glfwSetErrorCallback (glfw_error_callback);
 
-   glfwSetWindowSizeCallback (window, glfw_window_size_callback);
 
-  // Atasam contextul de fereastra
-  glfwMakeContextCurrent (window);
-                                  
-  // Pornit extension handler-ul
-  glewInit ();
+  */
 
-  // Vedem versiunile
- 
-  Utils::showOpengGLInfo();
+	
+  //TODO fix this unhandled exception \/
+ /* glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+  glDebugMessageCallback(openglDebugCallback, NULL);
+  glEnable(GL_DEBUG_OUTPUT);*/
   
-   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-   glEnable( GL_BLEND );
+	glfwSetErrorCallback (glfw_error_callback);
+
+	glfwSetWindowSizeCallback (window, glfw_window_size_callback);
+
+   
+
+	// Atasam contextul de fereastra
+	glfwMakeContextCurrent (window);
+                                  
+	// Pornit extension handler-ul
+	glewInit ();
+
+	// Vedem versiunile
+ 
+	Utils::showOpengGLInfo();
+  
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable( GL_BLEND );
 
 
 	//............Antialiasing...............
 	glfwWindowHint (GLFW_SAMPLES, 4);
+
+
+
+
+
+
+
+
+
+
+
 
 	/*
 		Variabile pe care le voi folosi pentru a pastra 
@@ -160,7 +213,7 @@ int main () {
 	*/
 	//float circleX=0.5;
 	//float circleY=0;
-	float squareX1=0.5;
+	/*float squareX1=0.5;
 	float squareY1=0.5;
 
 	float squareX2=-0.5;
@@ -172,10 +225,10 @@ int main () {
 	
 
 
-	Sprite square1(0.5, 0.5, 0.3, 0.3, "../data/textures/spaceshipS.png");
-	Sprite square2(-0.5, 0.5, 0.3, 0.3, "../data/textures/spaceshipS.png");
+	Sprite square1(0.5, 0.5, 0.5, 0.3, "../data/textures/spaceshipS.png");
+	Sprite square2(-0.5, 0.5, 0.5, 0.3, "../data/textures/spaceshipS.png");
 
-	Sprite ship(0, 0.4, 0.6, 0.5, "../data/textures/ship/space_ship_up.png");
+	Sprite ship(0, 0.4, 0.6, 0.5, "../data/textures/ship/space_ship_up.png");*/
 
 	//SpriteTriangle str1(-0.8,-0.9, 0.2,0.3, Utils::Color::BLUE);
 
@@ -202,6 +255,28 @@ int main () {
 		Mai jos sunt variabilele pe care le voi folosi sa calculez 
 		durata unui frame
 	*/
+	TextureManager textManager;
+	SpriteManager spriteManager;
+	
+	std::vector<Enemy> enemies;
+	EnemyFactory en(&textManager, &enemies, &spriteManager);
+	en.Generate();
+	
+	
+	Player player(&textManager);
+
+	std::vector<Projectile> projectiles;
+	//projectiles.reserve(50);
+	//for (int i=0; i<50; i++){
+	//	projectiles.push_back(Projectile());
+	//}
+	
+
+	spriteManager.Add(player.getSprite());
+
+
+	
+	
 
 	float lastTime = glfwGetTime();
 	float newTime;
@@ -229,79 +304,83 @@ int main () {
 	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	  glViewport (0, 0, g_gl_width, g_gl_height);
 
-	//  sc1.move(circleX, circleY);
 
-///	  sc1.draw();
-
-	//  str1.draw();
-
-	//  str2.draw();	  
 	
-
-	  ship.move(shipX, shipY);
-	  ship.draw();
+	  spriteManager.Draw();
 
 
 
-	/*  for (int i=0; i<sprites.size(); i++){
-		sprites.at(i).draw();
-	}*/
+	  for (int i=0; i<enemies.size(); i++){
+		  enemies.at(i).setSpeed(speedPlayer*frameTime);
+		  enemies.at(i).Physics();
 
-	  /*
-		VITEZA PATRATULUI DEPINDE DE TIMP DECI E INDEPENDENTA DE FRAMERATE
+	  }
+	  for (int i=0; i<projectiles.size(); i++){
+		  if (projectiles.at(i).isAlive()){
+			  projectiles.at(i).setSpeed(speedPlayer*frameTime);
+			  projectiles.at(i).Physics();
+		  } else {
+			  //std::cout << "Old size " << projectiles.size() << std :: endl;
+		      spriteManager.Remove(projectiles.at(i).getSprite());
+			  projectiles.erase(projectiles.begin()+i);
+			  //std::cout << "Projectile " << i << " erased " << std::endl;
+			  //std::cout << "New size " << projectiles.size() << std :: endl;
 
-	  */
-	  float time =glfwGetTime();
+		  }
+		  
+	  }
 
-	  squareX1 = 0.4 * std::cos(time*speedSquare);   
-	  squareY1= 0.4 * std::sin(time*speedSquare);
+	  player.Physics();
 
-	  squareX2 = 0.4 * std::sin(time*speedSquare);   
-	  squareY2= 0.4 * std::cos(time*speedSquare);
-
-
-	  square1.move(squareX1, squareY1);
-	  square2.move(squareX2, squareY2);
-
-
-	  square1.draw();
-	  square2.draw();
-
-	 //  facem swap la buffere (Double buffer)
+	  //  facem swap la buffere (Double buffer)
 	  glfwSwapBuffers(window);
 
 	  glfwPollEvents();
+
+
 	  if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE)) {
-		glfwSetWindowShouldClose (window, 1);
+	  glfwSetWindowShouldClose (window, 1);
+		 
+
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
-		 // circleY+=speedCircle*frameTime;   //scalez distanta cu timpul parcurs intre frameuri
-											//pentru a obtine o viteza constanta indiferent de
-											//durata dintre frameuri
-
-		//  sc1.moveY(circleY);
-		   shipY+=speedCircle*frameTime;
-
+		  player.setSpeed(speedPlayer*frameTime);
+		  player.setSpeedY(1);
+		 
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S)){
-		//  circleY-=speedCircle*frameTime;
-		  shipY-=speedCircle*frameTime;
+		  player.setSpeed(speedPlayer*frameTime);
+		  player.setSpeedY(-1);
+		
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A)){
-		//  circleX-=speedCircle*frameTime;
-		  shipX-=speedCircle*frameTime;
+		 player.setSpeed(speedPlayer*frameTime);
+		 player.setSpeedX(-1);
 
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D)){
-		//  circleX+=speedCircle*frameTime;
-		  shipX+=speedCircle*frameTime;
+		player.setSpeed(speedPlayer*frameTime);
+		player.setSpeedX(1);
 
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_L)){
 		  loadSettings();
 	  }
+	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE)){
+		  if (player.fire()){
+			  projectiles.push_back(Projectile(&textManager));		 
+			  projectiles.at(projectiles.size()-1).Fire(player.getX(), player.getY());
+			  spriteManager.Add(projectiles.at(projectiles.size()-1).getSprite());
+		  }
+	  }
 	}
   
   glfwTerminate();
+  /*
+		AICI INCERC SA ELIMIN MEMORY LEAKS
+  */
+  enemies.clear();
+  enemies.shrink_to_fit();
+  _CrtDumpMemoryLeaks();
   return 0;
 }

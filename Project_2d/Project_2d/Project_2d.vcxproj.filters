@@ -9,6 +9,13 @@
     <ClCompile Include="..\src\SpriteTriangle.cpp" />
     <ClCompile Include="..\src\SpriteCircle.cpp" />
     <ClCompile Include="..\src\stb_image.c" />
+    <ClCompile Include="..\src\SpriteManager.cpp" />
+    <ClCompile Include="..\src\Player.cpp" />
+    <ClCompile Include="..\src\Enemy.cpp" />
+    <ClCompile Include="..\src\Projectile.cpp" />
+    <ClCompile Include="..\src\Texture.cpp" />
+    <ClCompile Include="..\src\TextureManager.cpp" />
+    <ClCompile Include="..\src\EnemyFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Matrix.h" />
@@ -18,5 +25,12 @@
     <ClInclude Include="..\src\SpriteTriangle.h" />
     <ClInclude Include="..\src\SpriteCircle.h" />
     <ClInclude Include="..\src\stb_image.h" />
+    <ClInclude Include="..\src\SpriteManager.h" />
+    <ClInclude Include="..\src\Player.h" />
+    <ClInclude Include="..\src\Enemy.h" />
+    <ClInclude Include="..\src\Projectile.h" />
+    <ClInclude Include="..\src\Texture.h" />
+    <ClInclude Include="..\src\TextureManager.h" />
+    <ClInclude Include="..\src\EnemyFactory.h" />
   </ItemGroup>
 </Project>

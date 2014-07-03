@@ -1,21 +1,22 @@
 #include <GL\glew.h>
 #include "Sprite.h"
 #include "Utils.h"
-#include "stb_image.h"
 #include <iostream>
- #define STB_IMAGE_IMPLEMENTATION
-
-	Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, const std::string &filename){
 
 
-		this->loadTexture(filename);		
+#define STB_IMAGE_IMPLEMENTATION
+
+Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id textureId, TextureManager* tm){
+		this->tm=tm;
+		
+		this->textureId=textureId;
 
 		this->setupCoords(x,y,width, height);
 
 		this->setupTexCoords();
 
 		//spun cati vertecsi voi desena
-		this->drawCount = 6;
+		this->drawCount = 4;
 
 		this->setupArrays();
 
@@ -47,13 +48,23 @@
 		
 		glUniformMatrix4fv(this->mat, 1, GL_FALSE, this->translationMatrix.getData()); 
 
-		glActiveTexture(GL_TEXTURE0+unit);
+	/*	glActiveTexture(GL_TEXTURE0+unit);
 
-		glBindTexture(GL_TEXTURE_2D, this->texture);
+		glBindTexture(GL_TEXTURE_2D, this->texture);*/
+
+		tm->Bind(textureId);
 
 		glBindVertexArray(this->vertexArrayObject);
+		
 
-		glDrawArrays(GL_TRIANGLES, 0, this->drawCount);
+
+	
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->index_vbo);
+
+		glDrawElements(GL_TRIANGLES, 8, GL_UNSIGNED_INT, 0);
+		
+
+		//glDrawArrays(GL_TRIANGLES, 0, this->drawCount);
 
 		glBindVertexArray(0);
 	
@@ -75,52 +86,7 @@
         this->translationMatrix.translateY(y);
 	}
 
-	bool Sprite::loadTexture(const std::string &filename){
-	//	std::string filename="../data/textures/spaceship_no_alpha.png";
 	
-		int imageWidth, imageHeight, nComponents; //pe langa textura stdbi_load returneaza si informatii despre imagine
-		unsigned char* image=stbi_load((filename).c_str(), &imageWidth, &imageHeight, &nComponents, 4);
-		
-
-		if (image==NULL){
-			std::cout << "Texture loading failed for texture " << filename << std::endl;
-			return false;
-		} else {
-			std::cout << "Texture loaded " << filename << std::endl;
-			
-		}
-
-		glGenTextures(1, &texture);
-
-		glBindTexture(GL_TEXTURE_2D, texture);
-
-		
-		/*
-			textura se va repeta atunci cand se depasesc dimensiunile imaginii
-			daca ultimul parametru e GL_CLAMP unde se depaseste se pune o culoare
-			(negru)
-		*/
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		/*
-			pentru cazurile in care textura ocupa mai multi pixeli sau mai putini
-			decat rezolutia ei; folosesc un filtru liniar in aceste situatii
-		*/
-		   
-        
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		/*
-			trimit textura la GPU
-		*/
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-   
-
-		stbi_image_free(image);
-		return true;
-	}
 
 	void Sprite::setupCoords(GLfloat x, GLfloat y, GLfloat width, GLfloat height){
 		/*
@@ -132,16 +98,31 @@
 		this->width=width;
 		this->height=height;
 		
-		this->vectors[0]=Vector3(x-width/2,y+height/2, 0);
+	/*	this->vectors[0]=Vector3(x-width/2,y+height/2, 0);
 		this->vectors[1]=Vector3(x+width/2,y+height/2, 0);
 		this->vectors[2]=Vector3(x-width/2,y-height/2, 0);
 
 		this->vectors[3]=Vector3(x+width/2,y+height/2, 0);
 		this->vectors[4]=Vector3(x+width/2,y-height/2, 0);
 		this->vectors[5]=Vector3(x-width/2,y-height/2, 0);
+		*/
+
+		this->vectors[0]=Vector3(x-width/2,y+height/2, 0);
+		this->vectors[1]=Vector3(x-width/2,y-height/2, 0);
+		this->vectors[2]=Vector3(x+width/2,y-height/2, 0);
+		this->vectors[3]=Vector3(x+width/2,y+height/2, 0);
+
+		this->indices[0]=0;
+		this->indices[1]=1;
+		this->indices[2]=2;
+		this->indices[3]=0;
+		this->indices[4]=2;
+		this->indices[5]=3;
+
+		
 	}
 
-
+	
 	void Sprite::setupTexCoords(){
 		/*    * * * * * *
 			  * 	  * *
@@ -158,21 +139,17 @@
 		this->textureCoords[0]=0;
 		this->textureCoords[1]=1;
 
-		this->textureCoords[2]=1;
-		this->textureCoords[3]=1;
+		this->textureCoords[2]=0;
+		this->textureCoords[3]=0;
 
-		this->textureCoords[4]=0;
+		this->textureCoords[4]=1;
 		this->textureCoords[5]=0;
 
 		//coordonatele texturii triunghiului de jos
 		this->textureCoords[6]=1;
 		this->textureCoords[7]=1;
 
-		this->textureCoords[8]=1;
-		this->textureCoords[9]=0;
 
-		this->textureCoords[10]=0;
-		this->textureCoords[11]=0;
 
 	}
 
@@ -199,9 +176,15 @@
 		glBindBuffer(GL_ARRAY_BUFFER, vertexArrayBuffers[POSITION_VB]);
 
 		//incarca bufferul pe GPU
-		glBufferData(GL_ARRAY_BUFFER, this->drawCount*sizeof(this->vectors[0]), this->vectors, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(this->vectors), this->vectors, GL_STATIC_DRAW);
 
 		//ii spunem cum sa le intrepreteze
+
+	
+		glGenBuffers(1, &this->index_vbo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->index_vbo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(this->indices[0]), &this->indices[0], GL_STATIC_DRAW);
+
 		
 		glEnableVertexAttribArray(0);
 		//ce attribute array, dimensiunea unui element, tipul de data, daca vreau sau nu normalizare, intervalul
@@ -236,8 +219,8 @@
 	
 
 		//acum incarcam shaderele
-		this->vertexShader = Utils::loadShader("../data/vertexShaderSquare.glsl", GL_VERTEX_SHADER);
-		this->fragmentShader = Utils::loadShader("../data/fragmentShaderSquare.glsl", GL_FRAGMENT_SHADER);
+		this->vertexShader = Utils::loadShader("../data/shaders/vertexShaderSquare.glsl", GL_VERTEX_SHADER);
+		this->fragmentShader = Utils::loadShader("../data/shaders/fragmentShaderSquare.glsl", GL_FRAGMENT_SHADER);
 
 
 

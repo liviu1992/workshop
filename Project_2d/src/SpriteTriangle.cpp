@@ -121,8 +121,8 @@
 		glBindVertexArray(0);
 
 		//acum incarcam shaderele
-		this->vertexShader = Utils::loadShader("../data/vertexShaderSquare.glsl", GL_VERTEX_SHADER);
-		this->fragmentShader = Utils::loadShader("../data/fragmentShaderSquare.glsl", GL_FRAGMENT_SHADER);
+		this->vertexShader = Utils::loadShader("../data/shaders/vertexShaderSquare.glsl", GL_VERTEX_SHADER);
+		this->fragmentShader = Utils::loadShader("../data/shaders/fragmentShaderSquare.glsl", GL_FRAGMENT_SHADER);
 
 	
 		//pregatim programul

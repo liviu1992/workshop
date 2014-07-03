@@ -51,10 +51,10 @@
 		glBindVertexArray(0);
 
 		//acum incarcam shaderele
-		this->vertexShader = Utils::loadShader("../data/vertexShaderSprite.glsl", GL_VERTEX_SHADER);
+		this->vertexShader = Utils::loadShader("../data/shaders/vertexShaderSprite.glsl", GL_VERTEX_SHADER);
 
 	
-		this->fragmentShader = Utils::loadShader("../data/fragmentShaderRed.glsl", GL_FRAGMENT_SHADER);
+		this->fragmentShader = Utils::loadShader("../data/shaders/fragmentShaderRed.glsl", GL_FRAGMENT_SHADER);
 		//pregatim programul
 		this->shaderProgram = Utils::makeProgram(vertexShader, fragmentShader);
 		//obtin matricea de translatie
