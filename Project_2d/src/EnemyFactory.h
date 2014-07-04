@@ -1,3 +1,12 @@
+/*
+	Clasa EnemyFactory construieste obiecte de tip Enemy.
+	Acestea sunt generate in mod aleatoriu. O data generate 
+	ele sunt incarcate in vectorul enemies iar spriteurile lor
+	sunt incarcate in spriteManager.
+
+*/
+
+
 #ifndef ENEMYFACTORY_H
 #define ENEMYFACTORY_H
 #include "Enemy.h"

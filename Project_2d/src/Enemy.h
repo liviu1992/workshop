@@ -1,3 +1,11 @@
+/*
+	Defineste un inamic. Acesta poate fi de mai multe tipuri. 
+	Tipurile sunt caracterizate pe moment de textura si de 
+	miscarea pe care o executa. 
+
+
+*/
+
 #ifndef ENEMY_H
 #define ENEMY_H
 #include <GL/glew.h>

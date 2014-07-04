@@ -56,9 +56,10 @@ namespace Utils{
 	  if (elapsed_seconds > 0.25) {
 		previous_seconds = current_seconds;
 		double fps = (double)frame_count / elapsed_seconds;
-		char tmp[128];
-		sprintf (tmp, "opengl @ fps: %.2f", fps);
-		glfwSetWindowTitle (window, tmp);
+		//char tmp[128];
+		
+		std::string tmp = "opengl @ fps: " + std::to_string(fps).substr(0,4);
+		glfwSetWindowTitle (window, tmp.c_str());
 		frame_count = 0;
 	  }
 	  frame_count++;

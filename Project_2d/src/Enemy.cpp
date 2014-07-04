@@ -2,20 +2,20 @@
 #include <math.h>
 
 Enemy::Enemy(TextureManager* tm, enemyType type){
-	GLfloat initialX = 0;
-	GLfloat initialY = 0;
-	GLfloat scoutWidth= 0.2;
-	GLfloat scoutHeight = 0.2;
-	GLfloat basicWidth= 0.27;
-	GLfloat basicHeight = 0.27;
-	GLfloat assaultWidth= 0.35;
-	GLfloat assaultHeight = 0.35;
+	GLfloat initialX = 0.f;
+	GLfloat initialY = 0.f;
+	GLfloat scoutWidth= 0.2f;
+	GLfloat scoutHeight = 0.2f;
+	GLfloat basicWidth= 0.27f;
+	GLfloat basicHeight = 0.27f;
+	GLfloat assaultWidth= 0.35f;
+	GLfloat assaultHeight = 0.35f;
 
 	this->x=initialX;
 	this->y=initialY;
 
-	this->speedX=1;
-	this->speedY=1;
+	this->speedX=1.f;
+	this->speedY=1.f;
 	
 	
 	switch(type){
@@ -86,7 +86,7 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 			LEFT-RIGHT MOVE
 		*/
 			if (left){
-				if (this->x<-0.8){
+				if (this->x<-0.8f){
 					right=true;
 					left=false;
 				}
@@ -94,7 +94,7 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 			}
 
 			if (right){
-				if (this->x>0.8){
+				if (this->x>0.8f){
 					left=true;
 					right=false;
 				}
@@ -108,9 +108,9 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 		/*
 			MISCARE CIRCULARA
 		*/
-			this->x=this->x + this->speed*1.8*std::cos(glfwGetTime());
-			this->y=this->y + this->speed*0.25*std::sin(glfwGetTime());
-			this->sprite.get()->move(this->x+0.4,this->y+0.5);		
+			this->x=this->x + (float)this->speed*1.8f*(float)std::cos(glfwGetTime());
+			this->y=this->y + (float)this->speed*0.25f*(float)std::sin(glfwGetTime());
+			this->sprite.get()->move(this->x+0.4f,this->y+0.5f);		
 			break;
 
 		
@@ -118,9 +118,9 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 			MISCARE SINUSOIDALA
 		*/
 		case movement::SIN:
-			this->y=this->y + 2*this->speed*std::sin(glfwGetTime()*4);
+			this->y=this->y + (float)2.f*this->speed*(float)std::sin(glfwGetTime()*4);
 			if (left){
-				if (this->x<-0.8){
+				if (this->x<-0.8f){
 					right=true;
 					left=false;
 				}
@@ -128,7 +128,7 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 			}
 
 			if (right){
-				if (this->x>0.8){
+				if (this->x>0.8f){
 					left=true;
 					right=false;
 				}

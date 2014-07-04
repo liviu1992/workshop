@@ -18,10 +18,10 @@
 		for (int i=0; i<seed1; i++){
 			enemies->push_back(Enemy(tm, enemyType::SCOUT_ENEMY));
 			sm->Add(enemies->at(enemies->size()-1).getSprite());
-			x = 1.0*(100 -(rand()% 200))/100;
-			y = 1.0*(100 -(rand()% 200))/100;
-			if (y<0){
-				y+=0.5;
+			x = 1.0f*(100 -(rand()% 200))/100;
+			y = 1.0f*(100 -(rand()% 200))/100;
+			if (y<0.f){
+				y+=0.5f;
 			}
 			std::cout << "x: " << x << " y: " << y << std::endl;
 			enemies->at(enemies->size()-1).setPosition(x, y);
@@ -36,10 +36,10 @@
 		for (int i=0; i<seed2; i++){
 			enemies->push_back(Enemy(tm, enemyType::BASIC_ENEMY));
 			sm->Add(enemies->at(enemies->size()-1).getSprite());
-			x = 1.0*(100 -(rand()% 200))/100;
-			y = 1.0*(100 -(rand()% 200))/100;
-			if (y<0){
-				y+=0.5;
+			x = 1.0f*(100 -(rand()% 200))/100;
+			y = 1.0f*(100 -(rand()% 200))/100;
+			if (y<0.f){
+				y+=0.5f;
 			}
 			std::cout << "x: " << x << " y: " << y << std::endl;
 			
@@ -55,10 +55,10 @@
 		for (int i=0; i<seed3; i++){
 			enemies->push_back(Enemy(tm, enemyType::ASSAULT_ENEMY));
 			sm->Add(enemies->at(enemies->size()-1).getSprite());
-			x = 1.0*(100 -(rand()% 200))/100;
-			y = 1.0*(100 -(rand()% 200))/100;
-			if (y<0){
-				y+=0.5;
+			x = 1.0f*(100 -(rand()% 200))/100;
+			y = 1.0f*(100 -(rand()% 200))/100;
+			if (y<0.f){
+				y+=0.5f;
 			}
 			std::cout << "x: " << x << " y: " << y << std::endl;
 			

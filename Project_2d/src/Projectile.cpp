@@ -7,10 +7,10 @@
 #define new DEBUG_NEW
 #endif
 Projectile::Projectile(TextureManager* tm){
-	GLfloat initialX = 0;
-	GLfloat initialY = 0;
-	GLfloat pWidth= 0.2;
-	GLfloat pHeight = 0.2;
+	GLfloat initialX = 0.f;
+	GLfloat initialY = 0.f;
+	GLfloat pWidth= 0.2f;
+	GLfloat pHeight = 0.2f;
 
 
 	this->x=initialX;

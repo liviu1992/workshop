@@ -26,9 +26,8 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 	
 		//obtin matricea de translatie
 
-		this->transMat =glGetUniformLocation(this->shaderProgram, "TransMatrix");
-		this->rotMat = glGetUniformLocation(this->shaderProgram, "RotMatrix");
-		this->projMat = glGetUniformLocation(this->shaderProgram, "ProjMatrix");
+		this->transfMat =glGetUniformLocation(this->shaderProgram, "TransfMatrix");
+
 		//si acum sunt gata sa desenez...
 	}
 
@@ -49,9 +48,8 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 		
 		
-		glUniformMatrix4fv(this->transMat, 1, GL_FALSE, &(this->matrix.getData(TRANSLATION)[0][0])); 
-		glUniformMatrix4fv(this->rotMat, 1, GL_FALSE, &(this->matrix.getData(ROTATION)[0][0])); 
-		glUniformMatrix4fv(this->projMat, 1, GL_FALSE, &(this->matrix.getData(PROJECTION)[0][0])); 
+		glUniformMatrix4fv(this->transfMat, 1, GL_FALSE, &(this->matrix.getData()[0][0])); 
+
 
 
 	/*	glActiveTexture(GL_TEXTURE0+unit);
@@ -220,8 +218,8 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 	
 
 		//acum incarcam shaderele
-		this->vertexShader = Utils::loadShader("../data/shaders/vertexShaderSquare.glsl", GL_VERTEX_SHADER);
-		this->fragmentShader = Utils::loadShader("../data/shaders/fragmentShaderSquare.glsl", GL_FRAGMENT_SHADER);
+		this->vertexShader = Utils::loadShader("../data/shaders/vertexShader.glsl", GL_VERTEX_SHADER);
+		this->fragmentShader = Utils::loadShader("../data/shaders/fragmentShader.glsl", GL_FRAGMENT_SHADER);
 
 
 

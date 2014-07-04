@@ -1,3 +1,8 @@
+/*
+	Defineste un vector cu 3 elemente. Nu cred ca mai are vreo utilitate.
+
+*/
+
 #include "Vector3.h"
 #include "iostream"
 

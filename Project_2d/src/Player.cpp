@@ -1,10 +1,10 @@
 #include "Player.h"
 
 	Player::Player(TextureManager* tm){
-		GLfloat initialX = 0;
-		GLfloat initialY = 0;
-		GLfloat pWidth= 0.4;
-		GLfloat pHeight = 0.4;
+		GLfloat initialX = 0.f;
+		GLfloat initialY = 0.f;
+		GLfloat pWidth= 0.4f;
+		GLfloat pHeight = 0.4f;
 
 		this->rotate = 0;
 		this->x=initialX;
@@ -18,8 +18,8 @@
 		this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->playerWidth, this->playerHeight, texture_id::PLAYER,  tm));
 
 
-		this->fireTimer=0;
-		this->fireLimit=0.3;
+		this->fireTimer=0.f;
+		this->fireLimit=0.3f;
 	}
 	GLfloat Player::getX(){
 		return this->x;
@@ -73,7 +73,7 @@
 	bool Player::fire(){
 		
 		if (glfwGetTime()>=fireTimer+fireLimit){
-			fireTimer = glfwGetTime();
+			fireTimer = (float)glfwGetTime();
 			return true;
 		}
 		else {

@@ -1,3 +1,11 @@
+/*
+	Gestioneaza toate Sprite-urile. Controleaza desenarea lor
+	pe ecran. Putem adauga sau elimina Sprite-uri. Se utilizeaza
+	un vector pentru a stii ce Sprite-uri trebuie desenate.
+
+
+*/
+
 #include "SpriteManager.h"
 #include <algorithm>
 
@@ -28,7 +36,7 @@ bool SpriteManager::Add(std::shared_ptr<Sprite>  sprite){
 
 bool SpriteManager::Remove(std::shared_ptr<Sprite>  sprite){
 	bool result = false;
-	for (int i=0; i<this->sprites.size(); i++){
+	for (unsigned int i=0; i<this->sprites.size(); i++){
 		if (sprite==this->sprites.at(i)){
 		
 		

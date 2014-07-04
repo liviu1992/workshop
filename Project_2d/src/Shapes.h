@@ -9,7 +9,7 @@ namespace Shapes{
 	GLint num_of_points = 3 * num_of_triangles+1;
            
     GLint buffer_size=num_of_points*2;
-	const GLfloat PI = 3.141;
+	const GLfloat PI = 3.141f;
 
    GLfloat *vertex_buffer = new GLfloat[buffer_size+12*2];
    vertex_buffer[0]=x;

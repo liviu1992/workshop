@@ -1,3 +1,10 @@
+/*
+	Va defini fiecare tip de proiectil utilizat
+	in joc si modul in care acesta se comporta(in
+	Physics).
+
+*/
+
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 #include <GL/glew.h>
@@ -5,7 +12,7 @@
 
 class Projectile{
 public:
-	Projectile(TextureManager*);
+	Projectile(TextureManager* tm);
 
 	GLfloat getX();
 	GLfloat getY();

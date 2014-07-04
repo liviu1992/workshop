@@ -1,3 +1,11 @@
+/*
+	Reprezinta un patrat cu o textura. Este continut de 
+	fiecare obiect care va fi desenat pe ecran. Ii poate
+	fi schimbata pozitia, orientarea cu ajutorul obiectului de tip
+	Matrix. Este singura clasa care deseneaza. Toate celelalte sunt
+	desenate apeland la un obiect de tip Sprite.
+
+*/
 #ifndef SPRITE_H
 #define SPRITE_H
 #include <GL/glew.h>
@@ -49,9 +57,8 @@ protected:
 
 	Matrix matrix;
 
-	GLuint transMat;
-	GLuint rotMat;
-	GLuint projMat;
+	GLuint transfMat;
+
 	GLuint vertexShader;
 	GLuint fragmentShader;
 	GLuint shaderProgram;

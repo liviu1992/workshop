@@ -1,3 +1,9 @@
+/*
+	Are rolul de a incarca o textura
+	si de a oferi mai departe id-ul acesteia.
+	Ar putea fi comasata cu TextureManager.
+*/
+
 #ifndef TEXTURE_H
 #define TEXTURE_H
 #include <string>

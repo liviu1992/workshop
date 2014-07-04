@@ -9,7 +9,27 @@
 	Matrix::Matrix(){
 		translationMatrix = glm::translate(glm::mat4(), glm::vec3(0, 0, 0));
 		rotationMatrix = glm::rotate(glm::mat4(), 0.f, glm::vec3(0,0,1));
-		projectionMatrix =glm::ortho(0, 800, 600, 0, 0, 100);
+		
+
+		/*
+			primele 4 argumente ne spun "colturile" in coordonate ale lumii
+			ale dreptunghiului pe care il putem vedea, al 5-lea ne spune cat
+			de aproape putem vedea, iar al 6-lea cat de departe.
+		*/
+		projectionMatrix = glm::ortho( -1.25f, 1.25f, -1.25f, 1.25f,0.f, 100.f );
+	
+
+		/*
+			primul vector ne spune unde se afla camera,
+			al doilea unde se uita camera,
+			ultimul ne spune unde este sus
+			(toate se refera la coordonate ale lumii)
+		*/
+
+		cameraMatrix = glm::lookAt(glm::vec3(0,0,1), 
+								   glm::vec3(0,0,0),
+								   glm::vec3(0,1,0));
+	//	 cameraMatrix = glm::mat4(1);
 		this->currentX=0;
 		this->currentY=0;
 		this->currentR=0;
@@ -25,16 +45,14 @@
 		
 	}
 
+	/*
+		OFERA MATRICILE DE TRANSLATIE, ROTATIE, PROIECTIE...
 
+	*/
 
-	glm::mat4 Matrix::getData(matrixType type){
-		if (type==matrixType::TRANSLATION){
-			return this->translationMatrix;
-		} else if (type==matrixType::ROTATION){
-			return this->rotationMatrix;
-		} else if (type==matrixType::PROJECTION){
-			return this->projectionMatrix;
-		}
+	glm::mat4 Matrix::getData(){
+
+		return projectionMatrix*cameraMatrix*rotationMatrix*translationMatrix;
 	}
 	void Matrix::rotate(GLfloat rotate, GLfloat x, GLfloat y){
 

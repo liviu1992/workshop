@@ -83,7 +83,7 @@ void loadSettings(){
 	int counter=0;
 	for (rapidxml::xml_node<> *pNode = pRoot->first_node("Item"); pNode; pNode =pNode->next_sibling()){
 		//std::string name = pNode->first_attribute("name")->value();
-		float value = atof(pNode->first_attribute("value")->value());
+		float value = (float) atof(pNode->first_attribute("value")->value());
 		switch(counter){
 		case SPEED_PLAYER:
 			speedPlayer = value;
@@ -94,13 +94,13 @@ void loadSettings(){
 			//std::cout << "speed square " << speedSquare << std::endl;
 			break;
 		case WINDOW_WIDTH:
-			g_gl_width = value;
+			g_gl_width = (int)value;
 			break;
 		case WINDOW_HEIGHT:
-			g_gl_height = value;
+			g_gl_height = (int)value;
 			break;
 		case FULL_SCREEN:
-			g_gl_fullscreen = value;
+			g_gl_fullscreen = (int)value;
 			
 			break;
 
@@ -225,7 +225,7 @@ int main () {
 	
 	
 
-	float lastTime = glfwGetTime();
+	float lastTime = (float) glfwGetTime();
 	float newTime;
 	float frameTime;	
 	glClearColor(0,0,0,0);
@@ -237,7 +237,7 @@ int main () {
 			Inmultesc viteza cu timpul dintre frameuri.
 
 		*/
-		newTime = glfwGetTime();
+		newTime = (float) glfwGetTime();
 
 		frameTime = newTime-lastTime;
 		lastTime=newTime;
@@ -257,12 +257,12 @@ int main () {
 
 
 
-	  for (int i=0; i<enemies.size(); i++){
+	  for (unsigned int i=0; i<enemies.size(); i++){
 		  enemies.at(i).setSpeed(speedPlayer*frameTime);
 		  enemies.at(i).Physics();
 
 	  }
-	  for (int i=0; i<projectiles.size(); i++){
+	  for (unsigned int i=0; i<projectiles.size(); i++){
 		  if (projectiles.at(i).isAlive()){
 			  projectiles.at(i).setSpeed(speedPlayer*frameTime);
 			  projectiles.at(i).Physics();
@@ -322,11 +322,11 @@ int main () {
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q)){
 		  std::cout << "Rotate " << std::endl;
-		  player.Rotate(1);
+		  player.Rotate(0.1f);
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E)){
 		  std::cout << "Rotate " << std::endl;
-		  player.Rotate(-1);
+		  player.Rotate(-0.1f);
 	  }
 	}
   

@@ -1,13 +1,17 @@
+/*
+	A aparut din necesitatea de a incarca fiecare textura
+	o singura data. Stocheaza id-urile texturilor intr-un
+	array egal in dimensiune cu numarul texturilor(ma bazez
+	pe faptul ca intotdeauna in enumeratie texture_id ROCKET
+	va fi ultimul element. Apeland functia Bind a acestui obiect
+	pot activa o anumita textura.
+
+*/
+
 #ifndef TEXTUREMANAGER_H
 #define TEXTUREMANAGER_H
 #include "Texture.h"
-#ifdef _DEBUG
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
-#define new DEBUG_NEW
-#endif
+
 class TextureManager{
 public:
 	TextureManager();
