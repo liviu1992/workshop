@@ -9,8 +9,8 @@
 	Matrix::Matrix(){
 		translationMatrix = glm::translate(glm::mat4(), glm::vec3(0, 0, 0));
 		rotationMatrix = glm::rotate(glm::mat4(), 0.f, glm::vec3(0,0,1));
-		
-
+		this->rotating =false;
+		rotatingTimer = 0;
 		/*
 			primele 4 argumente ne spun "colturile" in coordonate ale lumii
 			ale dreptunghiului pe care il putem vedea, al 5-lea ne spune cat
@@ -39,9 +39,11 @@
 
 
 	void Matrix::translateTo(GLfloat x, GLfloat y){
-		translationMatrix = glm::translate(glm::mat4(), glm::vec3(x, y, 0));
-		this->currentX=x;
-		this->currentY=y;
+	
+			translationMatrix = glm::translate(glm::mat4(), glm::vec3(x, y, 0));
+		
+		
+		
 		
 	}
 
@@ -59,14 +61,16 @@
 		/*rotationMatrix =glm::translate(glm::mat4(), glm::vec3(x, y, 0)) *
 						glm::rotate(glm::mat4(), rotate+currentR, glm::vec3(0,0,1)) *						
 			            glm::translate(glm::mat4(), glm::vec3(-x, -y, 0));*/
-
-		glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(currentX,currentY,0));
-		glm::mat4 rotateInCenter = glm::rotate(transToCenter, rotate, glm::vec3(0,0,1));
-		rotationMatrix = glm::translate(rotateInCenter, glm::vec3(-currentX,-currentY,0));
-		this->currentR=rotate;
-		std::cout << rotate << std::endl;
-				std::cout << x << " " << y << std::endl;
-
+	
+	
+			glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x,-y+0.5f,0));
+			glm::mat4 rotateInCenter = glm::rotate(glm::mat4(1), rotate, glm::vec3(0,0,1));
+			glm::mat4 transBack = glm::translate(glm::mat4(1), glm::vec3(x, y-0.5f, 0));
+			rotationMatrix =transBack * rotateInCenter * transToCenter;
+			this->currentR=rotate;
+			std::cout << rotate << std::endl;
+			std::cout << x << " " << y << std::endl;
+		
 	}
 
 //	private:

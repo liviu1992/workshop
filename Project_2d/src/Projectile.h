@@ -23,10 +23,10 @@ public:
 	void Physics();
 	void setSpeedX(GLfloat speedX);
 	void setSpeedY(GLfloat speedY);
-	void Fire(GLfloat x, GLfloat y);
+	void Fire(GLfloat x, GLfloat y, GLfloat rotate);
 	GLboolean isAlive();
 	~Projectile();
-
+	void Rotate(GLfloat rotate);
 private:
 	GLfloat x;
 	GLfloat y;
@@ -40,7 +40,8 @@ private:
 	GLboolean right;
 	GLboolean fired;
 	GLboolean alive;
-
+	TextureManager* tm;
+	GLfloat rotate;
 };
 
 #endif

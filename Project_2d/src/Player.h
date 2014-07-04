@@ -20,6 +20,7 @@ public:
 	void setSpeedY(GLfloat speedY);
 	bool fire();
 	void Rotate(GLfloat rotate);
+	GLfloat getRotate();
 private:
 	/*
 		PLAYER'S POSITION ON THE SCREEN

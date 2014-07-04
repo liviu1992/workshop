@@ -316,7 +316,7 @@ int main () {
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE)){
 		  if (player.fire()){
 			  projectiles.push_back(Projectile(&textManager));		 
-			  projectiles.at(projectiles.size()-1).Fire(player.getX(), player.getY());
+			  projectiles.at(projectiles.size()-1).Fire(player.getX(), player.getY(), player.getRotate());
 			  spriteManager.Add(projectiles.at(projectiles.size()-1).getSprite());
 		  }
 	  }

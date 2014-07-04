@@ -30,6 +30,8 @@ private:
 	GLfloat currentX;
 	GLfloat currentY;
 	GLfloat currentR;
+	GLboolean rotating;
+	GLdouble rotatingTimer;
 
 
 };
