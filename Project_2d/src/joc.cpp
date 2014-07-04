@@ -21,6 +21,13 @@
 #include <stack>
 #include "EnemyFactory.h"
 
+#ifdef _DEBUG
+   #ifndef DBG_NEW
+      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+      #define new DBG_NEW
+   #endif
+#endif  // _DEBUG
+
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
@@ -28,12 +35,7 @@
 
 
 
-#ifdef _DEBUG
-   #ifndef DBG_NEW
-      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-      #define new DBG_NEW
-   #endif
-#endif  // _DEBUG
+
 
 
 
@@ -128,7 +130,10 @@ void glfw_window_size_callback (GLFWwindow* window, int width, int height) {
 }
 
 int main () {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	
+	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	_CrtSetReportMode( _CRT_ERROR, _CRTDBG_MODE_DEBUG );
+
 
 	loadSettings();
 	
@@ -197,60 +202,6 @@ int main () {
 
 
 
-
-
-
-
-
-
-
-
-
-	/*
-		Variabile pe care le voi folosi pentru a pastra 
-		starea obiectelor
-
-	*/
-	//float circleX=0.5;
-	//float circleY=0;
-	/*float squareX1=0.5;
-	float squareY1=0.5;
-
-	float squareX2=-0.5;
-	float squareY2=0.5;
-
-	float shipX=0;
-	float shipY=0.2;
-
-	
-
-
-	Sprite square1(0.5, 0.5, 0.5, 0.3, "../data/textures/spaceshipS.png");
-	Sprite square2(-0.5, 0.5, 0.5, 0.3, "../data/textures/spaceshipS.png");
-
-	Sprite ship(0, 0.4, 0.6, 0.5, "../data/textures/ship/space_ship_up.png");*/
-
-	//SpriteTriangle str1(-0.8,-0.9, 0.2,0.3, Utils::Color::BLUE);
-
-	//SpriteTriangle str2(-0.6,-0.9, 0.2,0.3, Utils::Color::RED);
-
-
-
-	//int sprite_number=3000;
-	/*std::vector<Sprite> sprites;
-	sprites.reserve(sprite_number);
-
-	for (int i=0; i<sprite_number; i++){
-		sprites.push_back(Sprite(0,0,0.1,0.1,Utils::Color::BLUE));
-	}
-	*/
-
-
-	//SpriteCircle sc1(0,0, 0.1, Utils::Color::RED);
-
-
-//	sc1.move(0.0, 0.2);
-
 	/*
 		Mai jos sunt variabilele pe care le voi folosi sa calculez 
 		durata unui frame
@@ -266,11 +217,7 @@ int main () {
 	Player player(&textManager);
 
 	std::vector<Projectile> projectiles;
-	//projectiles.reserve(50);
-	//for (int i=0; i<50; i++){
-	//	projectiles.push_back(Projectile());
-	//}
-	
+
 
 	spriteManager.Add(player.getSprite());
 
@@ -373,14 +320,26 @@ int main () {
 			  spriteManager.Add(projectiles.at(projectiles.size()-1).getSprite());
 		  }
 	  }
+	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q)){
+		  std::cout << "Rotate " << std::endl;
+		  player.Rotate(1);
+	  }
+	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E)){
+		  std::cout << "Rotate " << std::endl;
+		  player.Rotate(-1);
+	  }
 	}
   
   glfwTerminate();
   /*
 		AICI INCERC SA ELIMIN MEMORY LEAKS
   */
+ 
   enemies.clear();
   enemies.shrink_to_fit();
-  _CrtDumpMemoryLeaks();
+  
+  projectiles.clear();
+  projectiles.shrink_to_fit();
+ // _CrtDumpMemoryLeaks();
   return 0;
 }

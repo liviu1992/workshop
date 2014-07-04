@@ -16,14 +16,15 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 
 	this->speedX=1;
 	this->speedY=1;
-
+	
+	
 	switch(type){
 	case enemyType::SCOUT_ENEMY:
 		this->mov=movement::SIN;
 
 		this->enemyWidth=scoutWidth;
 		this->enemyHeight=scoutHeight;
-		this->sprite=new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::SCOUT, tm);
+		this->sprite= std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::SCOUT, tm));
 		this->left=true;
 		this->right=false;
 		break;
@@ -32,7 +33,7 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 
 		this->enemyWidth=basicWidth;
 		this->enemyHeight=basicHeight;
-		this->sprite=new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::BASIC, tm);
+		this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::BASIC, tm));
 		this->left=true;
 		this->right=false;
 		break;
@@ -41,7 +42,7 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 
 		this->enemyWidth=assaultWidth;
 		this->enemyHeight=assaultHeight;
-		this->sprite=new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::ASSAULT, tm);
+		this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::ASSAULT, tm));
 		this->left=true;
 		this->right=false;
 		break;
@@ -65,7 +66,7 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 		this->speed=speed;
 	}
 
-	Sprite* Enemy::getSprite(){
+	std::shared_ptr<Sprite>  Enemy::getSprite(){
 		return this->sprite;
 	}
 
@@ -100,7 +101,7 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 				this->x+=speed*speedX;
 			}
 		
-			this->sprite->move(this->x, this->y);
+			this->sprite.get()->move(this->x, this->y);
 			break;
 		case movement::CIRC:
 		
@@ -109,7 +110,7 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 		*/
 			this->x=this->x + this->speed*1.8*std::cos(glfwGetTime());
 			this->y=this->y + this->speed*0.25*std::sin(glfwGetTime());
-			this->sprite->move(this->x+0.4,this->y+0.5);		
+			this->sprite.get()->move(this->x+0.4,this->y+0.5);		
 			break;
 
 		
@@ -133,12 +134,16 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 				}
 				this->x+=speed*speedX;
 			}
-			this->sprite->move(this->x, this->y);
+			this->sprite.get()->move(this->x, this->y);
 		}
 	}
 
 	void Enemy::setPosition(GLfloat x,GLfloat y){
-		this->sprite->move(x,y);
+		this->sprite.get()->move(x,y);
 		this->x=x;
 		this->y=y;
+	}
+
+	Enemy::~Enemy(){
+		
 	}

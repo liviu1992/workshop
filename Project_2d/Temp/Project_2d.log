@@ -1,18 +1,33 @@
-﻿Build started 7/3/2014 7:30:27 AM.
+﻿Build started 7/4/2014 9:22:03 AM.
      1>Project "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Project_2d\Project_2d.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(345,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\\" /Fd"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\Sprite.cpp ..\src\SpriteCircle.cpp ..\src\SpriteTriangle.cpp
-         SpriteTriangle.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\\" /Fd"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\Enemy.cpp ..\src\Player.cpp ..\src\Projectile.cpp
+         Projectile.cpp
      1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\utils.h(60): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
-         SpriteCircle.cpp
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\projectile.cpp(12): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\projectile.cpp(13): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+         Player.cpp
      1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\utils.h(60): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
-     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\shapes.h(12): warning C4305: 'initializing' : truncation from 'double' to 'const GLfloat'
-         Sprite.cpp
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\player.cpp(6): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\player.cpp(7): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\player.cpp(22): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\player.cpp(76): warning C4244: '=' : conversion from 'double' to 'GLfloat', possible loss of data
+         Enemy.cpp
      1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\utils.h(60): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(7): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(8): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(9): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(10): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(11): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(12): warning C4305: 'initializing' : truncation from 'double' to 'GLfloat'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(111): warning C4244: '=' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(112): warning C4244: '=' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(113): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\enemy.cpp(121): warning C4244: '=' : conversion from 'double' to 'GLfloat', possible loss of data
          Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\lib\x86" glfw3dll.lib glfw3.lib glew32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.lib" /MACHINE:X86 "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Enemy.obj"
@@ -23,9 +38,7 @@
          "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Projectile.obj"
          "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Shapes.obj"
          "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Sprite.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\SpriteCircle.obj"
          "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\SpriteManager.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\SpriteTriangle.obj"
          "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\stb_image.obj"
          "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Texture.obj"
          "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\TextureManager.obj"
@@ -35,4 +48,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.34
+Time Elapsed 00:00:03.25

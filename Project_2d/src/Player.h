@@ -14,12 +14,12 @@ public:
 	GLfloat getY();
 	GLfloat getSpeed();
 	void setSpeed(GLfloat speed);
-	Sprite* getSprite();
+	std::shared_ptr<Sprite>  getSprite();
 	void Physics();
 	void setSpeedX(GLfloat speedX);
 	void setSpeedY(GLfloat speedY);
 	bool fire();
-
+	void Rotate(GLfloat rotate);
 private:
 	/*
 		PLAYER'S POSITION ON THE SCREEN
@@ -27,14 +27,14 @@ private:
 	GLfloat x;
 	GLfloat y;
 	GLfloat speed;
-	Sprite* sprite;
+	std::shared_ptr<Sprite>  sprite;
 	GLfloat playerWidth;
 	GLfloat playerHeight;
 	GLfloat speedX;
 	GLfloat speedY;
 	GLfloat fireTimer;
 	GLfloat fireLimit;
-
+	GLfloat rotate;
 };
 
 #endif

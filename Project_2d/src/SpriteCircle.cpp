@@ -76,7 +76,7 @@
 
 		
 
-		glUniformMatrix4fv(this->mat, 1, GL_FALSE, this->translationMatrix.getData()); 
+		glUniformMatrix4fv(this->mat, 1, GL_FALSE, this->translationMatrix.getData(TRANSLATION)); 
 
 		glDrawArrays(GL_TRIANGLES, 0, this->drawCount);
 

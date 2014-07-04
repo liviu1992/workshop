@@ -14,12 +14,13 @@ enum enemyType{
 class Enemy{
 public:
 	Enemy(TextureManager* tm, enemyType type);
+	~Enemy();
 	GLfloat getX();
 	GLfloat getY();
 	GLfloat getSpeed();
 	void setPosition(GLfloat x,GLfloat y);
 	void setSpeed(GLfloat speed);
-	Sprite* getSprite();
+	std::shared_ptr<Sprite>  getSprite();
 	void Physics();
 	void setSpeedX(GLfloat speedX);
 	void setSpeedY(GLfloat speedY);
@@ -27,7 +28,7 @@ private:
 	GLfloat x;
 	GLfloat y;
 	GLfloat speed;
-	Sprite* sprite;
+	std::shared_ptr<Sprite>  sprite;
 	GLfloat enemyWidth;
 	GLfloat enemyHeight;
 	GLfloat speedX;

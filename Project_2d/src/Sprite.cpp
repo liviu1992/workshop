@@ -9,6 +9,7 @@
 Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id textureId, TextureManager* tm){
 		this->tm=tm;
 		
+		
 		this->textureId=textureId;
 
 		this->setupCoords(x,y,width, height);
@@ -25,7 +26,9 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 	
 		//obtin matricea de translatie
 
-		this->mat =glGetUniformLocation(this->shaderProgram, "Matrix");
+		this->transMat =glGetUniformLocation(this->shaderProgram, "TransMatrix");
+		this->rotMat = glGetUniformLocation(this->shaderProgram, "RotMatrix");
+		this->projMat = glGetUniformLocation(this->shaderProgram, "ProjMatrix");
 		//si acum sunt gata sa desenez...
 	}
 
@@ -44,9 +47,12 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 	    glUseProgram(this->shaderProgram);
 
-		this->mat =glGetUniformLocation(this->shaderProgram, "Matrix");
 		
-		glUniformMatrix4fv(this->mat, 1, GL_FALSE, this->translationMatrix.getData()); 
+		
+		glUniformMatrix4fv(this->transMat, 1, GL_FALSE, &(this->matrix.getData(TRANSLATION)[0][0])); 
+		glUniformMatrix4fv(this->rotMat, 1, GL_FALSE, &(this->matrix.getData(ROTATION)[0][0])); 
+		glUniformMatrix4fv(this->projMat, 1, GL_FALSE, &(this->matrix.getData(PROJECTION)[0][0])); 
+
 
 	/*	glActiveTexture(GL_TEXTURE0+unit);
 
@@ -70,22 +76,17 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 	
 	}
 
-	void Sprite::move(float x, float y){
+	void Sprite::move(GLfloat x, GLfloat y){
 		this->x=x;
 		this->y=y;
-		this->translationMatrix.translateTo(x,y);
+		this->matrix.translateTo(x,y);
 	}
 
-	void Sprite::moveX(float x){
-		this->x=x;
-		this->translationMatrix.translateX(x);
-	}
 
-	void Sprite::moveY(float y){
-		this->y=y;
-        this->translationMatrix.translateY(y);
+	void Sprite::Rotate(GLfloat rotate, GLfloat x, GLfloat y){
+		this->rotate=rotate;
+		this->matrix.rotate(rotate, x, y);
 	}
-
 	
 
 	void Sprite::setupCoords(GLfloat x, GLfloat y, GLfloat width, GLfloat height){
@@ -228,3 +229,4 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 		this->shaderProgram = Utils::makeProgram(vertexShader, fragmentShader);
 
 	}
+

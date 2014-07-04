@@ -19,9 +19,7 @@
     <ClCompile Include="..\src\Projectile.cpp" />
     <ClCompile Include="..\src\Shapes.h" />
     <ClCompile Include="..\src\Sprite.cpp" />
-    <ClCompile Include="..\src\SpriteCircle.cpp" />
     <ClCompile Include="..\src\SpriteManager.cpp" />
-    <ClCompile Include="..\src\SpriteTriangle.cpp" />
     <ClCompile Include="..\src\stb_image.c" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
@@ -34,9 +32,7 @@
     <ClInclude Include="..\src\Player.h" />
     <ClInclude Include="..\src\Projectile.h" />
     <ClInclude Include="..\src\Sprite.h" />
-    <ClInclude Include="..\src\SpriteCircle.h" />
     <ClInclude Include="..\src\SpriteManager.h" />
-    <ClInclude Include="..\src\SpriteTriangle.h" />
     <ClInclude Include="..\src\stb_image.h" />
     <ClInclude Include="..\src\Texture.h" />
     <ClInclude Include="..\src\TextureManager.h" />

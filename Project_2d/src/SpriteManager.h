@@ -4,16 +4,18 @@
 #include <vector>
 #include "Sprite.h"
 
+
 class SpriteManager{
 public:
 	SpriteManager();
-	bool Add(Sprite *sprite);
-	bool Remove(Sprite *sprite);
+	~SpriteManager();
+	bool Add(std::shared_ptr<Sprite>  sprite);
+	bool Remove(std::shared_ptr<Sprite>  sprite);
 	void Draw();
 	int Size();
-	~SpriteManager();
+	void SpriteManager::removeAll();
 private:
-	std::vector<Sprite*> sprites;
+	std::vector<std::shared_ptr<Sprite> > sprites;
 
 	
 };

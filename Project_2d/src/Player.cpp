@@ -6,16 +6,16 @@
 		GLfloat pWidth= 0.4;
 		GLfloat pHeight = 0.4;
 
-
+		this->rotate = 0;
 		this->x=initialX;
 		this->y=initialY;
-
+	
 		this->speedX=0;
 		this->speedY=0;
 
 		this->playerWidth=pWidth;
 		this->playerHeight=pHeight;
-		this->sprite=new Sprite(this->x, this->y, this->playerWidth, this->playerHeight, texture_id::PLAYER,  tm);
+		this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->playerWidth, this->playerHeight, texture_id::PLAYER,  tm));
 
 
 		this->fireTimer=0;
@@ -36,7 +36,7 @@
 		this->speed=speed;
 	}
 
-	Sprite* Player::getSprite(){
+	std::shared_ptr<Sprite>  Player::getSprite(){
 		return this->sprite;
 	}
 
@@ -49,13 +49,17 @@
 		this->speedY=speedY;
 	}
 
+	void Player::Rotate(GLfloat rotate){
+		this->rotate += rotate;
+		this->sprite.get()->Rotate(this->rotate, this->getX(), this->getY());
+	}
+
 	void Player::Physics(){
 
 		this->x=this->x+speedX*this->speed;
 		this->y=this->y+speedY*this->speed;
 
-		this->sprite->move(this->x,this->y);
-
+		this->sprite.get()->move(this->x,this->y);
 
 
 		this->speedX=0;

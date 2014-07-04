@@ -12,18 +12,19 @@ public:
 	GLfloat getSpeed();
 	void setPosition(GLfloat x,GLfloat y);
 	void setSpeed(GLfloat speed);
-	Sprite* getSprite();
+	std::shared_ptr<Sprite>  getSprite();
 	void Physics();
 	void setSpeedX(GLfloat speedX);
 	void setSpeedY(GLfloat speedY);
 	void Fire(GLfloat x, GLfloat y);
 	GLboolean isAlive();
+	~Projectile();
 
 private:
 	GLfloat x;
 	GLfloat y;
 	GLfloat speed;
-	Sprite* sprite;
+	std::shared_ptr<Sprite>  sprite;
 	GLfloat projectileWidth;
 	GLfloat projectileHeight;
 	GLfloat speedX;

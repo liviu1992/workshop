@@ -22,6 +22,11 @@ void TextureManager::LoadTextures(){
 	textures[texture_id::ROCKET]= t0.getTextureID();
 	
 }
+
+	TextureManager::~TextureManager(){
+		//free(textures);
+	}
+
 void TextureManager::Bind(texture_id type){	
 	GLuint unit=0;
 	glActiveTexture(GL_TEXTURE0+unit);

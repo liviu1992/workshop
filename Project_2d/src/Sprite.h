@@ -5,17 +5,23 @@
 #include "Matrix.h"
 #include "Utils.h"
 #include "TextureManager.h"
+#include "GLM/glm.hpp"
+#include "GLM\gtx\projection.hpp"
+#include "GLM\gtc\matrix_transform.hpp"
+#include <memory>
+
+
+
+
 
 class Sprite{
 public:
 	Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id textureId, TextureManager* tm);
-
 	void draw();
+	void move(GLfloat x, GLfloat y);
+	
 
-	void move(float x, float y);
-
-	void moveX(float x);
-	void moveY(float y);
+	void Sprite::Rotate(GLfloat rotate, GLfloat x, GLfloat y);
 
 	~Sprite();
 
@@ -41,15 +47,21 @@ protected:
 	GLfloat textureCoords[12];
 	unsigned int drawCount;
 
-	Matrix translationMatrix;
+	Matrix matrix;
 
-	GLuint mat;
+	GLuint transMat;
+	GLuint rotMat;
+	GLuint projMat;
 	GLuint vertexShader;
 	GLuint fragmentShader;
 	GLuint shaderProgram;
 	GLuint texture;
 	GLuint index_vbo;
+	GLfloat rotate;
 	texture_id textureId;
 	TextureManager* tm;
 };
+
+
+
 #endif
