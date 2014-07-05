@@ -39,7 +39,7 @@
 
 
 	void Matrix::translateTo(GLfloat x, GLfloat y){
-	
+		
 			translationMatrix = glm::translate(glm::mat4(), glm::vec3(x, y, 0));
 		
 		
@@ -56,20 +56,23 @@
 
 		return projectionMatrix*cameraMatrix*rotationMatrix*translationMatrix;
 	}
-	void Matrix::rotate(GLfloat rotate, GLfloat x, GLfloat y){
+	void Matrix::rotate(GLfloat rotate, GLfloat x0, GLfloat y0){
 
 		/*rotationMatrix =glm::translate(glm::mat4(), glm::vec3(x, y, 0)) *
 						glm::rotate(glm::mat4(), rotate+currentR, glm::vec3(0,0,1)) *						
 			            glm::translate(glm::mat4(), glm::vec3(-x, -y, 0));*/
 	
-	
-			glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x,-y+0.5f,0));
+			GLfloat x=cos(rotate)*x0+sin(rotate)*y0;
+			GLfloat y=-sin(rotate)*x0+cos(rotate)*y0;
+			glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x0,-y0+0.5f,0));
 			glm::mat4 rotateInCenter = glm::rotate(glm::mat4(1), rotate, glm::vec3(0,0,1));
-			glm::mat4 transBack = glm::translate(glm::mat4(1), glm::vec3(x, y-0.5f, 0));
+			glm::mat4 transBack = glm::translate(glm::mat4(1), glm::vec3(x0, y0-0.5f, 0));
 			rotationMatrix =transBack * rotateInCenter * transToCenter;
-			this->currentR=rotate;
-			std::cout << rotate << std::endl;
-			std::cout << x << " " << y << std::endl;
+
+		//	currentX = cos(rotate)*x0+sin(rotate)*y0;
+		//	currentY = -sin(rotate)*x0 + cos(rotate)*y0;
+			this->rotating = true;
+		//	this->currentR=rotate;
 		
 	}
 

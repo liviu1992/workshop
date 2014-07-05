@@ -83,8 +83,9 @@ Texture::Texture(texture_id id){
 			std::cout << "Texture at ../data/textures/enemy/assault.png was loaded" << std::endl;
 			break;
 		case texture_id::ROCKET:
-			this->loadTexture("../data/textures/rocket/rocket2.png");
-			std::cout << "Texture at ../data/textures//rocket/rocket2.png was loaded" << std::endl;
+			//this->loadTexture("../data/textures/rocket/rocket2.png");
+			this->loadTexture("../data/textures/rocket/rocket_light.png");
+			std::cout << "Texture at ../data/textures/rocket/rocket_light.png was loaded" << std::endl;
 			break;
 		}
 }

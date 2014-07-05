@@ -258,8 +258,13 @@ int main () {
 
 
 	  for (unsigned int i=0; i<enemies.size(); i++){
-		  enemies.at(i).setSpeed(speedPlayer*frameTime);
-		  enemies.at(i).Physics();
+		  if (enemies.at(i).getAlive()){
+			  enemies.at(i).setSpeed(speedPlayer*frameTime);
+			  enemies.at(i).Physics();
+		  } else {
+			  spriteManager.Remove(enemies.at(i).getSprite());
+			  enemies.erase(enemies.begin()+i);
+		  }
 
 	  }
 	  for (unsigned int i=0; i<projectiles.size(); i++){
@@ -267,17 +272,58 @@ int main () {
 			  projectiles.at(i).setSpeed(speedPlayer*frameTime);
 			  projectiles.at(i).Physics();
 		  } else {
-			  //std::cout << "Old size " << projectiles.size() << std :: endl;
+
 		      spriteManager.Remove(projectiles.at(i).getSprite());
 			  projectiles.erase(projectiles.begin()+i);
-			  //std::cout << "Projectile " << i << " erased " << std::endl;
-			  //std::cout << "New size " << projectiles.size() << std :: endl;
-
+		
 		  }
 		  
 	  }
 
 	  player.Physics();
+
+
+	  //aici fac sistemul de detectare a coliziunilor
+
+	  for (unsigned int i =0; i<projectiles.size(); i++){
+		  for (unsigned int j=0; j<enemies.size(); j++){
+			  if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
+									 projectiles.at(i).getY()-0.4f),
+								glm::vec2(enemies.at(j).getX(), 
+									 enemies.at(j).getY())) < 0.1f){
+										  projectiles.at(i).setAlive(false);
+										  enemies.at(j).setAlive(false);
+										  std::cout << "Enemy at " << j << " killed " << std::endl;
+										
+			  
+										}
+
+
+		  }
+
+	  }
+	  GLboolean win=true;
+	  for (unsigned int i =0; i<enemies.size(); i++){
+		  if (enemies.at(i).getAlive()){
+			  win = false;
+		  }
+	  }
+	  if (win){
+		  std::cout << "Victory!" << std::endl;
+
+		  glfwTerminate();
+
+		  enemies.clear();
+		  enemies.shrink_to_fit();
+  
+		  projectiles.clear();
+		  projectiles.shrink_to_fit();
+
+		  char i;
+		  std::cout << "Press a letter to exit" << std::endl;
+		  std::cin >> i;
+		  return 0;
+	  }
 
 	  //  facem swap la buffere (Double buffer)
 	  glfwSwapBuffers(window);
@@ -321,11 +367,9 @@ int main () {
 		  }
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q)){
-		  std::cout << "Rotate " << std::endl;
 		  player.Rotate(0.1f);
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E)){
-		  std::cout << "Rotate " << std::endl;
 		  player.Rotate(-0.1f);
 	  }
 	}

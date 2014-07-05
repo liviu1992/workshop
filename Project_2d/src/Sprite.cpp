@@ -96,7 +96,6 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 		this->y=y;
 		this->width=width;
 		this->height=height;
-		std::cout << "x: " << x << " y: "<<y << std::endl;
 	/*	this->vectors[0]=Vector3(x-width/2,y+height/2, 0);
 		this->vectors[1]=Vector3(x+width/2,y+height/2, 0);
 		this->vectors[2]=Vector3(x-width/2,y-height/2, 0);

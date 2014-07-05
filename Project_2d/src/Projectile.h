@@ -25,6 +25,7 @@ public:
 	void setSpeedY(GLfloat speedY);
 	void Fire(GLfloat x, GLfloat y, GLfloat rotate);
 	GLboolean isAlive();
+	void setAlive(GLboolean alive);
 	~Projectile();
 	void Rotate(GLfloat rotate);
 private:

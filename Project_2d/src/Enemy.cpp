@@ -17,6 +17,7 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 	this->speedX=1.f;
 	this->speedY=1.f;
 	
+	this->alive= true;
 	
 	switch(type){
 	case enemyType::SCOUT_ENEMY:
@@ -49,7 +50,12 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 	}
 	
 }
-
+	GLboolean Enemy::getAlive(){
+		return this->alive;
+	}
+	void Enemy::setAlive(GLboolean alive){
+		this->alive = alive;
+	}
 
 	GLfloat Enemy::getX(){
 		return this->x;

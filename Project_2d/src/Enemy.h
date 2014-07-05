@@ -32,6 +32,8 @@ public:
 	void Physics();
 	void setSpeedX(GLfloat speedX);
 	void setSpeedY(GLfloat speedY);
+	GLboolean getAlive();
+	void setAlive(GLboolean alive);
 private:
 	GLfloat x;
 	GLfloat y;
@@ -44,5 +46,6 @@ private:
 	GLboolean left;
 	GLboolean right;
 	movement mov;
+	GLboolean alive;
 };
 #endif

@@ -54,7 +54,6 @@
 
 	void Player::setSpeedX(GLfloat speedX){
 		this->speedX=speedX;
-		std::cout << this->x << " " << this->y << std::endl;
 	}
 	void Player::setSpeedY(GLfloat speedY){
 		this->speedY=speedY;

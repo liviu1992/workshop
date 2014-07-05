@@ -9,8 +9,8 @@
 Projectile::Projectile(TextureManager* tm){
 	GLfloat initialX = 0.f;
 	GLfloat initialY = -0.5f;
-	GLfloat pWidth= 0.2f;
-	GLfloat pHeight = 0.2f;
+	GLfloat pWidth= 0.25f;
+	GLfloat pHeight = 0.25f;
 
 
 	this->x=initialX;
@@ -61,6 +61,11 @@ void Projectile::setSpeedX(GLfloat speedX){
 void Projectile::setSpeedY(GLfloat speedY){
 	this->speedY=speedY;
 }
+
+void Projectile::setAlive(GLboolean alive){
+	this->alive=alive;
+}
+
 /*
 	PROIECTILUL ESTE ACUM LANSAT LA ACELASI UNGHI LA CARE SE AFLA
 	PLAYERUL IN MOMENTUL LANSARII
@@ -80,6 +85,18 @@ void Projectile::Physics(){
 			this->alive = false;
 			
 			
+		}
+		if (this->alive && this->y<-1.5){
+			this->alive = false;
+		}
+
+		if (this->alive && this->x>1.5){
+			this->alive = false;
+			
+			
+		}
+		if (this->alive && this->x<-1.5){
+			this->alive = false;
 		}
 	//}
 }
