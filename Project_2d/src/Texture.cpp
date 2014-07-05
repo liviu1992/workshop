@@ -82,6 +82,70 @@ Texture::Texture(texture_id id){
 			this->loadTexture("../data/textures/enemy/assault.png");
 			std::cout << "Texture at ../data/textures/enemy/assault.png was loaded" << std::endl;
 			break;
+		case texture_id::EXP1:
+			this->loadTexture("../data/textures/effects/exp1.png");
+			std::cout << "Texture at ../data/textures/effects/exp1.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP2:
+			this->loadTexture("../data/textures/effects/exp2.png");
+			std::cout << "Texture at ../data/textures/effects/exp2.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP3:
+			this->loadTexture("../data/textures/effects/exp3.png");
+			std::cout << "Texture at ../data/textures/effects/exp3.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP4:
+			this->loadTexture("../data/textures/effects/exp4.png");
+			std::cout << "Texture at ../data/textures/effects/exp4.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP5:
+			this->loadTexture("../data/textures/effects/exp5.png");
+			std::cout << "Texture at ../data/textures/effects/exp5.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP6:
+			this->loadTexture("../data/textures/effects/exp6.png");
+			std::cout << "Texture at ../data/textures/effects/exp6.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP7:
+			this->loadTexture("../data/textures/effects/exp7.png");
+			std::cout << "Texture at ../data/textures/effects/exp7.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP8:
+			this->loadTexture("../data/textures/effects/exp8.png");
+			std::cout << "Texture at ../data/textures/effects/exp8.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP9:
+			this->loadTexture("../data/textures/effects/exp9.png");
+			std::cout << "Texture at ../data/textures/effects/exp9.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP10:
+			this->loadTexture("../data/textures/effects/exp10.png");
+			std::cout << "Texture at ../data/textures/effects/exp10.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP11:
+			this->loadTexture("../data/textures/effects/exp11.png");
+			std::cout << "Texture at ../data/textures/effects/exp11.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP12:
+			this->loadTexture("../data/textures/effects/exp12.png");
+			std::cout << "Texture at ../data/textures/effects/exp12.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP13:
+			this->loadTexture("../data/textures/effects/exp13.png");
+			std::cout << "Texture at ../data/textures/effects/exp13.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP14:
+			this->loadTexture("../data/textures/effects/exp14.png");
+			std::cout << "Texture at ../data/textures/effects/exp14.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP15:
+			this->loadTexture("../data/textures/effects/exp15.png");
+			std::cout << "Texture at ../data/textures/effects/exp15.png was loaded" << std::endl;
+			break;
+		case texture_id::EXP16:
+			this->loadTexture("../data/textures/effects/exp16.png");
+			std::cout << "Texture at ../data/textures/effects/exp16.png was loaded" << std::endl;
+			break;
 		case texture_id::ROCKET:
 			//this->loadTexture("../data/textures/rocket/rocket2.png");
 			this->loadTexture("../data/textures/rocket/rocket_light.png");

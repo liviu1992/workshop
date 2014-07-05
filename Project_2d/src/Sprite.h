@@ -30,7 +30,9 @@ public:
 	
 
 	void Sprite::Rotate(GLfloat rotate, GLfloat x, GLfloat y);
-
+	void Explode();
+	GLboolean getExplode();
+	GLboolean getDead();
 	~Sprite();
 
 protected:
@@ -54,6 +56,7 @@ protected:
 	unsigned int indices[6];
 	GLfloat textureCoords[12];
 	unsigned int drawCount;
+	
 
 	Matrix matrix;
 
@@ -67,6 +70,10 @@ protected:
 	GLfloat rotate;
 	texture_id textureId;
 	TextureManager* tm;
+	GLboolean explosion;
+	GLdouble explosionTimer;
+	GLboolean dead;
+	
 };
 
 

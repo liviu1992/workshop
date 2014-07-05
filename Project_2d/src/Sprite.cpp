@@ -18,7 +18,10 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 		//spun cati vertecsi voi desena
 		this->drawCount = 4;
+		this->explosionTimer = 0;
 
+		this->explosion = false;
+		this->dead = false;
 		this->setupArrays();
 
 
@@ -32,13 +35,16 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 	}
 
 
+
 	Sprite::~Sprite(){
 		glDeleteProgram(this->shaderProgram);
 		glDeleteShader(this->vertexShader);
 		glDeleteShader(this->fragmentShader);
 
 	}
-
+	GLboolean Sprite::getDead(){
+		return this->dead;
+	}
 	
 	void Sprite::draw(){
 		unsigned int unit=0; //pot avea pana la 32, imi spune din ce unitate citeste textura
@@ -55,8 +61,68 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 	/*	glActiveTexture(GL_TEXTURE0+unit);
 
 		glBindTexture(GL_TEXTURE_2D, this->texture);*/
+		if (!explosion && !dead){
+			tm->Bind(textureId);
+		} else {
+			// fac explozia
+			if (explosionTimer==0){
+				this->explosionTimer = glfwGetTime();
 
-		tm->Bind(textureId);
+			} else if (glfwGetTime()-explosionTimer < 0.0166*3){
+				tm->Bind(texture_id::EXP1);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*6){
+				tm->Bind(texture_id::EXP2);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*9){
+				tm->Bind(texture_id::EXP3);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*12){
+				tm->Bind(texture_id::EXP4);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*15){
+				tm->Bind(texture_id::EXP5);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*18){
+				tm->Bind(texture_id::EXP6);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*21){
+				tm->Bind(texture_id::EXP7);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*24){
+				tm->Bind(texture_id::EXP8);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*27){
+				tm->Bind(texture_id::EXP9);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*30){
+				tm->Bind(texture_id::EXP10);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*33){
+				tm->Bind(texture_id::EXP11);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*36){
+				tm->Bind(texture_id::EXP12);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*39){
+				tm->Bind(texture_id::EXP13);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*42){
+				tm->Bind(texture_id::EXP14);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*45){
+				tm->Bind(texture_id::EXP15);
+
+			}  else if (glfwGetTime()-explosionTimer < 0.0166*48){
+				tm->Bind(texture_id::EXP15);
+
+			} else {
+				this->explosionTimer = 0;
+				this->explosion = false;
+				this->dead = true;
+			}
+
+		}
 
 		glBindVertexArray(this->vertexArrayObject);
 		
@@ -72,6 +138,15 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 		glBindVertexArray(0);
 	
+	}
+
+	void Sprite::Explode(){
+		this->explosion = true;
+
+	}
+	GLboolean Sprite::getExplode(){
+		return this->explosion;
+
 	}
 
 	void Sprite::move(GLfloat x, GLfloat y){

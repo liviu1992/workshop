@@ -258,7 +258,7 @@ int main () {
 
 
 	  for (unsigned int i=0; i<enemies.size(); i++){
-		  if (enemies.at(i).getAlive()){
+		  if (!enemies.at(i).getSprite().get()->getDead()){
 			  enemies.at(i).setSpeed(speedPlayer*frameTime);
 			  enemies.at(i).Physics();
 		  } else {
@@ -292,7 +292,8 @@ int main () {
 								glm::vec2(enemies.at(j).getX(), 
 									 enemies.at(j).getY())) < 0.1f){
 										  projectiles.at(i).setAlive(false);
-										  enemies.at(j).setAlive(false);
+										  //enemies.at(j).setAlive(false);
+										  enemies.at(j).getSprite().get()->Explode();
 										  std::cout << "Enemy at " << j << " killed " << std::endl;
 										
 			  

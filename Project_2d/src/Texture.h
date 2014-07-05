@@ -15,6 +15,22 @@ enum texture_id{
 	SCOUT,
 	BASIC,
 	ASSAULT,
+	EXP1,
+	EXP2,
+	EXP3,
+	EXP4,
+	EXP5,
+	EXP6,
+	EXP7,
+	EXP8,
+	EXP9,
+	EXP10,
+	EXP11,
+	EXP12,
+	EXP13,
+	EXP14,
+	EXP15,
+	EXP16,
 	ROCKET
 };
 class Texture{
