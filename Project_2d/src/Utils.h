@@ -6,13 +6,22 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 namespace Utils{
+	// 
 	enum Color{
 		RED,
 		BLUE,
 		GREEN,
 		YELLOW
 	};
+	// ^^^^^ inutil
 
+
+	/*
+		incarc un shader din fisier, incerc sa il compilez si daca nu merge 
+		afisez un mesaj care sa explice de ce a esuat
+		
+		returnez id-ul shaderului 
+	*/
 	static GLuint loadShader(const char* filename, GLenum type){
 		std::ifstream file;
 		file.open(filename);
@@ -49,21 +58,23 @@ namespace Utils{
 		return shader;
 	}
 	static void _update_fps_counter (GLFWwindow* window){
-		  static double previous_seconds = glfwGetTime ();
-	  static int frame_count;
-	  double current_seconds = glfwGetTime ();
-	  double elapsed_seconds = current_seconds - previous_seconds;
-	  if (elapsed_seconds > 0.25) {
-		previous_seconds = current_seconds;
-		double fps = (double)frame_count / elapsed_seconds;
-		//char tmp[128];
+		static double previous_seconds = glfwGetTime ();
+		static int frame_count;
+		double current_seconds = glfwGetTime ();
+		double elapsed_seconds = current_seconds - previous_seconds;
+		if (elapsed_seconds > 0.25) {
+			previous_seconds = current_seconds;
+			double fps = (double)frame_count / elapsed_seconds;
+			//char tmp[128];
 		
-		std::string tmp = "opengl @ fps: " + std::to_string(fps).substr(0,4);
-		glfwSetWindowTitle (window, tmp.c_str());
-		frame_count = 0;
-	  }
-	  frame_count++;
+			std::string tmp = "opengl @ fps: " + std::to_string(fps).substr(0,4);
+			glfwSetWindowTitle (window, tmp.c_str());
+			frame_count = 0;
+		}
+		frame_count++;
 	}
+
+	//ataseaza shadere programului si il linkeaza
 	static GLuint makeProgram(GLuint vertexShader, GLuint fragmentShader){
 			GLuint program = glCreateProgram();
 		glAttachShader(program, vertexShader);
@@ -91,6 +102,7 @@ namespace Utils{
 		
 		return program;
 	}
+	//ofera informatii legate de OpenGL
 	static void showOpengGLInfo(){
 		  const GLubyte* renderer = glGetString (GL_RENDERER); //renderer string
 	 const GLubyte* version = glGetString (GL_VERSION); // version string

@@ -18,8 +18,8 @@ Projectile::Projectile(TextureManager* tm){
 	
 	
 
-	this->speedX=1;
-	this->speedY=1;
+	this->speedX=2;
+	this->speedY=2;
 
 	this->fired=false;
 	this->alive = true;
@@ -76,27 +76,32 @@ void Projectile::Physics(){
 	
 
 
-		if (this->fired && this->alive){
+		if (this->fired){
 			this->y+=cos(rotate)*speedY*speed;
 			this->x+=-sin(rotate)*speedX*speed;
 			this->sprite.get()->move(this->x, this->y);
 		}
-		if (this->alive && this->y>1.5){
-			this->alive = false;
-			
+		if ( this->y>1.5){
+			this->getSprite().get()->setDead(true);		
+			this->setAlive(false);
+
 			
 		}
-		if (this->alive && this->y<-1.5){
-			this->alive = false;
+		if ( this->y<-1.5){
+			this->getSprite().get()->setDead(true);		
+			this->setAlive(false);
+
 		}
 
-		if (this->alive && this->x>1.5){
-			this->alive = false;
-			
+		if ( this->x>1.5){
+			this->getSprite().get()->setDead(true);
+			this->setAlive(false);
 			
 		}
-		if (this->alive && this->x<-1.5){
-			this->alive = false;
+		if ( this->x<-1.5){
+			this->getSprite().get()->setDead(true);	
+			this->setAlive(false);
+
 		}
 	//}
 }
@@ -111,6 +116,7 @@ void Projectile::Fire(GLfloat x, GLfloat y, GLfloat rotate){
 	this->setPosition(x,y);
 	this->fired=true;
 	this->alive=true;
+	this->getSprite().get()->setDead(false);
 	this->Rotate(rotate);
 }
 

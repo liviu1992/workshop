@@ -33,6 +33,7 @@ public:
 	void Explode();
 	GLboolean getExplode();
 	GLboolean getDead();
+	void setDead(GLboolean dead);
 	~Sprite();
 
 protected:
@@ -73,6 +74,8 @@ protected:
 	GLboolean explosion;
 	GLdouble explosionTimer;
 	GLboolean dead;
+	GLdouble explosionTiming[16];
+	GLint k;
 	
 };
 

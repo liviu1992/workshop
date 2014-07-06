@@ -34,6 +34,8 @@ public:
 	void setSpeedY(GLfloat speedY);
 	GLboolean getAlive();
 	void setAlive(GLboolean alive);
+	GLfloat getWidth();
+	enemyType getType();
 private:
 	GLfloat x;
 	GLfloat y;
@@ -47,5 +49,6 @@ private:
 	GLboolean right;
 	movement mov;
 	GLboolean alive;
+	enemyType type;
 };
 #endif

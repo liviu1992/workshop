@@ -1,55 +1,59 @@
 #include "Enemy.h"
 #include <math.h>
 
-Enemy::Enemy(TextureManager* tm, enemyType type){
-	GLfloat initialX = 0.f;
-	GLfloat initialY = 0.f;
-	GLfloat scoutWidth= 0.2f;
-	GLfloat scoutHeight = 0.2f;
-	GLfloat basicWidth= 0.27f;
-	GLfloat basicHeight = 0.27f;
-	GLfloat assaultWidth= 0.35f;
-	GLfloat assaultHeight = 0.35f;
+	Enemy::Enemy(TextureManager* tm, enemyType type){
+		GLfloat initialX = 0.f;
+		GLfloat initialY = 0.f;
+		GLfloat scoutWidth= 0.2f;
+		GLfloat scoutHeight = 0.2f;
+		GLfloat basicWidth= 0.27f;
+		GLfloat basicHeight = 0.27f;
+		GLfloat assaultWidth= 0.37f;
+		GLfloat assaultHeight = 0.37f;
 
-	this->x=initialX;
-	this->y=initialY;
+		this->x=initialX;
+		this->y=initialY;
 
-	this->speedX=1.f;
-	this->speedY=1.f;
+		this->speedX=1.f;
+		this->speedY=1.f;
 	
-	this->alive= true;
+		this->alive= true;
+		this->type=type;
+		switch(type){
+		case enemyType::SCOUT_ENEMY:
+			this->mov=movement::SIN;
+
+			this->enemyWidth=scoutWidth;
+			this->enemyHeight=scoutHeight;
+			this->sprite= std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::SCOUT, tm));
+			this->left=true;
+			this->right=false;
+			break;
+		case enemyType::BASIC_ENEMY:
+			this->mov=movement::LEFTRIGHT;
+
+			this->enemyWidth=basicWidth;
+			this->enemyHeight=basicHeight;
+			this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::BASIC, tm));
+			this->left=true;
+			this->right=false;
+			break;
+		case enemyType::ASSAULT_ENEMY:
+			this->mov=movement::CIRC;
+
+			this->enemyWidth=assaultWidth;
+			this->enemyHeight=assaultHeight;
+			this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::ASSAULT, tm));
+			this->left=true;
+			this->right=false;
+			break;
+		}
 	
-	switch(type){
-	case enemyType::SCOUT_ENEMY:
-		this->mov=movement::SIN;
-
-		this->enemyWidth=scoutWidth;
-		this->enemyHeight=scoutHeight;
-		this->sprite= std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::SCOUT, tm));
-		this->left=true;
-		this->right=false;
-		break;
-	case enemyType::BASIC_ENEMY:
-		this->mov=movement::LEFTRIGHT;
-
-		this->enemyWidth=basicWidth;
-		this->enemyHeight=basicHeight;
-		this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::BASIC, tm));
-		this->left=true;
-		this->right=false;
-		break;
-	case enemyType::ASSAULT_ENEMY:
-		this->mov=movement::CIRC;
-
-		this->enemyWidth=assaultWidth;
-		this->enemyHeight=assaultHeight;
-		this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->enemyWidth, this->enemyHeight, texture_id::ASSAULT, tm));
-		this->left=true;
-		this->right=false;
-		break;
 	}
-	
-}
+	enemyType Enemy::getType(){
+		return this->type;
+	}
+
 	GLboolean Enemy::getAlive(){
 		return this->alive;
 	}
@@ -63,6 +67,9 @@ Enemy::Enemy(TextureManager* tm, enemyType type){
 	}
 	GLfloat Enemy::getY(){
 		return this->y;
+	}
+	GLfloat Enemy::getWidth(){
+		return this->enemyWidth;
 	}
 
 	GLfloat Enemy::getSpeed(){

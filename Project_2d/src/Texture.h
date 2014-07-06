@@ -10,6 +10,13 @@
 #include <iostream>
 #include "stb_image.h"
 #include <GL\glew.h>
+
+/*
+	in texture_id am texturile folosite
+
+	!!! ROCKET trebuie sa fie intotdeauna ultima
+
+*/
 enum texture_id{
 	PLAYER,
 	SCOUT,
@@ -31,6 +38,7 @@ enum texture_id{
 	EXP14,
 	EXP15,
 	EXP16,
+	SPACE,
 	ROCKET
 };
 class Texture{
@@ -38,9 +46,9 @@ class Texture{
 public:
 	Texture(texture_id id);
 	Texture();
-	GLuint getTextureID();
-	bool loadTexture(const std::string &filename);
-	void Bind();
+	GLuint getTextureID();   //imi da id-ul texturii incarcate
+	bool loadTexture(const std::string &filename);  // incarca o textura anume
+	void Bind();  // <<<        ceva inutil
 	
 private:
 	GLuint texture;

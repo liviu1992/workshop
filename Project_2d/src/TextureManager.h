@@ -16,10 +16,13 @@ class TextureManager{
 public:
 	TextureManager();
 	~TextureManager();
-	void LoadTextures();
-	void Bind(texture_id type);
+	void LoadTextures();        //asta incarca toate texturile(pas necesar O SINGURA DATA la inceputul jocului)
+	void Bind(texture_id type); //asta activeaza o textura anume
 private:
-	GLuint textures[texture_id::ROCKET+1];
+	GLuint textures[texture_id::ROCKET+1];  //aici o sa tin id-urile texturilor
+											//codul functioneaza corect cat timp
+											//ROCKET e ultimul elemenet al enumeratiei 
+											//texture_id
 
 };
 

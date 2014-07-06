@@ -146,6 +146,10 @@ Texture::Texture(texture_id id){
 			this->loadTexture("../data/textures/effects/exp16.png");
 			std::cout << "Texture at ../data/textures/effects/exp16.png was loaded" << std::endl;
 			break;
+		case texture_id::SPACE:
+			this->loadTexture("../data/textures/background/space2.jpg");
+			std::cout << "Texture at ../data/textures/background/space2.jpg was loaded" << std::endl;
+			break;
 		case texture_id::ROCKET:
 			//this->loadTexture("../data/textures/rocket/rocket2.png");
 			this->loadTexture("../data/textures/rocket/rocket_light.png");

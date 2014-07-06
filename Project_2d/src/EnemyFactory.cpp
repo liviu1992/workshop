@@ -47,7 +47,7 @@
 		}
 		//how many units of type C
 
-		int seed3 = 1+ std::rand()%3;
+		int seed3 = 6+ std::rand()%3;
 		std::cout << seed3 << std::endl;
 
 		for (int i=0; i<seed3; i++){
@@ -58,7 +58,6 @@
 			if (y<0.f){
 				y+=0.5f;
 			}
-			
 			enemies->at(enemies->size()-1).setPosition(x, y);
 			std::cout << "Assault generated " << std::endl;
 

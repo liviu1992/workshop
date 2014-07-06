@@ -6,25 +6,58 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 
+#define FRAME 0.1666f  //timpul aproximativ necesar unui cadru (1 sec. / 60 cadre = 1.666666... sec. )
+
 Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id textureId, TextureManager* tm){
+		
 		this->tm=tm;
 		
-		
+		//aleg textura initiala
 		this->textureId=textureId;
 
+		//pregatesc parametrii spatiali ai spriteului
 		this->setupCoords(x,y,width, height);
+
 
 		this->setupTexCoords();
 
 		//spun cati vertecsi voi desena
 		this->drawCount = 4;
+
+
+		//initializez timerul pentru explozii
 		this->explosionTimer = 0;
 
+		//initial spriteul nu explodeaza
 		this->explosion = false;
+
+		//la inceput spriteul este "viu"
 		this->dead = false;
+
 		this->setupArrays();
+		/*
+			MAI JOS STABILESC CATE FRAMEURI VA DURA FIECARE FAZA A EXPLOZIEI
+			nu am folosit un for pentru a putea edita individual timpii 
+			fiecarei etape
+		*/
+		this->explosionTiming[0]=3;                                         //pentru etapa 0, asociata texture_id::EXP1
+		this->explosionTiming[1]=this->explosionTiming[0] + 3;
+		this->explosionTiming[2]=this->explosionTiming[1] + 3;
+		this->explosionTiming[3]=this->explosionTiming[2] + 3;
+		this->explosionTiming[4]=this->explosionTiming[3] + 3;
+		this->explosionTiming[5]=this->explosionTiming[4] + 3;
+		this->explosionTiming[6]=this->explosionTiming[5] + 3;
+		this->explosionTiming[7]=this->explosionTiming[6] + 3;				// ..........................
+		this->explosionTiming[8]=this->explosionTiming[7] + 3;
+		this->explosionTiming[9]=this->explosionTiming[8] + 3;
+		this->explosionTiming[10]=this->explosionTiming[9] + 3;
+		this->explosionTiming[11]=this->explosionTiming[10] + 3;
+		this->explosionTiming[12]=this->explosionTiming[11] + 3;
+		this->explosionTiming[13]=this->explosionTiming[12] + 3;
+		this->explosionTiming[14]=this->explosionTiming[13] + 3;
+		this->explosionTiming[15]=this->explosionTiming[14] + 3;            //pentru etapa 15 asociata texture_id::EXP16
 
-
+		
 		this->prepareShaders();
 	
 		//obtin matricea de translatie
@@ -35,7 +68,9 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 	}
 
 
-
+	/*
+		fac curatenie
+	*/
 	Sprite::~Sprite(){
 		glDeleteProgram(this->shaderProgram);
 		glDeleteShader(this->vertexShader);
@@ -45,76 +80,40 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 	GLboolean Sprite::getDead(){
 		return this->dead;
 	}
-	
+	void Sprite::setDead(GLboolean dead){
+		this->dead=dead;
+	}
 	void Sprite::draw(){
-		unsigned int unit=0; //pot avea pana la 32, imi spune din ce unitate citeste textura
 	
 
 	    glUseProgram(this->shaderProgram);
 
 		
-		
+		//incarc datele legate de matricea de transformare
 		glUniformMatrix4fv(this->transfMat, 1, GL_FALSE, &(this->matrix.getData()[0][0])); 
 
 
 
-	/*	glActiveTexture(GL_TEXTURE0+unit);
 
-		glBindTexture(GL_TEXTURE_2D, this->texture);*/
 		if (!explosion && !dead){
 			tm->Bind(textureId);
 		} else {
 			// fac explozia
 			if (explosionTimer==0){
 				this->explosionTimer = glfwGetTime();
+				this->k = 0;
 
-			} else if (glfwGetTime()-explosionTimer < 0.0166*3){
-				tm->Bind(texture_id::EXP1);
 
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*6){
-				tm->Bind(texture_id::EXP2);
+				/*
+					Ma folosesc de explosionTiming si de variabila k pentru a controla
+					trecerea de la o stare a exploziei la alta.
 
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*9){
-				tm->Bind(texture_id::EXP3);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*12){
-				tm->Bind(texture_id::EXP4);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*15){
-				tm->Bind(texture_id::EXP5);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*18){
-				tm->Bind(texture_id::EXP6);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*21){
-				tm->Bind(texture_id::EXP7);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*24){
-				tm->Bind(texture_id::EXP8);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*27){
-				tm->Bind(texture_id::EXP9);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*30){
-				tm->Bind(texture_id::EXP10);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*33){
-				tm->Bind(texture_id::EXP11);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*36){
-				tm->Bind(texture_id::EXP12);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*39){
-				tm->Bind(texture_id::EXP13);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*42){
-				tm->Bind(texture_id::EXP14);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*45){
-				tm->Bind(texture_id::EXP15);
-
-			}  else if (glfwGetTime()-explosionTimer < 0.0166*48){
-				tm->Bind(texture_id::EXP15);
+				*/
+			} else if (glfwGetTime()-explosionTimer < FRAME * this->explosionTiming[k]){
+				tm->Bind(static_cast<texture_id>(texture_id::EXP1+k));  //folosesc static_cast pentru a ma asigura ca
+																        //am o valoare valida a texture_id
+				k++;   //trec la etapa urmatoare
+			
 
 			} else {
 				this->explosionTimer = 0;
@@ -197,18 +196,7 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 	
 	void Sprite::setupTexCoords(){
-		/*    * * * * * *
-			  * 	  * *
-			  *     *   *
-			  *   *		*
-			  * *		*
-		      * * * * *	*
-		Aplic partea superioara diagonalei secundare a texturii triunghiului de sus,
-		iar pe cea inferioara triunghiului de jos.
-
-		*/
-
-		//coordonatele texturii triunghiului de sus
+	
 		this->textureCoords[0]=0;
 		this->textureCoords[1]=1;
 
@@ -218,7 +206,6 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 		this->textureCoords[4]=1;
 		this->textureCoords[5]=0;
 
-		//coordonatele texturii triunghiului de jos
 		this->textureCoords[6]=1;
 		this->textureCoords[7]=1;
 

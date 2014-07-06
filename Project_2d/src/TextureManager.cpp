@@ -65,6 +65,9 @@ void TextureManager::LoadTextures(){
 	Texture t19(texture_id::EXP16);
 	textures[texture_id::EXP16] = t19.getTextureID();
 
+	Texture t20(texture_id::SPACE);
+	textures[texture_id::SPACE] = t20.getTextureID();
+
 	Texture t0(texture_id::ROCKET);
 	textures[texture_id::ROCKET]= t0.getTextureID();
 	
@@ -75,7 +78,7 @@ void TextureManager::LoadTextures(){
 	}
 
 void TextureManager::Bind(texture_id type){	
-	GLuint unit=0;
-	glActiveTexture(GL_TEXTURE0+unit);
+	
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, this->textures[type]);
 }

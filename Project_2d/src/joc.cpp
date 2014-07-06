@@ -213,6 +213,7 @@ int main () {
 	EnemyFactory en(&textManager, &enemies, &spriteManager);
 	en.Generate();
 	
+	Sprite sky(0.f,0.f, 3.f,3.f,texture_id::SPACE, &textManager);
 	
 	Player player(&textManager);
 
@@ -252,11 +253,11 @@ int main () {
 	  glViewport (0, 0, g_gl_width, g_gl_height);
 
 
-	
+	  sky.draw();
 	  spriteManager.Draw();
 
 
-
+	  
 	  for (unsigned int i=0; i<enemies.size(); i++){
 		  if (!enemies.at(i).getSprite().get()->getDead()){
 			  enemies.at(i).setSpeed(speedPlayer*frameTime);
@@ -268,7 +269,7 @@ int main () {
 
 	  }
 	  for (unsigned int i=0; i<projectiles.size(); i++){
-		  if (projectiles.at(i).isAlive()){
+		  if (!projectiles.at(i).getSprite().get()->getDead() && projectiles.at(i).isAlive()){
 			  projectiles.at(i).setSpeed(speedPlayer*frameTime);
 			  projectiles.at(i).Physics();
 		  } else {
@@ -283,27 +284,53 @@ int main () {
 	  player.Physics();
 
 
-	  //aici fac sistemul de detectare a coliziunilor
+	  //aici am facut sistemul de detectare a coliziunilor
 
 	  for (unsigned int i =0; i<projectiles.size(); i++){
 		  for (unsigned int j=0; j<enemies.size(); j++){
-			  if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
-									 projectiles.at(i).getY()-0.4f),
-								glm::vec2(enemies.at(j).getX(), 
-									 enemies.at(j).getY())) < 0.1f){
-										  projectiles.at(i).setAlive(false);
-										  //enemies.at(j).setAlive(false);
-										  enemies.at(j).getSprite().get()->Explode();
-										  std::cout << "Enemy at " << j << " killed " << std::endl;
+			  if (enemies.at(j).getType()==enemyType::ASSAULT_ENEMY){
+				   if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
+										 projectiles.at(i).getY()),
+									glm::vec2(enemies.at(j).getX()+0.3, 
+										 enemies.at(j).getY())) < enemies.at(j).getWidth()/3){
+											  projectiles.at(i).setAlive(false);
+											  //pt explozii ale proiectilelor
+											 //projectiles.at(i).getSprite().get()->Explode();   
+											  //enemies.at(j).setAlive(false);
+											  enemies.at(j).getSprite().get()->Explode();
+											  std::cout << "Enemy at " << j << " killed " << std::endl;
 										
 			  
-										}
+											}
 
+
+			  } else {
+
+
+				 if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
+										 projectiles.at(i).getY()-0.4f),
+									glm::vec2(enemies.at(j).getX(), 
+										 enemies.at(j).getY())) < enemies.at(j).getWidth()/3){
+											  projectiles.at(i).setAlive(false);
+											  //pt explozii ale proiectilelor
+											 //projectiles.at(i).getSprite().get()->Explode();   
+											  //enemies.at(j).setAlive(false);
+											  enemies.at(j).getSprite().get()->Explode();
+											  std::cout << "Enemy at " << j << " killed " << std::endl;
+										
+			  
+											}
+
+
+			  }
 
 		  }
-
 	  }
+	  /*
+		aici verific daca mai e vreun inamic viu, daca nu castig
+	  */
 	  GLboolean win=true;
+
 	  for (unsigned int i =0; i<enemies.size(); i++){
 		  if (enemies.at(i).getAlive()){
 			  win = false;
@@ -376,9 +403,7 @@ int main () {
 	}
   
   glfwTerminate();
-  /*
-		AICI INCERC SA ELIMIN MEMORY LEAKS
-  */
+
  
   enemies.clear();
   enemies.shrink_to_fit();
