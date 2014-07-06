@@ -7,11 +7,11 @@
 		this->sm = sm;
 	}
 
-	void EnemyFactory::Generate(){
+	void EnemyFactory::Generate(GLuint &numEnemies){
 		std::srand((unsigned) time(0));
 		//how many units of type A
 
-		int seed1 = 1+ std::rand()%3;
+		int seed1 = 3+ std::rand()%3;
 		std::cout << seed1 << std::endl;
 
 		GLfloat x, y;  //positions
@@ -29,7 +29,7 @@
 
 		//how many units of type B
 
-		int seed2 = 1 + std::rand()%4;
+		int seed2 = 2 + std::rand()%4;
 		std::cout << seed2 << std::endl;
 
 		for (int i=0; i<seed2; i++){
@@ -47,7 +47,7 @@
 		}
 		//how many units of type C
 
-		int seed3 = 6+ std::rand()%3;
+		int seed3 = 1 +std::rand()%3;
 		std::cout << seed3 << std::endl;
 
 		for (int i=0; i<seed3; i++){
@@ -62,5 +62,8 @@
 			std::cout << "Assault generated " << std::endl;
 
 		}
+
+		numEnemies=seed1+seed2+seed3;
+		std::cout << numEnemies << " generated" << std::endl;
 	}
 	

@@ -113,6 +113,39 @@ void loadSettings(){
 	}
 
 }
+
+
+void drawNumber(GLuint number, GLfloat x, GLfloat y, GLfloat width, GLfloat height, TextureManager *td){
+		
+		
+		char num[7];
+		sprintf_s(num, "%5dk", number);
+
+		GLfloat cifraWidth = width/5;
+		
+
+		
+
+		for (char c = 1; c<7; c++){
+			if (num[c]=='k'){
+				break;
+			} else if (num[c]>='0' && num[c]<='9') {
+				//deseneaza cifra
+
+				Sprite cifra(x+(c-1)*cifraWidth, y,cifraWidth, height, static_cast<texture_id>(texture_id::NUM0+num[c]-48), td);
+				cifra.draw();
+				
+
+
+			}
+
+		}
+		
+
+		
+	}
+
+
 /*
 void APIENTRY openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, void* userParam){
 	//std::cout << "Crap! " << std::endl;
@@ -206,13 +239,16 @@ int main () {
 		Mai jos sunt variabilele pe care le voi folosi sa calculez 
 		durata unui frame
 	*/
+	GLuint score=0;
+	GLuint enemiesLeft=0;
+
 	TextureManager textManager;
 	SpriteManager spriteManager;
 	
 	std::vector<Enemy> enemies;
 	EnemyFactory en(&textManager, &enemies, &spriteManager);
-	en.Generate();
-	
+	en.Generate(enemiesLeft);
+	std::cout << "Enemies left: " << enemiesLeft << std::endl;
 	Sprite sky(0.f,0.f, 3.f,3.f,texture_id::SPACE, &textManager);
 	
 	Player player(&textManager);
@@ -220,11 +256,21 @@ int main () {
 	std::vector<Projectile> projectiles;
 
 
+	
+	
+
 	spriteManager.Add(player.getSprite());
 
 
-	
-	
+	GLboolean gamePlaying=true;
+	GLboolean victory=false;
+
+	Sprite victory_screen(0.f, 0.f, 3.f, 3.f, texture_id::VIC_SCREEN, &textManager);
+	Sprite defeat_screen(0.f, 0.f, 3.f, 3.f, texture_id::DEF_SCREEN, &textManager);
+
+	Sprite text_score(-1.f, 1.2f, 0.5f, 0.1f, texture_id::TEXT_SCORE, &textManager);
+	Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
+
 
 	float lastTime = (float) glfwGetTime();
 	float newTime;
@@ -252,106 +298,144 @@ int main () {
 	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	  glViewport (0, 0, g_gl_width, g_gl_height);
 
+	  if (gamePlaying){
+		  sky.draw();
+		  spriteManager.Draw();
 
-	  sky.draw();
-	  spriteManager.Draw();
-
-
-	  
-	  for (unsigned int i=0; i<enemies.size(); i++){
-		  if (!enemies.at(i).getSprite().get()->getDead()){
-			  enemies.at(i).setSpeed(speedPlayer*frameTime);
-			  enemies.at(i).Physics();
-		  } else {
-			  spriteManager.Remove(enemies.at(i).getSprite());
-			  enemies.erase(enemies.begin()+i);
-		  }
-
-	  }
-	  for (unsigned int i=0; i<projectiles.size(); i++){
-		  if (!projectiles.at(i).getSprite().get()->getDead() && projectiles.at(i).isAlive()){
-			  projectiles.at(i).setSpeed(speedPlayer*frameTime);
-			  projectiles.at(i).Physics();
-		  } else {
-
-		      spriteManager.Remove(projectiles.at(i).getSprite());
-			  projectiles.erase(projectiles.begin()+i);
-		
-		  }
+		  text_score.draw();
+		  //draw score
+		  drawNumber(score, -0.70f,1.2f,0.6f, 0.1f, &textManager);
 		  
-	  }
+		
 
-	  player.Physics();
+		  text_enemies.draw();
 
-
-	  //aici am facut sistemul de detectare a coliziunilor
-
-	  for (unsigned int i =0; i<projectiles.size(); i++){
-		  for (unsigned int j=0; j<enemies.size(); j++){
-			  if (enemies.at(j).getType()==enemyType::ASSAULT_ENEMY){
-				   if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
-										 projectiles.at(i).getY()),
-									glm::vec2(enemies.at(j).getX()+0.3, 
-										 enemies.at(j).getY())) < enemies.at(j).getWidth()/3){
-											  projectiles.at(i).setAlive(false);
-											  //pt explozii ale proiectilelor
-											 //projectiles.at(i).getSprite().get()->Explode();   
-											  //enemies.at(j).setAlive(false);
-											  enemies.at(j).getSprite().get()->Explode();
-											  std::cout << "Enemy at " << j << " killed " << std::endl;
-										
-			  
-											}
-
-
+		   //draw enemies
+		  drawNumber(enemiesLeft,0.8f,1.2f,0.6f, 0.1f, &textManager);
+	  
+		  for (unsigned int i=0; i<enemies.size(); i++){
+			  if (!enemies.at(i).getSprite().get()->getDead()){
+				  enemies.at(i).setSpeed(speedPlayer*frameTime);
+				  enemies.at(i).Physics();
 			  } else {
-
-
-				 if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
-										 projectiles.at(i).getY()-0.4f),
-									glm::vec2(enemies.at(j).getX(), 
-										 enemies.at(j).getY())) < enemies.at(j).getWidth()/3){
-											  projectiles.at(i).setAlive(false);
-											  //pt explozii ale proiectilelor
-											 //projectiles.at(i).getSprite().get()->Explode();   
-											  //enemies.at(j).setAlive(false);
-											  enemies.at(j).getSprite().get()->Explode();
-											  std::cout << "Enemy at " << j << " killed " << std::endl;
-										
-			  
-											}
-
-
+				  spriteManager.Remove(enemies.at(i).getSprite());
+				  enemies.erase(enemies.begin()+i);
 			  }
 
 		  }
-	  }
-	  /*
-		aici verific daca mai e vreun inamic viu, daca nu castig
-	  */
-	  GLboolean win=true;
+		  for (unsigned int i=0; i<projectiles.size(); i++){
+			  if (!projectiles.at(i).getSprite().get()->getDead() && projectiles.at(i).isAlive()){
+				  projectiles.at(i).setSpeed(speedPlayer*frameTime);
+				  projectiles.at(i).Physics();
+			  } else {
 
-	  for (unsigned int i =0; i<enemies.size(); i++){
-		  if (enemies.at(i).getAlive()){
-			  win = false;
+				  spriteManager.Remove(projectiles.at(i).getSprite());
+				  projectiles.erase(projectiles.begin()+i);
+		
+			  }
+		  
 		  }
-	  }
-	  if (win){
-		  std::cout << "Victory!" << std::endl;
 
-		  glfwTerminate();
+		  player.Physics();
 
-		  enemies.clear();
-		  enemies.shrink_to_fit();
+
+		  //aici am facut sistemul de detectare a coliziunilor
+
+		  for (unsigned int i =0; i<projectiles.size(); i++){
+			  for (unsigned int j=0; j<enemies.size(); j++){
+				  if (enemies.at(j).getType()==enemyType::ASSAULT_ENEMY){
+					   if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
+											 projectiles.at(i).getY()),
+										glm::vec2(enemies.at(j).getX()+0.3, 
+											 enemies.at(j).getY())) < enemies.at(j).getWidth()/3){
+												  projectiles.at(i).setAlive(false);
+												  //pt explozii ale proiectilelor
+												 //projectiles.at(i).getSprite().get()->Explode();   
+												  //enemies.at(j).setAlive(false);
+												  enemies.at(j).getSprite().get()->Explode();
+												  std::cout << "Enemy at " << j << " killed " << std::endl;
+												  enemiesLeft=enemies.size()-1;
+												  score+=50;
+												  std::cout << "Enemies left: " << enemiesLeft << std::endl;	
+									
+												}
+
+
+				  } else {
+
+
+					 if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
+											 projectiles.at(i).getY()-0.4f),
+										glm::vec2(enemies.at(j).getX(), 
+											 enemies.at(j).getY())) < enemies.at(j).getWidth()/3){
+												  projectiles.at(i).setAlive(false);
+												  //pt explozii ale proiectilelor
+												 //projectiles.at(i).getSprite().get()->Explode();   
+												  //enemies.at(j).setAlive(false);
+												  enemies.at(j).getSprite().get()->Explode();
+												  std::cout << "Enemy at " << j << " killed " << std::endl;
+												  enemiesLeft=enemies.size()-1;
+												  std::cout << "Enemies left: " << enemiesLeft << std::endl;	
+												  if (enemies.at(j).getType()==enemyType::SCOUT_ENEMY){
+													  score+=20;
+												  } else {
+													  score+=10;
+												  }
+			  
+												}
+
+
+				  }
+
+			  }
+		  }
+		  /*
+			aici verific daca mai e vreun inamic viu, daca nu castig
+		  */
+		  GLboolean win=true;
+
+		  for (unsigned int i =0; i<enemies.size(); i++){
+			  if (enemies.at(i).getAlive()){
+				  win = false;
+			  }
+		  }
+		  if (win){
+
+			  gamePlaying=false;
+			  victory=false;
+		}
+		
+	} else {
+			if (victory){
+				victory_screen.draw();
+				enemies.clear();
+				enemies.shrink_to_fit();
   
-		  projectiles.clear();
-		  projectiles.shrink_to_fit();
+				 projectiles.clear();
+				 projectiles.shrink_to_fit();
+		  
+				Sprite text_final_score(-0.4f, -0.5f, 0.8f, 0.3f, texture_id::TEXT_SCORE, &textManager);
+				text_final_score.draw();
+				//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
+				drawNumber(score, 0.f,-0.5,0.8f, 0.3f, &textManager);
+	
+		  
+			} else {
+				defeat_screen.draw();
+				Sprite text_final_score(-0.4f, -0.5f, 0.8f, 0.3f, texture_id::TEXT_SCORE, &textManager);
+				text_final_score.draw();
+				//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
+				drawNumber(score, 0.f,-0.5,0.8f, 0.3f, &textManager);
 
-		  char i;
-		  std::cout << "Press a letter to exit" << std::endl;
-		  std::cin >> i;
-		  return 0;
-	  }
+				
+				Sprite text_final_enemies(-0.4f, -0.9f, 0.8f, 0.5f, texture_id::TEXT_ENEMIES, &textManager);
+				text_final_enemies.draw();
+				drawNumber(enemiesLeft,-0.2f,-0.8f,0.8f, 0.2f, &textManager);
+			}
+
+		}
+
+
 
 	  //  facem swap la buffere (Double buffer)
 	  glfwSwapBuffers(window);

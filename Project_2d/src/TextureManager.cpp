@@ -68,6 +68,50 @@ void TextureManager::LoadTextures(){
 	Texture t20(texture_id::SPACE);
 	textures[texture_id::SPACE] = t20.getTextureID();
 
+	Texture t21(texture_id::VIC_SCREEN);
+	textures[texture_id::VIC_SCREEN] = t21.getTextureID();
+
+	Texture t22(texture_id::DEF_SCREEN);
+	textures[texture_id::DEF_SCREEN] = t22.getTextureID();
+
+	Texture t23(texture_id::TEXT_SCORE);
+	textures[texture_id::TEXT_SCORE] = t23.getTextureID();
+
+	Texture t24(texture_id::TEXT_ENEMIES);
+	textures[texture_id::TEXT_ENEMIES] = t24.getTextureID();
+
+	Texture t25(texture_id::NUM0);
+	textures[texture_id::NUM0] = t25.getTextureID();
+
+	Texture t26(texture_id::NUM1);
+	textures[texture_id::NUM1] = t26.getTextureID();
+
+	Texture t27(texture_id::NUM2);
+	textures[texture_id::NUM2] = t27.getTextureID();
+
+	Texture t28(texture_id::NUM3);
+	textures[texture_id::NUM3] = t28.getTextureID();
+
+	Texture t29(texture_id::NUM4);
+	textures[texture_id::NUM4] = t29.getTextureID();
+
+	Texture t30(texture_id::NUM5);
+	textures[texture_id::NUM5] = t30.getTextureID();
+
+	Texture t31(texture_id::NUM6);
+	textures[texture_id::NUM6] = t31.getTextureID();
+
+	Texture t32(texture_id::NUM7);
+	textures[texture_id::NUM7] = t32.getTextureID();
+
+	Texture t33(texture_id::NUM8);
+	textures[texture_id::NUM8] = t33.getTextureID();
+
+	Texture t34(texture_id::NUM9);
+	textures[texture_id::NUM9] = t34.getTextureID();
+
+
+
 	Texture t0(texture_id::ROCKET);
 	textures[texture_id::ROCKET]= t0.getTextureID();
 	

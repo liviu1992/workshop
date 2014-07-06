@@ -5,6 +5,8 @@
 #include <fstream>
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
+#include "TextureManager.h"
+#include "Sprite.h"
 namespace Utils{
 	// 
 	enum Color{
@@ -14,7 +16,7 @@ namespace Utils{
 		YELLOW
 	};
 	// ^^^^^ inutil
-
+	
 
 	/*
 		incarc un shader din fisier, incerc sa il compilez si daca nu merge 

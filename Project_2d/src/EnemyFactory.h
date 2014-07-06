@@ -20,7 +20,7 @@ public:
 	
 	EnemyFactory(TextureManager* tm, std::vector<Enemy>* enemies, SpriteManager* sm);
 
-	void Generate();
+	void Generate(GLuint &numEnemies);
 private:
 	std::vector<Enemy>* enemies;
 	TextureManager* tm;

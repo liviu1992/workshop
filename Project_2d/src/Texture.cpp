@@ -65,6 +65,7 @@ Texture::Texture(){
 
 }
 Texture::Texture(texture_id id){
+		std::cout << "Loading textures... " << std::endl;
 		switch (id){
 		case texture_id::PLAYER:
 			this->loadTexture("../data/textures/ship/space_ship_up.png");
@@ -150,10 +151,68 @@ Texture::Texture(texture_id id){
 			this->loadTexture("../data/textures/background/space2.jpg");
 			std::cout << "Texture at ../data/textures/background/space2.jpg was loaded" << std::endl;
 			break;
+		case texture_id::VIC_SCREEN:
+			this->loadTexture("../data/textures/background/victory_screen.png");
+			std::cout << "Texture at ../data/textures/background/victory_screen.png was loaded" << std::endl;
+			break;
+		case texture_id::DEF_SCREEN:
+			this->loadTexture("../data/textures/background/defeat_screen.png");
+			std::cout << "Texture at ../data/textures/background/defeat_screen.png was loaded" << std::endl;
+			break;
+		case texture_id::TEXT_SCORE:
+			this->loadTexture("../data/textures/text/text_score.png");
+			std::cout << "Texture at ../data/textures/background/text_score.png was loaded" << std::endl;
+			break;
+		case texture_id::TEXT_ENEMIES:
+			this->loadTexture("../data/textures/text/text_enemies.png");
+			std::cout << "Texture at ../data/textures/background/text_enemies.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM0:
+			this->loadTexture("../data/textures/text/num_0.png");
+			std::cout << "Texture at ../data/textures/background/num_0.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM1:
+			this->loadTexture("../data/textures/text/num_1.png");
+			std::cout << "Texture at ../data/textures/background/num_1.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM2:
+			this->loadTexture("../data/textures/text/num_2.png");
+			std::cout << "Texture at ../data/textures/background/num_2.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM3:
+			this->loadTexture("../data/textures/text/num_3.png");
+			std::cout << "Texture at ../data/textures/background/num_3.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM4:
+			this->loadTexture("../data/textures/text/num_4.png");
+			std::cout << "Texture at ../data/textures/background/num_4.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM5:
+			this->loadTexture("../data/textures/text/num_5.png");
+			std::cout << "Texture at ../data/textures/background/num_5.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM6:
+			this->loadTexture("../data/textures/text/num_6.png");
+			std::cout << "Texture at ../data/textures/background/num_6.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM7:
+			this->loadTexture("../data/textures/text/num_7.png");
+			std::cout << "Texture at ../data/textures/background/num_7.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM8:
+			this->loadTexture("../data/textures/text/num_8.png");
+			std::cout << "Texture at ../data/textures/background/num_8.png was loaded" << std::endl;
+			break;
+		case texture_id::NUM9:
+			this->loadTexture("../data/textures/text/num_9.png");
+			std::cout << "Texture at ../data/textures/background/num_9.png was loaded" << std::endl;
+			break;
+
 		case texture_id::ROCKET:
 			//this->loadTexture("../data/textures/rocket/rocket2.png");
 			this->loadTexture("../data/textures/rocket/rocket_light.png");
 			std::cout << "Texture at ../data/textures/rocket/rocket_light.png was loaded" << std::endl;
 			break;
 		}
+		std::cout << "Textures loaded!" << std::endl;
 }
