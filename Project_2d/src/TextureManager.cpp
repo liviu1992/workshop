@@ -1,128 +1,286 @@
 #include "TextureManager.h"
 
+
+
 TextureManager::TextureManager(){
+	//first we generate the images array 
+
+	fileId fid;
+	fid.file="space_ship_up.png";
+	fid.id = texture_id::PLAYER;
+	images[0] = fid;
+	fid.file="scout.png";
+	fid.id = texture_id::SCOUT;			
+	images[1] = fid;
+	fid.file= "basic.png";
+	fid.id = texture_id::BASIC;				
+	images[2] = fid;
+	fid.file="assault.png";
+	fid.id = texture_id::ASSAULT;				
+	images[3] = fid;
+	fid.file="exp1.png";
+	fid.id = texture_id::EXP1;				
+	images[4] = fid;
+	fid.file="exp2.png";
+	fid.id = texture_id::EXP2;				
+	images[5] = fid;
+	fid.file="exp3.png";
+	fid.id = texture_id::EXP3;				
+	images[6] = fid;
+	fid.file="exp4.png";
+	fid.id = texture_id::EXP4;					
+	images[7] = fid;
+	fid.file="exp5.png";
+	fid.id = texture_id::EXP5;				
+	images[8]= fid;
+	fid.file="exp6.png";
+	fid.id = texture_id::EXP6;					
+	images[9] = fid;
+	fid.file="exp7.png";
+	fid.id = texture_id::EXP7;				
+	images[10] = fid;
+	fid.file="exp8.png";
+	fid.id = texture_id::EXP8;				
+	images[11] = fid;
+	fid.file="exp9.png";
+	fid.id = texture_id::EXP9;					
+	images[12] = fid;
+	fid.file="exp10.png";
+	fid.id = texture_id::EXP10;					
+	images[13] = fid;
+	fid.file="exp11.png";
+	fid.id = texture_id::EXP11;					
+	images[14] =fid;
+	fid.file="exp12.png";
+	fid.id = texture_id::EXP12;				
+	images[15] = fid;
+	fid.file="exp13.png";
+	fid.id = texture_id::EXP13;					
+	images[16] = fid;
+	fid.file="exp14.png";
+	fid.id = texture_id::EXP14;					
+	images[17] = fid;
+	fid.file="exp15.png";
+	fid.id = texture_id::EXP15;					
+	images[18] = fid;
+	fid.file="exp16.png";
+	fid.id = texture_id::EXP16;				
+	images[18] = fid;
+	fid.file="space2.jpg";
+	fid.id = texture_id::SPACE;					
+	images[19] = fid;
+	fid.file="victory_screen.png";
+	fid.id = texture_id::VIC_SCREEN;					
+	images[20] = fid;
+	fid.file="defeat_screen.png";
+	fid.id = texture_id::DEF_SCREEN;					
+	images[21] = fid;
+	fid.file="text_score.png";
+	fid.id = texture_id::TEXT_SCORE;					
+	images[22] = fid;
+	fid.file="text_enemies.png";
+	fid.id = texture_id::TEXT_ENEMIES;					
+	images[23] = fid;
+	fid.file="num_0.png";
+	fid.id = texture_id::NUM0;					
+	images[24] =fid;
+	fid.file="num_1.png";
+	fid.id = texture_id::NUM1;					
+	images[25] =fid;
+	fid.file="num_2.png";
+	fid.id = texture_id::NUM2;					
+	images[26] = fid;
+	fid.file="num_3.png";
+	fid.id = texture_id::NUM3;					
+	images[27] =fid;
+	fid.file="num_4.png";
+	fid.id = texture_id::NUM4;			
+	images[28] = fid;
+	fid.file="num_5.png";
+	fid.id = texture_id::NUM5;					
+	images[29] = fid;
+	fid.file="num_6.png";
+	fid.id = texture_id::NUM6;					
+	images[30] = fid;
+	fid.file="num_7.png";
+	fid.id = texture_id::NUM7;				
+	images[31] =fid;
+	fid.file="num_8.png";
+	fid.id = texture_id::NUM8;					
+	images[32] = fid;
+	fid.file="num_9.png";
+	fid.id = texture_id::NUM9;					
+	images[33] = fid;
+	fid.file="rocket_light.png";
+	fid.id = texture_id::ROCKET;										
+	images[34] = fid;
+	
+	
 	this->LoadTextures();
+	this->getAtlas();
+	this->mapIt();
+
+
+	this->Bind();
+
+	
+}
+
+void TextureManager::getAtlas(){
+	xml_document<> doc;
+	std::ifstream file("../data/sprites.xml");
+	std::stringstream buffer;
+	buffer << file.rdbuf();
+	file.close();
+	std::string content(buffer.str());
+	doc.parse<0>(&content[0]);
+
+
+	xml_node<> *pRoot = doc.first_node("TextureAtlas");
+
+	for(xml_node<> *pNode=pRoot->first_node("SubTexture"); pNode; pNode=pNode->next_sibling())
+	{
+	
+		
+		std::string name =pNode->first_attribute("name")->value();
+		//std::cout << name << std::endl;
+		int x =atoi(pNode->first_attribute("x")->value());
+		//std::cout << x << std::endl;
+		int y =atoi(pNode->first_attribute("y")->value());
+		//std::cout << y << std::endl;
+		int width =atoi(pNode->first_attribute("width")->value());
+		//std::cout << width << std::endl;
+		int height =atoi(pNode->first_attribute("height")->value());
+		//std::cout << height << std::endl;
+		subtexture st;
+		st.name=name;
+		st.x=x;
+		st.y=y;
+		st.width=width;
+		st.height=height;
+		textureAtlas.push_back(st);
+	}
+
+
+
+}
+
+TextureManager::~TextureManager(){
+
 }
 
 void TextureManager::LoadTextures(){
-	Texture t(texture_id::PLAYER);
-	textures[texture_id::PLAYER]= t.getTextureID();
-
-	Texture t1(texture_id::SCOUT);
-	textures[texture_id::SCOUT]= t1.getTextureID();
-
-	Texture t2(texture_id::BASIC);
-	textures[texture_id::BASIC] = t2.getTextureID();
-
-	Texture t3(texture_id::ASSAULT);
-	textures[texture_id::ASSAULT] = t3.getTextureID();
-
-	Texture t4(texture_id::EXP1);
-	textures[texture_id::EXP1] = t4.getTextureID();
-
-	Texture t5(texture_id::EXP2);
-	textures[texture_id::EXP2] = t5.getTextureID();
-
-	Texture t6(texture_id::EXP3);
-	textures[texture_id::EXP3] = t6.getTextureID();
-
-	Texture t7(texture_id::EXP4);
-	textures[texture_id::EXP4] = t7.getTextureID();
-
-	Texture t8(texture_id::EXP5);
-	textures[texture_id::EXP5] = t8.getTextureID();
-
-	Texture t9(texture_id::EXP6);
-	textures[texture_id::EXP6] = t9.getTextureID();
-
-	Texture t10(texture_id::EXP7);
-	textures[texture_id::EXP7] = t10.getTextureID();
-
-	Texture t11(texture_id::EXP8);
-	textures[texture_id::EXP8] = t11.getTextureID();
-
-	Texture t12(texture_id::EXP9);
-	textures[texture_id::EXP9] = t12.getTextureID();
-
-	Texture t13(texture_id::EXP10);
-	textures[texture_id::EXP10] = t13.getTextureID();
-
-	Texture t14(texture_id::EXP11);
-	textures[texture_id::EXP11] = t14.getTextureID();
-
-	Texture t15(texture_id::EXP12);
-	textures[texture_id::EXP12] = t15.getTextureID();
-
-	Texture t16(texture_id::EXP13);
-	textures[texture_id::EXP13] = t16.getTextureID();
-
-	Texture t17(texture_id::EXP14);
-	textures[texture_id::EXP14] = t17.getTextureID();
+	Texture t;
+	t.loadTexture("../data/sprites.png");
 	
-	Texture t18(texture_id::EXP15);
-	textures[texture_id::EXP15] = t18.getTextureID();
+	this->texture = t.getTextureID();
 
-	Texture t19(texture_id::EXP16);
-	textures[texture_id::EXP16] = t19.getTextureID();
-
-	Texture t20(texture_id::SPACE);
-	textures[texture_id::SPACE] = t20.getTextureID();
-
-	Texture t21(texture_id::VIC_SCREEN);
-	textures[texture_id::VIC_SCREEN] = t21.getTextureID();
-
-	Texture t22(texture_id::DEF_SCREEN);
-	textures[texture_id::DEF_SCREEN] = t22.getTextureID();
-
-	Texture t23(texture_id::TEXT_SCORE);
-	textures[texture_id::TEXT_SCORE] = t23.getTextureID();
-
-	Texture t24(texture_id::TEXT_ENEMIES);
-	textures[texture_id::TEXT_ENEMIES] = t24.getTextureID();
-
-	Texture t25(texture_id::NUM0);
-	textures[texture_id::NUM0] = t25.getTextureID();
-
-	Texture t26(texture_id::NUM1);
-	textures[texture_id::NUM1] = t26.getTextureID();
-
-	Texture t27(texture_id::NUM2);
-	textures[texture_id::NUM2] = t27.getTextureID();
-
-	Texture t28(texture_id::NUM3);
-	textures[texture_id::NUM3] = t28.getTextureID();
-
-	Texture t29(texture_id::NUM4);
-	textures[texture_id::NUM4] = t29.getTextureID();
-
-	Texture t30(texture_id::NUM5);
-	textures[texture_id::NUM5] = t30.getTextureID();
-
-	Texture t31(texture_id::NUM6);
-	textures[texture_id::NUM6] = t31.getTextureID();
-
-	Texture t32(texture_id::NUM7);
-	textures[texture_id::NUM7] = t32.getTextureID();
-
-	Texture t33(texture_id::NUM8);
-	textures[texture_id::NUM8] = t33.getTextureID();
-
-	Texture t34(texture_id::NUM9);
-	textures[texture_id::NUM9] = t34.getTextureID();
-
-
-
-	Texture t0(texture_id::ROCKET);
-	textures[texture_id::ROCKET]= t0.getTextureID();
-	
 }
 
-	TextureManager::~TextureManager(){
-		//free(textures);
-	}
-
-void TextureManager::Bind(texture_id type){	
+void TextureManager::mapIt(){
 	
+
+		GLfloat x=0;
+		GLfloat y=0;
+		GLfloat width=0;
+		GLfloat height=0;
+	//incarc intr-un array de structuri un identificator si coordonatele fiecarei texturi
+		int c=0;
+		for (unsigned int i=0; i<this->textureAtlas.size(); i++){
+		
+				//asta e!
+				x = static_cast<GLfloat>(textureAtlas.at(i).x);
+				y = static_cast<GLfloat>(textureAtlas.at(i).y);
+				width =  static_cast<GLfloat>(textureAtlas.at(i).width);
+				height =  static_cast<GLfloat>(textureAtlas.at(i).height);
+
+				
+
+				//trecem x,y,width,height in spatiul UV
+				x=x/4096;
+				y=y/4096;
+				width=width/4096;
+				height=height/4096;
+	
+				//obtinem matricea cu coordonatele
+				GLfloat coords[8] = {			
+					x, y+height,
+					x, y,
+					x+width, y,
+					x+width, y+height
+				};
+			
+			
+				for (unsigned int j =0; j<static_cast<unsigned int>(texture_id::ROCKET); j++){
+					if (strcmp(images[j].file.c_str(), textureAtlas.at(i).name.c_str())==0){
+						//adauga in noua lista 
+						textureElement te;
+						te.ID=images[j].id;
+						for (int t=0; t<8; t++){
+							te.uvs[t] = coords[t];
+
+						}
+						textureElements.push_back(te);
+						
+						c++;
+						break;
+					}
+				}
+				
+			//now we test it
+			/*	for (unsigned int v = 0; v<textureElements.size(); v++){
+					std::cout<< textureElements.at(v).ID << std::endl;
+					std::cout<< textureElements.at(v).uvs[0] <<" " <<  textureElements.at(v).uvs[1]  << std::endl;
+					std::cout<< textureElements.at(v).uvs[2] <<" " <<  textureElements.at(v).uvs[3] << std::endl;
+					std::cout<< textureElements.at(v).uvs[4] <<" " <<  textureElements.at(v).uvs[5] << std::endl;
+					std::cout<< textureElements.at(v).uvs[6] <<" " <<  textureElements.at(v).uvs[7]  <<std::endl;
+				}*/
+				
+		}
+		std::cout << "Elements "<< c << std::endl;
+		
+	
+
+}
+/*
+	incarc coordonatele asociate texturii cerute
+*/
+void TextureManager::getTexture(texture_id type, GLuint textureArray){
+	
+
+	for (unsigned int i=0; i<texture_id::ROCKET; i++){
+		if (type == textureElements.at(i).ID){
+				//asta e!
+			
+					
+				for (int t=0; t<8; t++){
+							uvCoords[t] = textureElements.at(i).uvs[t];
+
+				}
+				break;
+			}
+
+		}
+		
+
+		//activez bufferul
+		glBindBuffer(GL_ARRAY_BUFFER,textureArray);
+
+		//incarca bufferul pe GPU
+		glBufferData(GL_ARRAY_BUFFER, 2*4*sizeof(uvCoords[0]), uvCoords, GL_STATIC_DRAW);
+
+}
+
+void TextureManager::Bind(){
+	
+	
+
+	
+		
+
+
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, this->textures[type]);
+	glBindTexture(GL_TEXTURE_2D, texture);
 }
+
+

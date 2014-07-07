@@ -62,7 +62,6 @@ public:
 	Texture();
 	GLuint getTextureID();   //imi da id-ul texturii incarcate
 	bool loadTexture(const std::string &filename);  // incarca o textura anume
-	void Bind();  // <<<        ceva inutil
 	
 private:
 	GLuint texture;

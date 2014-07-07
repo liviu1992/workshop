@@ -3,8 +3,8 @@
 	Player::Player(TextureManager* tm){
 		GLfloat initialX = 0.f;
 		GLfloat initialY =-0.5f;
-		GLfloat pWidth= 0.4f;
-		GLfloat pHeight = 0.4f;
+		GLfloat pWidth= 0.25f;
+		GLfloat pHeight = 0.25f;
 
 		this->rotate = 0;
 	//	this->x=0.f;

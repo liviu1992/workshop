@@ -4,12 +4,12 @@
 	Enemy::Enemy(TextureManager* tm, enemyType type){
 		GLfloat initialX = 0.f;
 		GLfloat initialY = 0.f;
-		GLfloat scoutWidth= 0.2f;
-		GLfloat scoutHeight = 0.2f;
-		GLfloat basicWidth= 0.27f;
-		GLfloat basicHeight = 0.27f;
-		GLfloat assaultWidth= 0.37f;
-		GLfloat assaultHeight = 0.37f;
+		GLfloat scoutWidth= 0.10f;
+		GLfloat scoutHeight = 0.15f;
+		GLfloat basicWidth= 0.1f;
+		GLfloat basicHeight = 0.15f;
+		GLfloat assaultWidth= 0.2f;
+		GLfloat assaultHeight = 0.3f;
 
 		this->x=initialX;
 		this->y=initialY;

@@ -268,8 +268,8 @@ int main () {
 	Sprite victory_screen(0.f, 0.f, 3.f, 3.f, texture_id::VIC_SCREEN, &textManager);
 	Sprite defeat_screen(0.f, 0.f, 3.f, 3.f, texture_id::DEF_SCREEN, &textManager);
 
-	Sprite text_score(-1.f, 1.2f, 0.5f, 0.1f, texture_id::TEXT_SCORE, &textManager);
-	Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
+	Sprite text_score(-1.f, 1.15f, 0.5f, 0.1f, texture_id::TEXT_SCORE, &textManager);
+	Sprite text_enemies(0.5f, 1.15f, 0.5f, 0.15f, texture_id::TEXT_ENEMIES, &textManager);
 
 
 	float lastTime = (float) glfwGetTime();
@@ -304,14 +304,14 @@ int main () {
 
 		  text_score.draw();
 		  //draw score
-		  drawNumber(score, -0.70f,1.2f,0.6f, 0.1f, &textManager);
+		  drawNumber(score, -0.70f,1.15f,0.6f, 0.15f, &textManager);
 		  
 		
 
 		  text_enemies.draw();
 
 		   //draw enemies
-		  drawNumber(enemiesLeft,0.8f,1.2f,0.6f, 0.1f, &textManager);
+		  drawNumber(enemiesLeft,0.8f,1.15f,0.6f, 0.15f, &textManager);
 	  
 		  for (unsigned int i=0; i<enemies.size(); i++){
 			  if (!enemies.at(i).getSprite().get()->getDead()){
@@ -343,31 +343,16 @@ int main () {
 
 		  for (unsigned int i =0; i<projectiles.size(); i++){
 			  for (unsigned int j=0; j<enemies.size(); j++){
-				  if (enemies.at(j).getType()==enemyType::ASSAULT_ENEMY){
-					   if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
-											 projectiles.at(i).getY()),
-										glm::vec2(enemies.at(j).getX()+0.3, 
-											 enemies.at(j).getY())) < enemies.at(j).getWidth()/3){
-												  projectiles.at(i).setAlive(false);
-												  //pt explozii ale proiectilelor
-												 //projectiles.at(i).getSprite().get()->Explode();   
-												  //enemies.at(j).setAlive(false);
-												  enemies.at(j).getSprite().get()->Explode();
-												  std::cout << "Enemy at " << j << " killed " << std::endl;
-												  enemiesLeft=enemies.size()-1;
-												  score+=50;
-												  std::cout << "Enemies left: " << enemiesLeft << std::endl;	
-									
-												}
+				
 
 
-				  } else {
+			
 
 
 					 if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
 											 projectiles.at(i).getY()-0.4f),
 										glm::vec2(enemies.at(j).getX(), 
-											 enemies.at(j).getY())) < enemies.at(j).getWidth()/3){
+											 enemies.at(j).getY())) < enemies.at(j).getWidth()/2+projectiles.at(i).getWidth()/2){
 												  projectiles.at(i).setAlive(false);
 												  //pt explozii ale proiectilelor
 												 //projectiles.at(i).getSprite().get()->Explode();   
@@ -378,8 +363,10 @@ int main () {
 												  std::cout << "Enemies left: " << enemiesLeft << std::endl;	
 												  if (enemies.at(j).getType()==enemyType::SCOUT_ENEMY){
 													  score+=20;
-												  } else {
+												  } else if (enemies.at(j).getType()==enemyType::SCOUT_ENEMY){
 													  score+=10;
+												  } else if (enemies.at(j).getType()==enemyType::ASSAULT_ENEMY){
+													  score+=50;
 												  }
 			  
 												}
@@ -388,7 +375,7 @@ int main () {
 				  }
 
 			  }
-		  }
+		  
 		  /*
 			aici verific daca mai e vreun inamic viu, daca nu castig
 		  */
@@ -402,7 +389,7 @@ int main () {
 		  if (win){
 
 			  gamePlaying=false;
-			  victory=false;
+			  victory=true;
 		}
 		
 	} else {

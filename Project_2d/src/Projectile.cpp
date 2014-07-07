@@ -9,8 +9,8 @@
 Projectile::Projectile(TextureManager* tm){
 	GLfloat initialX = 0.f;
 	GLfloat initialY = -0.5f;
-	GLfloat pWidth= 0.25f;
-	GLfloat pHeight = 0.25f;
+	GLfloat pWidth= 0.1f;
+	GLfloat pHeight = 0.2f;
 
 
 	this->x=initialX;
@@ -30,6 +30,12 @@ Projectile::Projectile(TextureManager* tm){
 	this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->projectileWidth, this->projectileHeight, texture_id::ROCKET, tm));
 	this->left=true;
 	this->right=false;
+}
+GLfloat Projectile::getWidth(){
+	return this->projectileWidth;
+}
+GLfloat Projectile::getHeight(){
+	return this->projectileHeight;
 }
 GLfloat Projectile::getX(){
 	return this->x;

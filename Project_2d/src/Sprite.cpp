@@ -96,7 +96,8 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 
 		if (!explosion && !dead){
-			tm->Bind(textureId);
+			tm->getTexture(textureId, vertexArrayBuffers[TEXTURE_VB]);
+			
 		} else {
 			// fac explozia
 			if (explosionTimer==0){
@@ -110,8 +111,8 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 				*/
 			} else if (glfwGetTime()-explosionTimer < FRAME * this->explosionTiming[k]){
-				tm->Bind(static_cast<texture_id>(texture_id::EXP1+k));  //folosesc static_cast pentru a ma asigura ca
-																        //am o valoare valida a texture_id
+				tm->getTexture(static_cast<texture_id>(texture_id::EXP1+k),vertexArrayBuffers[TEXTURE_VB]);
+				
 				k++;   //trec la etapa urmatoare
 			
 

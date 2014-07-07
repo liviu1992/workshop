@@ -28,6 +28,8 @@ public:
 	void setAlive(GLboolean alive);
 	~Projectile();
 	void Rotate(GLfloat rotate);
+	GLfloat getWidth();
+	GLfloat getHeight();
 private:
 	GLfloat x;
 	GLfloat y;
