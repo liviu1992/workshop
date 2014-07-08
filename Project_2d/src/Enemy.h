@@ -10,9 +10,9 @@
 #define ENEMY_H
 #include <GL/glew.h>
 #include "Sprite.h"
-enum movement{
-	LEFTRIGHT, CIRC, SIN
-};
+#include "Physics.h"
+
+
 
 enum enemyType{
 	SCOUT_ENEMY,
@@ -23,28 +23,22 @@ class Enemy{
 public:
 	Enemy(TextureManager* tm, enemyType type);
 	~Enemy();
-	GLfloat getX();
-	GLfloat getY();
-	GLfloat getSpeed();
-	void setPosition(GLfloat x,GLfloat y);
-	void setSpeed(GLfloat speed);
+
 	std::shared_ptr<Sprite>  getSprite();
-	void Physics();
-	void setSpeedX(GLfloat speedX);
-	void setSpeedY(GLfloat speedY);
+	std::shared_ptr<Physics> getPhysics();
+
+
 	GLboolean getAlive();
 	void setAlive(GLboolean alive);
-	GLfloat getWidth();
+
 	enemyType getType();
 private:
 	GLfloat x;
 	GLfloat y;
-	GLfloat speed;
+
 	std::shared_ptr<Sprite>  sprite;
-	GLfloat enemyWidth;
-	GLfloat enemyHeight;
-	GLfloat speedX;
-	GLfloat speedY;
+	std::shared_ptr<Physics> physics;
+
 	GLboolean left;
 	GLboolean right;
 	movement mov;

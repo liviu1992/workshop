@@ -23,7 +23,7 @@
 			if (y<0.f){
 				y+=0.5f;
 			}
-			enemies->at(enemies->size()-1).setPosition(x, y);
+			enemies->at(enemies->size()-1).getPhysics().get()->setPosition(x, y);
 			std::cout << "Scout generated " << std::endl;
 		}
 
@@ -41,7 +41,7 @@
 				y+=0.5f;
 			}
 			
-			enemies->at(enemies->size()-1).setPosition(x, y);
+			enemies->at(enemies->size()-1).getPhysics().get()->setPosition(x, y);
 			std::cout << "Basic generated " << std::endl;
 
 		}
@@ -58,7 +58,7 @@
 			if (y<0.f){
 				y+=0.5f;
 			}
-			enemies->at(enemies->size()-1).setPosition(x, y);
+			enemies->at(enemies->size()-1).getPhysics().get()->setPosition(x, y);
 			std::cout << "Assault generated " << std::endl;
 
 		}

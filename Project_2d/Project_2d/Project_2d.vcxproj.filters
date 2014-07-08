@@ -14,6 +14,7 @@
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\EnemyFactory.cpp" />
+    <ClCompile Include="..\src\Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Matrix.h" />
@@ -28,5 +29,6 @@
     <ClInclude Include="..\src\Texture.h" />
     <ClInclude Include="..\src\TextureManager.h" />
     <ClInclude Include="..\src\EnemyFactory.h" />
+    <ClInclude Include="..\src\Physics.h" />
   </ItemGroup>
 </Project>

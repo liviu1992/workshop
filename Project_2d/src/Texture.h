@@ -1,7 +1,7 @@
 /*
 	Are rolul de a incarca o textura
 	si de a oferi mai departe id-ul acesteia.
-	Ar putea fi comasata cu TextureManager.
+	Mai nou incarca o singura textura(sprites.png).
 */
 
 #ifndef TEXTURE_H

@@ -315,8 +315,8 @@ int main () {
 	  
 		  for (unsigned int i=0; i<enemies.size(); i++){
 			  if (!enemies.at(i).getSprite().get()->getDead()){
-				  enemies.at(i).setSpeed(speedPlayer*frameTime);
-				  enemies.at(i).Physics();
+				  enemies.at(i).getPhysics().get()->setSpeed(speedPlayer*frameTime);
+				  enemies.at(i).getPhysics().get()->Update();
 			  } else {
 				  spriteManager.Remove(enemies.at(i).getSprite());
 				  enemies.erase(enemies.begin()+i);
@@ -325,8 +325,8 @@ int main () {
 		  }
 		  for (unsigned int i=0; i<projectiles.size(); i++){
 			  if (!projectiles.at(i).getSprite().get()->getDead() && projectiles.at(i).isAlive()){
-				  projectiles.at(i).setSpeed(speedPlayer*frameTime);
-				  projectiles.at(i).Physics();
+				  projectiles.at(i).getPhysics().get()->setSpeed(speedPlayer*frameTime);
+				  projectiles.at(i).getPhysics().get()->Update();
 			  } else {
 
 				  spriteManager.Remove(projectiles.at(i).getSprite());
@@ -336,7 +336,7 @@ int main () {
 		  
 		  }
 
-		  player.Physics();
+		  player.getPhysics().get()->Update();
 
 
 		  //aici am facut sistemul de detectare a coliziunilor
@@ -345,14 +345,14 @@ int main () {
 			  for (unsigned int j=0; j<enemies.size(); j++){
 				
 
-
+				  
 			
 
 
-					 if (glm::distance(glm::vec2(projectiles.at(i).getX(), 
-											 projectiles.at(i).getY()-0.4f),
-										glm::vec2(enemies.at(j).getX(), 
-											 enemies.at(j).getY())) < enemies.at(j).getWidth()/2+projectiles.at(i).getWidth()/2){
+					 if (glm::distance(glm::vec2(projectiles.at(i).getPhysics().get()->GetX(), 
+											 projectiles.at(i).getPhysics().get()->GetY()-0.4f),
+											 glm::vec2(enemies.at(j).getPhysics().get()->GetX(), 
+											 enemies.at(j).getPhysics().get()->GetY())) < enemies.at(j).getPhysics().get()->GetWidth()/2+projectiles.at(i).getPhysics().get()->GetWidth()/2){
 												  projectiles.at(i).setAlive(false);
 												  //pt explozii ale proiectilelor
 												 //projectiles.at(i).getSprite().get()->Explode();   
@@ -436,23 +436,23 @@ int main () {
 
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
-		  player.setSpeed(speedPlayer*frameTime);
-		  player.setSpeedY(1);
+		  player.getPhysics().get()->setSpeed(speedPlayer*frameTime);
+		  player.getPhysics().get()->setSpeedY(1);
 		 
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S)){
-		  player.setSpeed(speedPlayer*frameTime);
-		  player.setSpeedY(-1);
+		  player.getPhysics().get()->setSpeed(speedPlayer*frameTime);
+		  player.getPhysics().get()->setSpeedY(-1);
 		
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A)){
-		 player.setSpeed(speedPlayer*frameTime);
-		 player.setSpeedX(-1);
+		 player.getPhysics().get()->setSpeed(speedPlayer*frameTime);
+		 player.getPhysics().get()->setSpeedX(-1);
 
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D)){
-		player.setSpeed(speedPlayer*frameTime);
-		player.setSpeedX(1);
+		player.getPhysics().get()->setSpeed(speedPlayer*frameTime);
+		player.getPhysics().get()->setSpeedX(1);
 
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_L)){
@@ -461,15 +461,15 @@ int main () {
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE)){
 		  if (player.fire()){
 			  projectiles.push_back(Projectile(&textManager));		 
-			  projectiles.at(projectiles.size()-1).Fire(player.getX(), player.getY(), player.getRotate());
+			  projectiles.at(projectiles.size()-1).Fire(player.getPhysics().get()->GetX(), player.getPhysics().get()->GetY(), player.getPhysics().get()->getRotate());
 			  spriteManager.Add(projectiles.at(projectiles.size()-1).getSprite());
 		  }
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q)){
-		  player.Rotate(0.1f);
+		  player.getPhysics().get()->Rotate(0.1f);
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E)){
-		  player.Rotate(-0.1f);
+		  player.getPhysics().get()->Rotate(-0.1f);
 	  }
 	}
   

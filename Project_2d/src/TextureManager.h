@@ -1,10 +1,9 @@
 /*
-	A aparut din necesitatea de a incarca fiecare textura
-	o singura data. Stocheaza id-urile texturilor intr-un
-	array egal in dimensiune cu numarul texturilor(ma bazez
-	pe faptul ca intotdeauna in enumeratie texture_id ROCKET
-	va fi ultimul element. Apeland functia Bind a acestui obiect
-	pot activa o anumita textura.
+	Exista o singura textura(in fisierul sprites.png) cu toate spriteurile pe ea. Are asociat un fisier
+	xml cu acelasi nume(pana la punct). Acest fisier contine informatii legate de numele fisierelor din 
+	care provin spriteurile, pozitia lor si dimensiunile. Pe scurt aplic textura mare o singura data cand creez
+	obiectul de tip TextureManager si apoi ii schimb pozitia cu ajutorul unor elemente de tip texture_id si
+	al unui vector ce cuprinde un element texture_id si un vector ce contine UV-urile asociate.
 
 */
 

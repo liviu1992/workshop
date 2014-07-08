@@ -15,6 +15,7 @@
     <ClCompile Include="..\src\EnemyFactory.cpp" />
     <ClCompile Include="..\src\joc.cpp" />
     <ClCompile Include="..\src\Matrix.cpp" />
+    <ClCompile Include="..\src\Physics.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
     <ClCompile Include="..\src\Projectile.cpp" />
     <ClCompile Include="..\src\Shapes.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="..\src\Enemy.h" />
     <ClInclude Include="..\src\EnemyFactory.h" />
     <ClInclude Include="..\src\Matrix.h" />
+    <ClInclude Include="..\src\Physics.h" />
     <ClInclude Include="..\src\Player.h" />
     <ClInclude Include="..\src\Projectile.h" />
     <ClInclude Include="..\src\Sprite.h" />

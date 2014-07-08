@@ -4,38 +4,38 @@
 #include "Sprite.h"
 #include <iostream>
 #include <string>
+#include "Physics.h"
 
 
 class Player{
 public:
 	Player(TextureManager* tm);
 	~Player();
-	GLfloat getX();
-	GLfloat getY();
-	GLfloat getSpeed();
-	void setSpeed(GLfloat speed);
+
+
 	std::shared_ptr<Sprite>  getSprite();
-	void Physics();
-	void setSpeedX(GLfloat speedX);
-	void setSpeedY(GLfloat speedY);
+	//void Physics();
+	
 	bool fire();
-	void Rotate(GLfloat rotate);
-	GLfloat getRotate();
+	
+	std::shared_ptr<Physics> getPhysics();
 private:
 	/*
 		PLAYER'S POSITION ON THE SCREEN
 	*/
+
 	GLfloat x;
 	GLfloat y;
-	GLfloat speed;
+	
 	std::shared_ptr<Sprite>  sprite;
+	std::shared_ptr<Physics> physics;
 	GLfloat playerWidth;
 	GLfloat playerHeight;
 	GLfloat speedX;
 	GLfloat speedY;
 	GLfloat fireTimer;
 	GLfloat fireLimit;
-	GLfloat rotate;
+	GLboolean alive;
 };
 
 #endif
