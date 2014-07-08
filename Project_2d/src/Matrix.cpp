@@ -62,11 +62,10 @@
 						glm::rotate(glm::mat4(), rotate+currentR, glm::vec3(0,0,1)) *						
 			            glm::translate(glm::mat4(), glm::vec3(-x, -y, 0));*/
 	
-			GLfloat x=cos(rotate)*x0+sin(rotate)*y0;
-			GLfloat y=-sin(rotate)*x0+cos(rotate)*y0;
-			glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x0,-y0+0.5f,0));
+		
+			glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x0,-y0,0));
 			glm::mat4 rotateInCenter = glm::rotate(glm::mat4(1), rotate, glm::vec3(0,0,1));
-			glm::mat4 transBack = glm::translate(glm::mat4(1), glm::vec3(x0, y0-0.5f, 0));
+			glm::mat4 transBack = glm::translate(glm::mat4(1), glm::vec3(x0, y0, 0));
 			rotationMatrix =transBack * rotateInCenter * transToCenter;
 
 		//	currentX = cos(rotate)*x0+sin(rotate)*y0;

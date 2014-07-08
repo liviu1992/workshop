@@ -32,6 +32,7 @@ public:
 	void setAlive(GLboolean alive);
 
 	enemyType getType();
+	void damage(GLint dmg);
 private:
 	GLfloat x;
 	GLfloat y;
@@ -39,10 +40,13 @@ private:
 	std::shared_ptr<Sprite>  sprite;
 	std::shared_ptr<Physics> physics;
 
+
+	GLdouble damageTimer;
 	GLboolean left;
 	GLboolean right;
 	movement mov;
 	GLboolean alive;
 	enemyType type;
+	GLint health;
 };
 #endif

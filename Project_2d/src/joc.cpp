@@ -145,7 +145,27 @@ void drawNumber(GLuint number, GLfloat x, GLfloat y, GLfloat width, GLfloat heig
 		
 	}
 
+/*
+	testam prin metoda AABB daca are loc o coliziune
+*/
+bool collisionDetectorAABB(GLfloat cxA, GLfloat cyA, GLfloat wA, GLfloat hA, GLfloat cxB, GLfloat cyB, GLfloat wB, GLfloat hB ){
+	GLfloat xA, yA, XA, YA, xB, yB, XB, YB;
+	
+	xA = cxA - wA/2;
+	XA = cxA + wA/2;
+	xB = cxB - wB/2;
+	XB = cxB + wB/2;
+	yA = cyA - wA/2;
+	YA = cyA + wA/2;
+	yB = cyB - hB/2;
+	YB = cyB + hB/2;
 
+	if (XA<xB || XB<xA || YA<yB || YB<yA){
+		return false;
+	}
+	return true;
+
+}
 /*
 void APIENTRY openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, void* userParam){
 	//std::cout << "Crap! " << std::endl;
@@ -239,7 +259,7 @@ int main () {
 		Mai jos sunt variabilele pe care le voi folosi sa calculez 
 		durata unui frame
 	*/
-	GLuint score=0;
+	GLuint score=50;
 	GLuint enemiesLeft=0;
 
 	TextureManager textManager;
@@ -318,6 +338,22 @@ int main () {
 				  enemies.at(i).getPhysics().get()->setSpeed(speedPlayer*frameTime);
 				  enemies.at(i).getPhysics().get()->Update();
 			  } else {
+				  													
+				enemiesLeft=enemies.size()-1;
+															
+				if (enemies.at(i).getType()==enemyType::SCOUT_ENEMY){
+					score+=20;
+				} else if (enemies.at(i).getType()==enemyType::SCOUT_ENEMY){
+					score+=10;
+				} else if (enemies.at(i).getType()==enemyType::ASSAULT_ENEMY){
+					score+=50;
+				}
+													 
+
+
+
+
+
 				  spriteManager.Remove(enemies.at(i).getSprite());
 				  enemies.erase(enemies.begin()+i);
 			  }
@@ -349,28 +385,34 @@ int main () {
 			
 
 
-					 if (glm::distance(glm::vec2(projectiles.at(i).getPhysics().get()->GetX(), 
-											 projectiles.at(i).getPhysics().get()->GetY()-0.4f),
+					/* if (glm::distance(glm::vec2(projectiles.at(i).getPhysics().get()->GetX(), 
+											 projectiles.at(i).getPhysics().get()->GetY()-0.6),
 											 glm::vec2(enemies.at(j).getPhysics().get()->GetX(), 
-											 enemies.at(j).getPhysics().get()->GetY())) < enemies.at(j).getPhysics().get()->GetWidth()/2+projectiles.at(i).getPhysics().get()->GetWidth()/2){
-												  projectiles.at(i).setAlive(false);
+											 enemies.at(j).getPhysics().get()->GetY())) < enemies.at(j).getPhysics().get()->GetHeight()/2+projectiles.at(i).getPhysics().get()->GetHeight()/2){*/
+												  //projectiles.at(i).setAlive(false);
 												  //pt explozii ale proiectilelor
-												 //projectiles.at(i).getSprite().get()->Explode();   
-												  //enemies.at(j).setAlive(false);
-												  enemies.at(j).getSprite().get()->Explode();
-												  std::cout << "Enemy at " << j << " killed " << std::endl;
-												  enemiesLeft=enemies.size()-1;
-												  std::cout << "Enemies left: " << enemiesLeft << std::endl;	
-												  if (enemies.at(j).getType()==enemyType::SCOUT_ENEMY){
-													  score+=20;
-												  } else if (enemies.at(j).getType()==enemyType::SCOUT_ENEMY){
-													  score+=10;
-												  } else if (enemies.at(j).getType()==enemyType::ASSAULT_ENEMY){
-													  score+=50;
-												  }
-			  
-												}
+				  GLfloat xP = projectiles.at(i).getPhysics().get()->GetX();
+				  GLfloat yP = projectiles.at(i).getPhysics().get()->GetY();	
+				  GLfloat wP = projectiles.at(i).getPhysics().get()->GetWidth();
+				  GLfloat hP = projectiles.at(i).getPhysics().get()->GetHeight();	
 
+				  GLfloat xE = enemies.at(j).getPhysics().get()->GetX();
+				  GLfloat yE = enemies.at(j).getPhysics().get()->GetY();	
+				  GLfloat wE = enemies.at(j).getPhysics().get()->GetWidth();
+				  GLfloat hE = enemies.at(j).getPhysics().get()->GetHeight();	
+
+				  if (collisionDetectorAABB(xP, yP, wP, hP, xE, yE, wE, hE)){			
+													 projectiles.at(i).getSprite().get()->Explode();
+													 enemies.at(j).damage(5);
+													 
+
+												
+
+											//		enemies.at(j).getSprite().get()->Explode();		
+													
+														
+											
+					 }
 
 				  }
 
@@ -391,51 +433,9 @@ int main () {
 			  gamePlaying=false;
 			  victory=true;
 		}
-		
-	} else {
-			if (victory){
-				victory_screen.draw();
-				enemies.clear();
-				enemies.shrink_to_fit();
-  
-				 projectiles.clear();
-				 projectiles.shrink_to_fit();
-		  
-				Sprite text_final_score(-0.4f, -0.5f, 0.8f, 0.3f, texture_id::TEXT_SCORE, &textManager);
-				text_final_score.draw();
-				//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
-				drawNumber(score, 0.f,-0.5,0.8f, 0.3f, &textManager);
-	
-		  
-			} else {
-				defeat_screen.draw();
-				Sprite text_final_score(-0.4f, -0.5f, 0.8f, 0.3f, texture_id::TEXT_SCORE, &textManager);
-				text_final_score.draw();
-				//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
-				drawNumber(score, 0.f,-0.5,0.8f, 0.3f, &textManager);
-
-				
-				Sprite text_final_enemies(-0.4f, -0.9f, 0.8f, 0.5f, texture_id::TEXT_ENEMIES, &textManager);
-				text_final_enemies.draw();
-				drawNumber(enemiesLeft,-0.2f,-0.8f,0.8f, 0.2f, &textManager);
-			}
-
-		}
 
 
-
-	  //  facem swap la buffere (Double buffer)
-	  glfwSwapBuffers(window);
-
-	  glfwPollEvents();
-
-
-	  if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE)) {
-	  glfwSetWindowShouldClose (window, 1);
-		 
-
-	  }
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
+		   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
 		  player.getPhysics().get()->setSpeed(speedPlayer*frameTime);
 		  player.getPhysics().get()->setSpeedY(1);
 		 
@@ -463,6 +463,14 @@ int main () {
 			  projectiles.push_back(Projectile(&textManager));		 
 			  projectiles.at(projectiles.size()-1).Fire(player.getPhysics().get()->GetX(), player.getPhysics().get()->GetY(), player.getPhysics().get()->getRotate());
 			  spriteManager.Add(projectiles.at(projectiles.size()-1).getSprite());
+			  //penalizez jucatorul pentru consum excesiv de munitie
+			  if (score>0){
+				score-=1;
+			  } else {
+				  score = 0;
+				  gamePlaying=false;
+				  victory=false;
+			  }
 		  }
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q)){
@@ -471,6 +479,52 @@ int main () {
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E)){
 		  player.getPhysics().get()->Rotate(-0.1f);
 	  }
+
+		
+	} else {
+			if (victory){
+				victory_screen.draw();
+				enemies.clear();
+				enemies.shrink_to_fit();
+  
+				 projectiles.clear();
+				 projectiles.shrink_to_fit();
+		  
+				Sprite text_final_score(-0.4f, -0.5f, 0.8f, 0.3f, texture_id::TEXT_SCORE, &textManager);
+				text_final_score.draw();
+				//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
+				drawNumber(score, 0.f,-0.5,0.8f, 0.3f, &textManager);
+	
+		  
+			} else {
+				defeat_screen.draw();
+				Sprite text_final_score(-0.4f, -0.5f, 0.8f, 0.3f, texture_id::TEXT_SCORE, &textManager);
+				text_final_score.draw();
+				//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
+				drawNumber(score, 0.f,-0.5,0.8f, 0.3f, &textManager);
+
+				
+				Sprite text_final_enemies(-0.4f, -1.f, 0.8f, 0.25f, texture_id::TEXT_ENEMIES, &textManager);
+				text_final_enemies.draw();
+				drawNumber(enemiesLeft,0.f,-1.f,0.8f, 0.3f, &textManager);
+			}
+
+		}
+
+
+
+		//  facem swap la buffere (Double buffer)
+		glfwSwapBuffers(window);
+
+		glfwPollEvents();
+
+
+		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE)) {
+			glfwSetWindowShouldClose (window, 1);
+		 
+
+		}
+	 
 	}
   
   glfwTerminate();

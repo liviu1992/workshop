@@ -8,7 +8,7 @@
 #endif
 Projectile::Projectile(TextureManager* tm){
 	GLfloat initialX = 0.f;
-	GLfloat initialY = -0.5f;
+	GLfloat initialY =0.f;
 	GLfloat pWidth= 0.1f;
 	GLfloat pHeight = 0.2f;
 
@@ -51,13 +51,13 @@ void Projectile::setAlive(GLboolean alive){
 
 
 
-void Projectile::Fire(GLfloat x, GLfloat y, GLfloat rotate){
-	this->physics.get()->setPosition(x,y);
-	
+void Projectile::Fire(GLfloat ux, GLfloat uy, GLfloat rotate){
+	this->physics.get()->setPosition(ux,uy);	
 	this->physics.get()->fire();
 	this->alive=true;
 	this->getSprite().get()->setDead(false);
 	this->physics.get()->Rotate(rotate);
+	
 	
 }
 

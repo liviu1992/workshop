@@ -25,6 +25,13 @@ GLfloat Physics::GetX(){
 GLfloat Physics::GetY(){
 	return this->y;
 }
+void Physics::SetX(GLfloat x){
+	this->x=x;
+}
+void Physics::SetY(GLfloat y){
+	this->y=y;
+}
+
 GLfloat Physics::GetHeight(){
 	return this->height;
 
@@ -34,9 +41,11 @@ GLfloat Physics::GetWidth(){
 
 }
 void Physics::setPosition(GLfloat x, GLfloat y){
-	this->sprite.get()->move(x,y);
+
 	this->x=x;
 	this->y=y;
+	this->sprite.get()->move(this->x,this->y);
+	
 
 }
 void Physics::setSize(GLfloat width, GLfloat height){
@@ -88,29 +97,28 @@ void Physics::Update(){
 	
 
 		if (this->fired){
-			std::cout << "a" << std::endl;
 			this->y+=cos(rotate)*speedY*speed;
 			this->x+=-sin(rotate)*speedX*speed;
 			this->sprite.get()->move(this->x, this->y);
 		}
-		if ( this->y>1.5){
+		if ( this->y>1.8){
 			this->sprite.get()->setDead(true);		
 			this->alive=false;
 
 			
 		}
-		if ( this->y<-1.5){
+		if ( this->y<-1.8){
 			this->sprite.get()->setDead(true);		
 			this->alive=false;
 
 		}
 
-		if ( this->x>1.5){
+		if ( this->x>1.8){
 			this->sprite.get()->setDead(true);
 			this->alive=false;
 			
 		}
-		if ( this->x<-1.5){
+		if ( this->x<-1.8){
 			this->sprite.get()->setDead(true);	
 			this->alive=false;
 
@@ -151,7 +159,7 @@ void Physics::Update(){
 		*/
 			this->x=this->x + (float)this->speed*1.8f*(float)std::cos(glfwGetTime());
 			this->y=this->y + (float)this->speed*0.25f*(float)std::sin(glfwGetTime());
-			this->sprite.get()->move(this->x+0.4f,this->y+0.5f);		
+			this->sprite.get()->move(this->x,this->y);		
 			break;
 
 		
@@ -183,5 +191,6 @@ void Physics::Update(){
 //doar pentru proiectile
 void Physics::fire(){
 	this->fired=true;
+
 	std::cout << "Fired!" << std::endl;
 }

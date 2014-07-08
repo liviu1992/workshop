@@ -2,7 +2,7 @@
 
 	Player::Player(TextureManager* tm){
 		GLfloat initialX = 0.f;
-		GLfloat initialY =-0.5f;
+		GLfloat initialY =0.f;
 		GLfloat pWidth= 0.25f;
 		GLfloat pHeight = 0.25f;
 

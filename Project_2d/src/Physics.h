@@ -86,6 +86,8 @@ public:
 	void setRotate(GLfloat rotate);
 	void fire();
 	void Update();
+	void SetX(GLfloat x);
+	void SetY(GLfloat y);
 
 private:
 	GLfloat x;

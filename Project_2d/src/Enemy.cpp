@@ -14,7 +14,8 @@
 		this->x=initialX;
 		this->y=initialY;
 
-	
+		
+		this->damageTimer=0;
 	
 		this->alive= true;
 		this->type=type;
@@ -23,16 +24,19 @@
 						
 			this->sprite= std::shared_ptr<Sprite>(new Sprite(this->x, this->y, scoutWidth, scoutWidth, texture_id::SCOUT, tm));
 			this->physics = std::shared_ptr<Physics>(new Physics(this->x, this->y, scoutWidth,  scoutHeight, this->sprite, physicsType::P_SCOUT, this->alive));
+			this->health=10;
 			break;
 		case enemyType::BASIC_ENEMY:
 			
 			this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, basicWidth, basicHeight, texture_id::BASIC, tm));
 			this->physics = std::shared_ptr<Physics>(new Physics(this->x, this->y, basicWidth,  basicHeight, this->sprite, physicsType::P_BASIC, this->alive));
+			this->health=15;
 			break;
 		case enemyType::ASSAULT_ENEMY:
 			
 			this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, assaultWidth, assaultHeight, texture_id::ASSAULT, tm));
 			this->physics = std::shared_ptr<Physics>(new Physics(this->x, this->y, assaultWidth,  assaultHeight, this->sprite, physicsType::P_ASSAULT, this->alive));
+			this->health=20;
 			break;
 		}
 	
@@ -58,7 +62,18 @@
 	}
 
 
-
+void Enemy::damage(GLint dmg){
+	if (damageTimer == 0){
+		damageTimer = glfwGetTime();
+		this->health-=dmg;
+	} else if (glfwGetTime()-damageTimer>1){
+		damageTimer = 0;
+	}
+	if (health<0){
+		std::cout << "Exterminated!" << std::endl;
+		this->getSprite().get()->Explode();
+	}
+}
 	
 
 
