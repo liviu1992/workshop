@@ -20,7 +20,7 @@ SpriteManager::SpriteManager(){
 /*
 	ADAUGA UN SPRITE LA LISTA MANAGERULUI
 */
-bool SpriteManager::Add(std::shared_ptr<Sprite>  sprite){
+bool SpriteManager::Add(Sprite*  sprite){
 	int size = sprites.size();
 	this->sprites.push_back(sprite);
 	if (size==sprites.size()+1){
@@ -34,7 +34,7 @@ bool SpriteManager::Add(std::shared_ptr<Sprite>  sprite){
 */
 
 
-bool SpriteManager::Remove(std::shared_ptr<Sprite>  sprite){
+bool SpriteManager::Remove(Sprite*  sprite){
 	bool result = false;
 	for (unsigned int i=0; i<this->sprites.size(); i++){
 		if (sprite==this->sprites.at(i)){
@@ -53,7 +53,7 @@ bool SpriteManager::Remove(std::shared_ptr<Sprite>  sprite){
 */
 void SpriteManager::Draw(){
 	for (int i=sprites.size()-1; i>=0; i--){
-		sprites.at(i).get()->draw();
+		sprites.at(i)->draw();
 	}
 
 }
@@ -67,8 +67,9 @@ int SpriteManager::Size(){
 
 SpriteManager::~SpriteManager(){
 	//this->removeAll();
+	/*for (unsigned int i=0; i<sprites.size(); i++){
+		delete sprites.at(i);
+	}*/
 	this->sprites.clear();
-	this->sprites.shrink_to_fit();
-	std::vector<std::shared_ptr<Sprite> >(this->sprites).swap(this->sprites);
 	std::cout << "SpriteManager terminated" << std::endl;
 }

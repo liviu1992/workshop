@@ -7,11 +7,15 @@
 #define new DEBUG_NEW
 #endif
 Projectile::Projectile(TextureManager* tm){
-	GLfloat initialX = 0.f;
-	GLfloat initialY =0.f;
-	GLfloat pWidth= 0.1f;
-	GLfloat pHeight = 0.2f;
+	SettingsManager settingsManager;
 
+
+
+	GLfloat initialX = settingsManager.get("projectile_initial_x");
+	GLfloat initialY =settingsManager.get("projectile_initial_y");
+	GLfloat pWidth= settingsManager.get("projectile_width");
+	GLfloat pHeight = settingsManager.get("projectile_height");
+	GLfloat projectileSpeed = settingsManager.get("projectile_speed");
 
 	this->x=initialX;
 	this->y=initialY;
@@ -26,16 +30,16 @@ Projectile::Projectile(TextureManager* tm){
 
 	this->projectileWidth=pWidth;
 	this->projectileHeight=pHeight;
-	this->sprite=std::shared_ptr<Sprite>(new Sprite(this->x, this->y, this->projectileWidth, this->projectileHeight, texture_id::ROCKET, tm));
-	this->physics=std::shared_ptr<Physics>(new Physics(this->x, this->y, this->projectileWidth, this->projectileHeight, this->sprite, physicsType::P_ROCKET, this->alive));
+	this->sprite=new Sprite(this->x, this->y, this->projectileWidth, this->projectileHeight, texture_id::ROCKET, tm);
+	this->physics=new Physics(this->x, this->y, this->projectileWidth, this->projectileHeight, this->sprite, physicsType::P_ROCKET, this->alive, projectileSpeed);
 	
 }
 
-std::shared_ptr<Sprite>  Projectile::getSprite( ){
+Sprite*  Projectile::getSprite( ){
 	return this->sprite;
 }
 
-std::shared_ptr<Physics> Projectile::getPhysics(){
+Physics* Projectile::getPhysics(){
 	return this->physics;
 }
 
@@ -52,11 +56,11 @@ void Projectile::setAlive(GLboolean alive){
 
 
 void Projectile::Fire(GLfloat ux, GLfloat uy, GLfloat rotate){
-	this->physics.get()->setPosition(ux,uy);	
-	this->physics.get()->fire();
+	this->physics->setPosition(ux,uy);	
+	this->physics->fire();
 	this->alive=true;
-	this->getSprite().get()->setDead(false);
-	this->physics.get()->Rotate(rotate);
+	this->getSprite()->setDead(false);
+	this->physics->Rotate(rotate);
 	
 	
 }
@@ -66,5 +70,6 @@ void Projectile::Fire(GLfloat ux, GLfloat uy, GLfloat rotate){
 	}
 
 	Projectile::~Projectile(){
-		
+		delete this->physics;
+		delete this->sprite;
 	}

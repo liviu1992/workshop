@@ -9,13 +9,13 @@ class SpriteManager{
 public:
 	SpriteManager();
 	~SpriteManager();
-	bool Add(std::shared_ptr<Sprite>  sprite);
-	bool Remove(std::shared_ptr<Sprite>  sprite);
+	bool Add(Sprite*  sprite);
+	bool Remove(Sprite*  sprite);
 	void Draw();
 	int Size();
 	void SpriteManager::removeAll();
 private:
-	std::vector<std::shared_ptr<Sprite> > sprites;
+	std::vector<Sprite* > sprites;
 
 	
 };

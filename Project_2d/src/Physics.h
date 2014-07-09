@@ -4,6 +4,7 @@
 #include <GL\glew.h>
 #include "Sprite.h"
 #include <memory>
+#include "SettingsManager.h"
 enum physicsType{
 	P_PLAYER, 
 	P_SCOUT,
@@ -19,25 +20,35 @@ enum movement{
 class Physics{
 public:
 	//Physics();
-	Physics(GLfloat x, GLfloat y, GLfloat width, GLfloat height, std::shared_ptr<Sprite> sprite, physicsType type, GLboolean &isalive) : alive(dummy){
+	Physics(GLfloat x, GLfloat y, GLfloat width, GLfloat height, Sprite* sprite, physicsType type, GLboolean &isalive, GLfloat speedXY) : alive(dummy){
 	this->x=x;
 	this->y=y;
 	this->width=width;
 	this->height=height;
 	this->sprite = sprite;
-	this->speedX=0;
-	this->speedY=0;
+	this->speedX=speedXY;
+	this->speedY=speedXY;
+	this->mspeedX=0;
+	this->mspeedY=0;
 	this->type=type;
 	this->alive=alive;
 	this->rotate=0;
+
+	SettingsManager settingsManager;
+	this->sine_amplitude = settingsManager.get("sine_amplitude");
+	this->circ_width = settingsManager.get("circ_width");
+	this->circ_height = settingsManager.get("circ_height");
+	this->limit_down = settingsManager.get("limit_down");
+	this->limit_up = settingsManager.get("limit_up");
+	this->limit_right = settingsManager.get("limit_right");
+	this->limit_left =  settingsManager.get("limit_left");
 
 	switch(type){
 	case physicsType::P_ROCKET:
 		this->left=true;
 		this->right=false;
 		this->fired=false;
-		this->speedX=0;
-		this->speedY=0;
+		
 		
 		break;
 
@@ -45,24 +56,21 @@ public:
 		this->left=true;
 		this->right=false;
 		this->mov=movement::SIN;
-		this->speedX=1;
-		this->speedY=1;
+	
 		break;
 
 	case physicsType::P_BASIC:
 		this->left=true;
 		this->right=false;
 		this->mov=movement::LEFTRIGHT;
-		this->speedX=1;
-		this->speedY=1;
+	
 		break;
 
 	case physicsType::P_ASSAULT:
 		this->left=true;
 		this->right=false;
 		this->mov=movement::CIRC;	
-		this->speedX=1;
-		this->speedY=1;
+	
 		break;
 
 	}
@@ -98,14 +106,23 @@ private:
 	GLfloat speed;
 	GLfloat speedX;
 	GLfloat speedY;
-	std::shared_ptr<Sprite> sprite;
+	Sprite *sprite;
 	physicsType type;
 	GLboolean fired;
 	GLboolean &alive;
 	GLboolean dummy;
 	GLboolean left;
 	GLboolean right;
+	GLfloat mspeedX;
+	GLfloat mspeedY;
 	movement mov;
+	GLfloat sine_amplitude;
+	GLfloat circ_width;
+	GLfloat circ_height;
+	GLfloat limit_left;
+	GLfloat limit_right;
+	GLfloat limit_up;
+	GLfloat limit_down;
 
 
 };

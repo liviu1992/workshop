@@ -11,7 +11,7 @@
 #include <GL/glew.h>
 #include "Sprite.h"
 #include "Physics.h"
-
+#include "SettingsManager.h"
 
 
 enum enemyType{
@@ -24,8 +24,8 @@ public:
 	Enemy(TextureManager* tm, enemyType type);
 	~Enemy();
 
-	std::shared_ptr<Sprite>  getSprite();
-	std::shared_ptr<Physics> getPhysics();
+	Sprite*  getSprite();
+	Physics* getPhysics();
 
 
 	GLboolean getAlive();
@@ -37,8 +37,8 @@ private:
 	GLfloat x;
 	GLfloat y;
 
-	std::shared_ptr<Sprite>  sprite;
-	std::shared_ptr<Physics> physics;
+	Sprite*  sprite;
+	Physics* physics;
 
 
 	GLdouble damageTimer;

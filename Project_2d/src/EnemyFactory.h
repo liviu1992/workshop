@@ -18,11 +18,11 @@
 class EnemyFactory{
 public:
 	
-	EnemyFactory(TextureManager* tm, std::vector<Enemy>* enemies, SpriteManager* sm);
+	EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, SpriteManager* sm);
 
-	void Generate(GLuint &numEnemies);
+	void Generate(GLint &numEnemies);
 private:
-	std::vector<Enemy>* enemies;
+	std::vector<Enemy*>* enemies;
 	TextureManager* tm;
 	SpriteManager* sm;
 };

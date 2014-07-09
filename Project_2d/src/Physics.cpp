@@ -44,7 +44,7 @@ void Physics::setPosition(GLfloat x, GLfloat y){
 
 	this->x=x;
 	this->y=y;
-	this->sprite.get()->move(this->x,this->y);
+	this->sprite->move(this->x,this->y);
 	
 
 }
@@ -60,14 +60,14 @@ void  Physics::setSpeed(GLfloat speed){
 	this->speed=speed;
 }
 void  Physics::setSpeedX(GLfloat speedX){
-	this->speedX=speedX;
+	this->mspeedX=speedX;
 }
 void  Physics::setSpeedY(GLfloat speedY){
-	this->speedY=speedY;
+	this->mspeedY=speedY;
 }
 void  Physics::Rotate(GLfloat rotate){
 	this->rotate += rotate;
-	this->sprite.get()->Rotate(this->rotate, this->GetX(), this->GetY());
+	this->sprite->Rotate(this->rotate, this->GetX(), this->GetY());
 }
 GLfloat  Physics::getRotate(){
 	return this->rotate;
@@ -80,48 +80,47 @@ void Physics::setRotate(GLfloat rotate){
 void Physics::Update(){
 	switch(this->type){
 	case physicsType::P_PLAYER:
-		this->x=this->x+speedX*this->speed;
-		this->y=this->y+speedY*this->speed;
-
-		this->sprite.get()->move(this->x,this->y);
-
-
-		this->speedX=0;
-		this->speedY=0;
+		this->x=this->x+speedX*mspeedX*this->speed;
+		this->y=this->y+speedY*mspeedY*this->speed;
+		this->sprite->move(this->x,this->y);
+		this->mspeedX=0;
+		this->mspeedY=0;
 
 		break;
 	case physicsType::P_ROCKET:
-		this->sprite.get()->Rotate(this->rotate, this->GetX(), this->GetY());
-		this->speedX=2;
-		this->speedY=2;
+		if (this->fired){
+			this->sprite->Rotate(this->rotate, this->GetX(), this->GetY());
+			this->speedX=2;
+			this->speedY=2;
 	
 
-		if (this->fired){
-			this->y+=cos(rotate)*speedY*speed;
-			this->x+=-sin(rotate)*speedX*speed;
-			this->sprite.get()->move(this->x, this->y);
-		}
-		if ( this->y>1.8){
-			this->sprite.get()->setDead(true);		
-			this->alive=false;
+			if (this->fired){
+				this->y+=cos(rotate)*speedY*speed;
+				this->x+=-sin(rotate)*speedX*speed;
+				this->sprite->move(this->x, this->y);
+			}
+			if ( this->y>1.8){
+				this->sprite->setDead(true);		
+				this->alive=false;
 
 			
-		}
-		if ( this->y<-1.8){
-			this->sprite.get()->setDead(true);		
-			this->alive=false;
+			}
+			if ( this->y<-1.8){
+				this->sprite->setDead(true);		
+				this->alive=false;
 
-		}
+			}
 
-		if ( this->x>1.8){
-			this->sprite.get()->setDead(true);
-			this->alive=false;
+			if ( this->x>1.8){
+				this->sprite->setDead(true);
+				this->alive=false;
 			
-		}
-		if ( this->x<-1.8){
-			this->sprite.get()->setDead(true);	
-			this->alive=false;
+			}
+			if ( this->x<-1.8){
+				this->sprite->setDead(true);	
+				this->alive=false;
 
+			}
 		}
 		break;
 
@@ -135,7 +134,7 @@ void Physics::Update(){
 			LEFT-RIGHT MOVE
 		*/
 			if (left){
-				if (this->x<-0.8f){
+				if (this->x<this->limit_left){
 					right=true;
 					left=false;
 				}
@@ -143,23 +142,23 @@ void Physics::Update(){
 			}
 
 			if (right){
-				if (this->x>0.8f){
+				if (this->x>this->limit_right){
 					left=true;
 					right=false;
 				}
 				this->x+=speed*speedX;
 			}
 		
-			this->sprite.get()->move(this->x, this->y);
+			this->sprite->move(this->x, this->y);
 			break;
 		case movement::CIRC:
 		
 		/*
 			MISCARE CIRCULARA
 		*/
-			this->x=this->x + (float)this->speed*1.8f*(float)std::cos(glfwGetTime());
-			this->y=this->y + (float)this->speed*0.25f*(float)std::sin(glfwGetTime());
-			this->sprite.get()->move(this->x,this->y);		
+			this->x=this->x + (float)this->speed*this->circ_width*(float)std::cos(glfwGetTime());
+			this->y=this->y + (float)this->speed*this->circ_height*(float)std::sin(glfwGetTime());
+			this->sprite->move(this->x,this->y);		
 			break;
 
 		
@@ -167,9 +166,9 @@ void Physics::Update(){
 			MISCARE SINUSOIDALA
 		*/
 		case movement::SIN:
-			this->y=this->y + (float)2.f*this->speed*(float)std::sin(glfwGetTime()*4);
+			this->y=this->y + (float)this->speed*(float)std::sin(glfwGetTime()*this->sine_amplitude);
 			if (left){
-				if (this->x<-0.8f){
+				if (this->x<this->limit_left){
 					right=true;
 					left=false;
 				}
@@ -177,13 +176,13 @@ void Physics::Update(){
 			}
 
 			if (right){
-				if (this->x>0.8f){
+				if (this->x>this->limit_right){
 					left=true;
 					right=false;
 				}
 				this->x+=speed*speedX;
 			}
-			this->sprite.get()->move(this->x, this->y);
+			this->sprite->move(this->x, this->y);
 		}
 	}
 
@@ -192,5 +191,4 @@ void Physics::Update(){
 void Physics::fire(){
 	this->fired=true;
 
-	std::cout << "Fired!" << std::endl;
 }

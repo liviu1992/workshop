@@ -10,15 +10,15 @@
 #include <GL/glew.h>
 #include "Sprite.h"
 #include "Physics.h"
-
+#include "SettingsManager.h"
 class Projectile{
 public:
 	Projectile(TextureManager* tm);
 
 
 
-	std::shared_ptr<Sprite>  getSprite();
-	std::shared_ptr<Physics> getPhysics();
+	Sprite*  getSprite();
+	Physics* getPhysics();
 
 	void Fire(GLfloat x, GLfloat y, GLfloat rotate);
 	GLboolean isAlive();
@@ -30,8 +30,8 @@ public:
 private:
 	GLfloat x;
 	GLfloat y;
-	std::shared_ptr<Sprite>  sprite;
-	std::shared_ptr<Physics> physics;
+	Sprite*  sprite;
+	Physics* physics;
 	GLfloat projectileWidth;
 	GLfloat projectileHeight;
 	GLboolean alive;

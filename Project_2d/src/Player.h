@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "Physics.h"
+#include "SettingsManager.h"
 
 
 class Player{
@@ -13,12 +14,12 @@ public:
 	~Player();
 
 
-	std::shared_ptr<Sprite>  getSprite();
+	Sprite*  getSprite();
 	//void Physics();
 	
 	bool fire();
 	
-	std::shared_ptr<Physics> getPhysics();
+	Physics* getPhysics();
 private:
 	/*
 		PLAYER'S POSITION ON THE SCREEN
@@ -27,8 +28,8 @@ private:
 	GLfloat x;
 	GLfloat y;
 	
-	std::shared_ptr<Sprite>  sprite;
-	std::shared_ptr<Physics> physics;
+	Sprite*  sprite;
+	Physics* physics;
 	GLfloat playerWidth;
 	GLfloat playerHeight;
 	GLfloat speedX;
