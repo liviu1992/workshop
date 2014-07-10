@@ -16,6 +16,7 @@ Projectile::Projectile(TextureManager* tm){
 	GLfloat pWidth= settingsManager.get("projectile_width");
 	GLfloat pHeight = settingsManager.get("projectile_height");
 	GLfloat projectileSpeed = settingsManager.get("projectile_speed");
+	GLfloat projectile_mass = settingsManager.get("projectile_mass");
 
 	this->x=initialX;
 	this->y=initialY;
@@ -32,7 +33,7 @@ Projectile::Projectile(TextureManager* tm){
 	this->projectileHeight=pHeight;
 	this->sprite=new Sprite(this->x, this->y, this->projectileWidth, this->projectileHeight, texture_id::ROCKET, tm);
 	this->combatant = new Combatant(this->health, sprite);
-	this->physics=new Physics(this->x, this->y, this->projectileWidth, this->projectileHeight, this->sprite, physicsType::P_ROCKET, this->alive, projectileSpeed, combatant);
+	this->physics=new Physics(this->x, this->y, this->projectileWidth, this->projectileHeight, this->sprite, physicsType::P_ROCKET, this->alive, projectileSpeed, combatant, projectile_mass);
 	
 }
 Combatant* Projectile::getCombatant(){

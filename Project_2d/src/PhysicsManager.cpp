@@ -1,4 +1,5 @@
 #include "PhysicsManager.h"
+#define MIN(X,Y) ( (X) < (Y) ? (X) : (Y)) 
 
 bool PhysicsManager::collisionDetectorAABB(GLfloat cxA, GLfloat cyA, GLfloat wA, GLfloat hA, GLfloat cxB, GLfloat cyB, GLfloat wB, GLfloat hB ){
 	GLfloat xA, yA, XA, YA, xB, yB, XB, YB;
@@ -16,6 +17,44 @@ bool PhysicsManager::collisionDetectorAABB(GLfloat cxA, GLfloat cyA, GLfloat wA,
 		return false;
 	}
 	return true;
+
+}
+
+/*
+	din manifold o sa iau viteza pe normala
+*/
+void solveCollision(Physics* objectA, Physics* objectB, Manifold* manifold){
+	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()==physicsType::P_PLAYER)) ||
+		((objectB->getType()==physicsType::P_ROCKET) && (objectA->getType()==physicsType::P_PLAYER))){
+			return;
+	}
+
+	GLfloat velAlongNormal = manifold->penetration;
+	//GLfloat e = MIN(objectA->getRestitution(), objectB->getRestitution());
+	GLfloat e = 0.01f;
+
+	GLfloat j = -(1+e) * velAlongNormal;
+	j /= objectA->getMass() + objectB->getMass();
+	j = j/10;
+	glm::vec2 impulse = j * manifold->normal;
+
+	glm::vec2 velocityA = objectA->getMass() * impulse;
+	glm::vec2 velocityB = -objectB->getMass() * impulse;
+	
+	/*if (objectA->getType()==physicsType::P_PLAYER){
+			objectB->setPosition(objectB->GetX()+velocityB.x, objectB->GetY()+velocityB.y);
+			std::cout << "Player A " << std::endl;
+			return;
+
+	}
+	if (objectB->getType()==physicsType::P_PLAYER){
+			objectA->setPosition(objectA->GetX()+velocityA.x, objectA->GetY()+velocityA.y);
+			std::cout << "Player B " << std::endl;
+			return;
+
+	}*/
+	objectA->setPosition(objectA->GetX()+velocityA.x, objectA->GetY()-velocityA.y);
+	objectB->setPosition(objectB->GetX()+velocityB.x, objectB->GetY()-velocityB.y);
 
 }
 
@@ -49,6 +88,10 @@ void PhysicsManager::TestCollisions(){
 	for (unsigned int i=0; i<physics.size(); i++){
 		for (unsigned int j=i+1; j<physics.size(); j++){
 			TestCollision(this->physics.at(i), this->physics.at(j));
+
+				
+			
+
 
 		}
 		
@@ -122,6 +165,7 @@ GLboolean PhysicsManager::TestCollision(Physics* objectA, Physics* objectB){
 		//trimit manifoldul la cele 2 obiecte
 		manifold.objectA->onCollision(&manifold, true);
 		manifold.objectB->onCollision(&manifold, false);
+		solveCollision(objectA, objectB, &manifold);
 	}
 	
 

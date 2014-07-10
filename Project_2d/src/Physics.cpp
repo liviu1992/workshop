@@ -1,16 +1,13 @@
 #include "Physics.h"
+#include "GL\glew.h"
 
-
-
+GLfloat Physics::getMass(){
+	return this->mass;
+}
 
 void Physics::onCollision(Manifold* manifold, GLboolean isA){
-	//aici pun pentru coliziune racheta inamic
 
-	/*if (this->type==physicsType::P_ROCKET && !manifold->objectA->type==physicsType::P_PLAYER && !manifold->objectB->type==physicsType::P_PLAYER){
-		sprite->Explode();
-		
 	
-	} */
 
 	//intotdeauna din A se va face totul pentru a pastra simplitatea 
 	if (isA){
@@ -37,8 +34,11 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 
 	} 
 
-	
+	/*glm::vec2 newD =manifold->normal*manifold->penetration;
 
+	manifold->objectA->setPosition(-newD.x, -newD.y);
+
+	manifold->objectB->setPosition(newD.x, newD.y);*/
 	
 
 	//aici pun pentru intersectia cu o racheta

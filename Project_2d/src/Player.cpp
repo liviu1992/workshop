@@ -10,6 +10,7 @@
 		this->health = static_cast<GLint>(settingsManager.get("player_health"));
 
 		GLfloat fire_limit = settingsManager.get("fire_limit");
+		GLfloat player_mass = settingsManager.get("player_mass");
 		
 	//	this->x=0.f;
 	//	this->y=0.f;
@@ -31,7 +32,7 @@
 
 		this->combatant= new Combatant(this->health, this->sprite);
 
-		this->physics=new Physics(this->x, this->y, this->playerWidth, this->playerHeight, this->sprite, physicsType::P_PLAYER, this->alive, playerSpeed, combatant);
+		this->physics=new Physics(this->x, this->y, this->playerWidth, this->playerHeight, this->sprite, physicsType::P_PLAYER, this->alive, playerSpeed, combatant, player_mass);
 	
 		
 			

@@ -528,36 +528,7 @@ int main () {
 
 		  //aici am facut sistemul de detectare a coliziunilor
 
-		/* for (unsigned int i =0; i<projectiles.size(); i++){
-			  for (unsigned int j=0; j<enemies.size(); j++){
-
-				
-				  GLfloat xP = projectiles.at(i)->getPhysics()->GetX();
-				  GLfloat yP = projectiles.at(i)->getPhysics()->GetY();	
-				  GLfloat wP = projectiles.at(i)->getPhysics()->GetWidth();
-				  GLfloat hP = projectiles.at(i)->getPhysics()->GetHeight();	
-
-				  GLfloat xE = enemies.at(j)->getPhysics()->GetX();
-				  GLfloat yE = enemies.at(j)->getPhysics()->GetY();	
-				  GLfloat wE = enemies.at(j)->getPhysics()->GetWidth();
-				  GLfloat hE = enemies.at(j)->getPhysics()->GetHeight();	
-
-				  if (collisionDetectorAABB(xP, yP, wP, hP, xE, yE, wE, hE)){			
-													 projectiles.at(i)->getSprite()->Explode(); // va fi functia onCollision pentru Projectile
-													 enemies.at(j)->damage(5);                        //va fi functia onCollision pentru Enemy
-													 
-
-												
-
-											//		enemies.at(j).getSprite().get()->Explode();		
-													
-														
-											
-					 }
-
-				  }
-
-			  }*/
+	
 		  
 		  /*
 			aici verific daca mai e vreun inamic viu, daca nu castig

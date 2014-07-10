@@ -26,6 +26,7 @@
 		GLfloat scoutSpeed = settingsManager.get("scout_speed");
 		GLfloat basicSpeed = settingsManager.get("basic_speed");
 		GLfloat assaultSpeed = settingsManager.get("assault_speed");
+		GLfloat enemy_mass = settingsManager.get("enemy_mass");
 
 		GLint scoutHealth = static_cast<GLint>(settingsManager.get("scout_health"));
 		GLint basicHealth = static_cast<GLint>(settingsManager.get("basic_health"));
@@ -43,7 +44,7 @@
 			this->health=scoutHealth;
 			this->sprite= new Sprite(this->x, this->y, scoutWidth, scoutWidth, texture_id::SCOUT, tm);
 			this->combatant = new Combatant(this->health, this->sprite);
-			this->physics = new Physics(this->x, this->y, scoutWidth,  scoutHeight, this->sprite, physicsType::P_SCOUT, this->alive, scoutSpeed, combatant);
+			this->physics = new Physics(this->x, this->y, scoutWidth,  scoutHeight, this->sprite, physicsType::P_SCOUT, this->alive, scoutSpeed, combatant, enemy_mass);
 			this->health=scoutHealth;
 			break;
 		case enemyType::BASIC_ENEMY:
@@ -52,7 +53,7 @@
 			this->health=basicHealth;
 			this->sprite=new Sprite(this->x, this->y, basicWidth, basicHeight, texture_id::BASIC, tm);
 			this->combatant = new Combatant(this->health, this->sprite);
-			this->physics = new Physics(this->x, this->y, basicWidth,  basicHeight, this->sprite, physicsType::P_BASIC, this->alive, basicSpeed, combatant);
+			this->physics = new Physics(this->x, this->y, basicWidth,  basicHeight, this->sprite, physicsType::P_BASIC, this->alive, basicSpeed, combatant, enemy_mass);
 			
 			break;
 		case enemyType::ASSAULT_ENEMY:
@@ -61,7 +62,7 @@
 			this->health=assaultHealth;
 			this->sprite=new Sprite(this->x, this->y, assaultWidth, assaultHeight, texture_id::ASSAULT, tm);
 			this->combatant = new Combatant(this->health, this->sprite);
-			this->physics = new Physics(this->x, this->y, assaultWidth,  assaultHeight, this->sprite, physicsType::P_ASSAULT, this->alive, assaultSpeed, combatant);
+			this->physics = new Physics(this->x, this->y, assaultWidth,  assaultHeight, this->sprite, physicsType::P_ASSAULT, this->alive, assaultSpeed, combatant, enemy_mass);
 			
 			break;
 		}

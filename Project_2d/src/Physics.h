@@ -25,7 +25,7 @@ enum movement{
 class Physics{
 public:
 	//Physics();
-	Physics(GLfloat x, GLfloat y, GLfloat width, GLfloat height, Sprite* sprite, physicsType type, GLboolean &isalive, GLfloat speedXY, Combatant* combatant) : alive(dummy){
+	Physics(GLfloat x, GLfloat y, GLfloat width, GLfloat height, Sprite* sprite, physicsType type, GLboolean &isalive, GLfloat speedXY, Combatant* combatant, GLfloat mass) : alive(dummy){
 	this->x=x;
 	this->y=y;
 	this->width=width;
@@ -40,7 +40,7 @@ public:
 	this->rotate=0;
 	this->sprite = sprite;
 
-	
+	this->mass = mass;
 	this->combatant=combatant;
 	
 
@@ -113,6 +113,7 @@ public:
 	void onCollision(Manifold* manifold, GLboolean isA);
 	physicsType getType();
 	Sprite* getSprite();
+	GLfloat getMass();
 private:
 	GLfloat x;
 	GLfloat y;
@@ -141,6 +142,7 @@ private:
 	GLfloat limit_up;
 	GLfloat limit_down;
 	GLint damage;
+	GLfloat mass;
 	
 
 
