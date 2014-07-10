@@ -53,6 +53,8 @@ public:
 	this->limit_right = settingsManager.get("limit_right");
 	this->limit_left =  settingsManager.get("limit_left");
 
+	this->damage = static_cast<int>(settingsManager.get("attack_damage"));
+
 	switch(type){
 	case physicsType::P_ROCKET:
 		this->left=true;
@@ -138,6 +140,7 @@ private:
 	GLfloat limit_right;
 	GLfloat limit_up;
 	GLfloat limit_down;
+	GLint damage;
 	
 
 

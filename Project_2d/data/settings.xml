@@ -153,9 +153,21 @@
 	<Item name = "basic_seed" value = "2"/>
 	<Item name = "assault_seed" value = "1"/>
 	
-
-
-
-
+	<Item name = "exp_t0" value = "3" />
+	<Item name = "exp_t1" value = "3" />
+	<Item name = "exp_t2" value = "3" />
+	<Item name = "exp_t3" value = "3" />
+	<Item name = "exp_t4" value = "3" />
+	<Item name = "exp_t5" value = "3" />
+	<Item name = "exp_t6" value = "3" />
+	<Item name = "exp_t7" value = "3" />
+	<Item name = "exp_t8" value = "3" />
+	<Item name = "exp_t9" value = "3" />
+	<Item name = "exp_t10" value = "3" />
+	<Item name = "exp_t11" value = "3" />
+	<Item name = "exp_t12" value = "3" />
+	<Item name = "exp_t13" value = "3" />
+	<Item name = "exp_t14" value = "3" />
+	<Item name = "exp_t15" value = "3" />
 
 </Settings>

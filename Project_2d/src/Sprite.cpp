@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include "Utils.h"
 #include <iostream>
+#include "SettingsManager.h"
 
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -9,7 +10,7 @@
 #define FRAME 0.1666f  //timpul aproximativ necesar unui cadru (1 sec. / 60 cadre = 1.666666... sec. )
 
 Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id textureId, TextureManager* tm){
-		
+		SettingsManager settingsManager;
 		this->tm=tm;
 		
 		//aleg textura initiala
@@ -40,22 +41,22 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 			nu am folosit un for pentru a putea edita individual timpii 
 			fiecarei etape
 		*/
-		this->explosionTiming[0]=3;                                         //pentru etapa 0, asociata texture_id::EXP1
-		this->explosionTiming[1]=this->explosionTiming[0] + 3;
-		this->explosionTiming[2]=this->explosionTiming[1] + 3;
-		this->explosionTiming[3]=this->explosionTiming[2] + 3;
-		this->explosionTiming[4]=this->explosionTiming[3] + 3;
-		this->explosionTiming[5]=this->explosionTiming[4] + 3;
-		this->explosionTiming[6]=this->explosionTiming[5] + 3;
-		this->explosionTiming[7]=this->explosionTiming[6] + 3;				// ..........................
-		this->explosionTiming[8]=this->explosionTiming[7] + 3;
-		this->explosionTiming[9]=this->explosionTiming[8] + 3;
-		this->explosionTiming[10]=this->explosionTiming[9] + 3;
-		this->explosionTiming[11]=this->explosionTiming[10] + 3;
-		this->explosionTiming[12]=this->explosionTiming[11] + 3;
-		this->explosionTiming[13]=this->explosionTiming[12] + 3;
-		this->explosionTiming[14]=this->explosionTiming[13] + 3;
-		this->explosionTiming[15]=this->explosionTiming[14] + 3;            //pentru etapa 15 asociata texture_id::EXP16
+		this->explosionTiming[0]=settingsManager.get("exp_t0");                                         //pentru etapa 0, asociata texture_id::EXP1
+		this->explosionTiming[1]=this->explosionTiming[0] + settingsManager.get("exp_t1");
+		this->explosionTiming[2]=this->explosionTiming[1] + settingsManager.get("exp_t2");
+		this->explosionTiming[3]=this->explosionTiming[2] + settingsManager.get("exp_t3");
+		this->explosionTiming[4]=this->explosionTiming[3] + settingsManager.get("exp_t4");
+		this->explosionTiming[5]=this->explosionTiming[4] + settingsManager.get("exp_t5");
+		this->explosionTiming[6]=this->explosionTiming[5] + settingsManager.get("exp_t6");
+		this->explosionTiming[7]=this->explosionTiming[6] + settingsManager.get("exp_t7");				// ..........................
+		this->explosionTiming[8]=this->explosionTiming[7] + settingsManager.get("exp_t8");
+		this->explosionTiming[9]=this->explosionTiming[8] + settingsManager.get("exp_t9");
+		this->explosionTiming[10]=this->explosionTiming[9] + settingsManager.get("exp_t10");
+		this->explosionTiming[11]=this->explosionTiming[10] + settingsManager.get("exp_t11");
+		this->explosionTiming[12]=this->explosionTiming[11] + settingsManager.get("exp_t12");
+		this->explosionTiming[13]=this->explosionTiming[12] + settingsManager.get("exp_t13");
+		this->explosionTiming[14]=this->explosionTiming[13] + settingsManager.get("exp_t14");
+		this->explosionTiming[15]=this->explosionTiming[14] + settingsManager.get("exp_t15");     //pentru etapa 15 asociata texture_id::EXP16
 
 		
 		this->prepareShaders();

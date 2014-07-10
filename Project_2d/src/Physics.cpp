@@ -25,7 +25,7 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 			if (this->type!=physicsType::P_ROCKET && manifold->objectA->getType()!=physicsType::P_PLAYER && manifold->objectB->getType()==physicsType::P_ROCKET){
 				if (!manifold->objectA->getSprite()->getExplode() && !manifold->objectA->getSprite()->getDead()){
 					std::cout << "Damaging!" <<std::endl;
-					combatant->damage(5);
+					combatant->damage(damage);
 					manifold->objectB->getSprite()->Explode();
 
 				}
