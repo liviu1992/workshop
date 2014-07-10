@@ -22,6 +22,7 @@
 #include "EnemyFactory.h"
 #include <map>
 #include "SettingsManager.h"
+#include "PhysicsManager.h"
 
 #ifdef _DEBUG
    #ifndef DBG_NEW
@@ -40,10 +41,6 @@
 
 
 
-/*
-	AICI SE AFLA TIPURILE DE SETARI PE CARE LE PUTEM 
-	MODIFICA DIN FISIERUL settings.xml
-*/
 
 
 /*
@@ -385,15 +382,20 @@ int main () {
 		durata unui frame
 	*/
 	GLint score=initial_score;
-	GLint enemiesLeft=0;
+	GLint enemiesKilled=0;
+	GLint enemiesTotal=1;
 
 	TextureManager textManager;
 	SpriteManager spriteManager;
+	PhysicsManager physicsManager;
 	
 	std::vector<Enemy*> enemies;
-	EnemyFactory en(&textManager, &enemies, &spriteManager);
-	en.Generate(enemiesLeft);
-	std::cout << "Enemies left: " << enemiesLeft << std::endl;
+	EnemyFactory en(&textManager, &enemies, &spriteManager, &physicsManager);
+	en.Generate(enemiesTotal);
+
+	
+
+	std::cout << "Enemies left: " << enemiesTotal << std::endl;
 	Sprite sky(background_x, background_y, background_width,background_height,texture_id::SPACE, &textManager);
 	
 	Player player(&textManager);
@@ -405,8 +407,9 @@ int main () {
 	
 
 	spriteManager.Add(player.getSprite());
+	physicsManager.Add(player.getPhysics());
 
-
+	 
 
 
 
@@ -424,6 +427,10 @@ int main () {
 	float newTime;
 	float frameTime;	
 	glClearColor(0,0,0,0);
+
+
+	
+
 	while (!glfwWindowShouldClose(window)) {
 		Utils::_update_fps_counter (window);
 
@@ -443,10 +450,19 @@ int main () {
 
 	  //..... Randare................. 
 	  // stergem ce s-a desenat anterior
+
+      
+
 	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	  glViewport (0, 0, g_gl_width, g_gl_height);
 
 	  if (gamePlaying){
+
+		 
+
+
+
+
 		  sky.draw();
 		  spriteManager.Draw();
 
@@ -459,15 +475,17 @@ int main () {
 		  text_enemies.draw();
 
 		   //draw enemies
-		  drawNumber(enemiesLeft,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
+		  drawNumber(enemiesTotal-enemiesKilled,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
 	  
+		  physicsManager.TestCollisions();
+		 // physicsManager.Update();
 		  for (unsigned int i=0; i<enemies.size(); i++){
 			  if (!enemies.at(i)->getSprite()->getDead()){
 				  enemies.at(i)->getPhysics()->setSpeed(speedPlayer*frameTime);
 				  enemies.at(i)->getPhysics()->Update();
 			  } else {
 				  													
-				enemiesLeft=enemies.size()-1;
+				enemiesKilled++;
 															
 				if (enemies.at(i)->getType()==enemyType::BASIC_ENEMY){
 					score+=basic_bounty;
@@ -483,6 +501,7 @@ int main () {
 
 
 				  spriteManager.Remove(enemies.at(i)->getSprite());
+				  physicsManager.Remove(enemies.at(i)->getPhysics());
 
 				  delete enemies.at(i);
 				  enemies.erase(enemies.begin()+i);
@@ -496,6 +515,7 @@ int main () {
 			  } else {
 
 				  spriteManager.Remove(projectiles.at(i)->getSprite());
+				  physicsManager.Remove(projectiles.at(i)->getPhysics());
 				  delete projectiles.at(i);
 				  projectiles.erase(projectiles.begin()+i);
 		
@@ -504,19 +524,14 @@ int main () {
 		  }
 
 		  player.getPhysics()->Update();
-
+		  
 
 		  //aici am facut sistemul de detectare a coliziunilor
 
-		  for (unsigned int i =0; i<projectiles.size(); i++){
+		/* for (unsigned int i =0; i<projectiles.size(); i++){
 			  for (unsigned int j=0; j<enemies.size(); j++){
 
-					/* if (glm::distance(glm::vec2(projectiles.at(i).getPhysics().get()->GetX(), 
-											 projectiles.at(i).getPhysics().get()->GetY()-0.6),
-											 glm::vec2(enemies.at(j).getPhysics().get()->GetX(), 
-											 enemies.at(j).getPhysics().get()->GetY())) < enemies.at(j).getPhysics().get()->GetHeight()/2+projectiles.at(i).getPhysics().get()->GetHeight()/2){*/
-												  //projectiles.at(i).setAlive(false);
-												  //pt explozii ale proiectilelor
+				
 				  GLfloat xP = projectiles.at(i)->getPhysics()->GetX();
 				  GLfloat yP = projectiles.at(i)->getPhysics()->GetY();	
 				  GLfloat wP = projectiles.at(i)->getPhysics()->GetWidth();
@@ -542,18 +557,16 @@ int main () {
 
 				  }
 
-			  }
+			  }*/
 		  
 		  /*
 			aici verific daca mai e vreun inamic viu, daca nu castig
 		  */
 		  GLboolean win=true;
-
-		  for (unsigned int i =0; i<enemies.size(); i++){
-			  if (enemies.at(i)->getAlive()){
-				  win = false;
-			  }
+		  if (enemiesTotal != enemiesKilled){
+			  win = false;
 		  }
+		
 		  if (win){
 
 			  gamePlaying=false;
@@ -589,6 +602,7 @@ int main () {
 			  projectiles.push_back(new Projectile(&textManager));		 
 			  projectiles.at(projectiles.size()-1)->Fire(player.getPhysics()->GetX(), player.getPhysics()->GetY(), player.getPhysics()->getRotate());
 			  spriteManager.Add(projectiles.at(projectiles.size()-1)->getSprite());
+			  physicsManager.Add(projectiles.at(projectiles.size()-1)->getPhysics());
 			  //penalizez jucatorul pentru consum excesiv de munitie
 			  if (score>defeat_score){
 				  score-=rocket_penalty;
@@ -639,7 +653,7 @@ int main () {
 				
 				Sprite text_final_enemies(final_text_enemies_x, final_text_enemies_y, final_text_enemies_width, final_text_enemies_height, texture_id::TEXT_ENEMIES, &textManager);
 				text_final_enemies.draw();
-				drawNumber(enemiesLeft,final_enemies_x, final_enemies_y, final_enemies_width, final_enemies_height, &textManager);
+				drawNumber(enemiesTotal-enemiesKilled,final_enemies_x, final_enemies_y, final_enemies_width, final_enemies_height, &textManager);
 			}
 
 		}

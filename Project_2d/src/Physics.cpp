@@ -3,22 +3,54 @@
 
 
 
-/*Physics::Physics(){
-	this->x=0;
-	this->y=0;
-	this->width=0.2;
-	this->height=0.2;
-	this->speedX=0;
-	this->speedY=0;
-	this->type=physicsType::P_PLAYER;
+void Physics::onCollision(Manifold* manifold, GLboolean isA){
+	//aici pun pentru coliziune racheta inamic
 
+	/*if (this->type==physicsType::P_ROCKET && !manifold->objectA->type==physicsType::P_PLAYER && !manifold->objectB->type==physicsType::P_PLAYER){
+		sprite->Explode();
+		
+	
+	} */
 
-}*/
-/*Physics::Physics(GLfloat x, GLfloat y, GLfloat width, GLfloat height, std::shared_ptr<Sprite> sprite, physicsType type, GLboolean &alive) : alive(dummy){
+	//intotdeauna din A se va face totul pentru a pastra simplitatea 
+	if (isA){
+		if (this->type==physicsType::P_ROCKET && !(manifold->objectA->getType()==physicsType::P_PLAYER)){
+		/*	if (!sprite->getExplode()){
+				sprite->Explode();	
+			}
+			*/
+			
+		}
+		else {
+			if (this->type!=physicsType::P_ROCKET && manifold->objectA->getType()!=physicsType::P_PLAYER && manifold->objectB->getType()==physicsType::P_ROCKET){
+				if (!manifold->objectA->getSprite()->getExplode() && !manifold->objectA->getSprite()->getDead()){
+					std::cout << "Damaging!" <<std::endl;
+					combatant->damage(5);
+					manifold->objectB->getSprite()->Explode();
+
+				}
+			
+		
+			}
+		}
 	
+
+	} 
+
 	
+
 	
-}*/
+
+	//aici pun pentru intersectia cu o racheta
+
+}
+Combatant* Physics::getCombatant(){
+	return this->combatant;
+}
+physicsType Physics::getType(){
+	return this->type;
+}
+
 GLfloat Physics::GetX(){
 	return this->x;
 }
@@ -75,6 +107,9 @@ GLfloat  Physics::getRotate(){
 
 void Physics::setRotate(GLfloat rotate){
 	this->rotate=rotate;
+}
+Sprite* Physics::getSprite(){
+	return this->sprite;
 }
 
 void Physics::Update(){

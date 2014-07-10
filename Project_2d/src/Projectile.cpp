@@ -20,7 +20,7 @@ Projectile::Projectile(TextureManager* tm){
 	this->x=initialX;
 	this->y=initialY;
 	
-	
+	this->health = 5;
 
 	
 
@@ -31,10 +31,13 @@ Projectile::Projectile(TextureManager* tm){
 	this->projectileWidth=pWidth;
 	this->projectileHeight=pHeight;
 	this->sprite=new Sprite(this->x, this->y, this->projectileWidth, this->projectileHeight, texture_id::ROCKET, tm);
-	this->physics=new Physics(this->x, this->y, this->projectileWidth, this->projectileHeight, this->sprite, physicsType::P_ROCKET, this->alive, projectileSpeed);
+	this->combatant = new Combatant(this->health, sprite);
+	this->physics=new Physics(this->x, this->y, this->projectileWidth, this->projectileHeight, this->sprite, physicsType::P_ROCKET, this->alive, projectileSpeed, combatant);
 	
 }
-
+Combatant* Projectile::getCombatant(){
+	return this->combatant;
+}
 Sprite*  Projectile::getSprite( ){
 	return this->sprite;
 }
@@ -72,4 +75,5 @@ void Projectile::Fire(GLfloat ux, GLfloat uy, GLfloat rotate){
 	Projectile::~Projectile(){
 		delete this->physics;
 		delete this->sprite;
+		delete this->combatant;
 	}

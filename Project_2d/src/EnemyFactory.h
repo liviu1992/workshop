@@ -14,17 +14,19 @@
 #include <stdlib.h>
 #include "TextureManager.h"
 #include "SpriteManager.h"
+#include "PhysicsManager.h"
 #include <time.h>
 class EnemyFactory{
 public:
 	
-	EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, SpriteManager* sm);
+	EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, SpriteManager* sm, PhysicsManager* pm);
 
 	void Generate(GLint &numEnemies);
 private:
 	std::vector<Enemy*>* enemies;
 	TextureManager* tm;
 	SpriteManager* sm;
+	PhysicsManager* pm;
 };
 
 #endif

@@ -26,7 +26,7 @@ public:
 
 	Sprite*  getSprite();
 	Physics* getPhysics();
-
+	Combatant* getCombatant();
 
 	GLboolean getAlive();
 	void setAlive(GLboolean alive);
@@ -39,14 +39,15 @@ private:
 
 	Sprite*  sprite;
 	Physics* physics;
+	Combatant* combatant;
 
-
-	GLdouble damageTimer;
+	
 	GLboolean left;
 	GLboolean right;
 	movement mov;
 	GLboolean alive;
 	enemyType type;
 	GLint health;
+	GLdouble damageTimer;
 };
 #endif

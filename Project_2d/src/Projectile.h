@@ -11,6 +11,7 @@
 #include "Sprite.h"
 #include "Physics.h"
 #include "SettingsManager.h"
+#include "Combatant.h"
 class Projectile{
 public:
 	Projectile(TextureManager* tm);
@@ -25,7 +26,7 @@ public:
 	void setAlive(GLboolean alive);
 	~Projectile();
 	void Rotate(GLfloat rotate);
-
+	Combatant* getCombatant();
 
 private:
 	GLfloat x;
@@ -36,6 +37,8 @@ private:
 	GLfloat projectileHeight;
 	GLboolean alive;
 	TextureManager* tm;
+	Combatant* combatant;
+	GLint health;
 
 };
 

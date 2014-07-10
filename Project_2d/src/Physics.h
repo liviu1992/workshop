@@ -5,6 +5,11 @@
 #include "Sprite.h"
 #include <memory>
 #include "SettingsManager.h"
+#include "Combatant.h"
+
+
+struct Manifold;
+
 enum physicsType{
 	P_PLAYER, 
 	P_SCOUT,
@@ -20,7 +25,7 @@ enum movement{
 class Physics{
 public:
 	//Physics();
-	Physics(GLfloat x, GLfloat y, GLfloat width, GLfloat height, Sprite* sprite, physicsType type, GLboolean &isalive, GLfloat speedXY) : alive(dummy){
+	Physics(GLfloat x, GLfloat y, GLfloat width, GLfloat height, Sprite* sprite, physicsType type, GLboolean &isalive, GLfloat speedXY, Combatant* combatant) : alive(dummy){
 	this->x=x;
 	this->y=y;
 	this->width=width;
@@ -33,6 +38,11 @@ public:
 	this->type=type;
 	this->alive=alive;
 	this->rotate=0;
+	this->sprite = sprite;
+
+	
+	this->combatant=combatant;
+	
 
 	SettingsManager settingsManager;
 	this->sine_amplitude = settingsManager.get("sine_amplitude");
@@ -78,13 +88,15 @@ public:
 	
 	};
 
+
+	Combatant* getCombatant();
 	GLfloat GetX();
 	GLfloat GetY();
 	GLfloat GetHeight();
 	GLfloat GetWidth();
 	void setPosition(GLfloat x, GLfloat y);
 	void setSize(GLfloat width, GLfloat height);
-
+	
 	GLfloat getSpeed();
 	void setSpeed(GLfloat speed);
 	void setSpeedX(GLfloat speedX);
@@ -96,7 +108,9 @@ public:
 	void Update();
 	void SetX(GLfloat x);
 	void SetY(GLfloat y);
-
+	void onCollision(Manifold* manifold, GLboolean isA);
+	physicsType getType();
+	Sprite* getSprite();
 private:
 	GLfloat x;
 	GLfloat y;
@@ -107,6 +121,7 @@ private:
 	GLfloat speedX;
 	GLfloat speedY;
 	Sprite *sprite;
+	Combatant *combatant;
 	physicsType type;
 	GLboolean fired;
 	GLboolean &alive;
@@ -123,8 +138,17 @@ private:
 	GLfloat limit_right;
 	GLfloat limit_up;
 	GLfloat limit_down;
+	
 
 
 };
 
+struct Manifold{
+	Physics* objectA;
+	Physics* objectB;
+	GLfloat penetration;   
+	glm::vec2 normal;
+	
+
+};
 #endif

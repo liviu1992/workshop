@@ -6,20 +6,22 @@
 #include <string>
 #include "Physics.h"
 #include "SettingsManager.h"
-
+#include "Combatant.h"
 
 class Player{
 public:
 	Player(TextureManager* tm);
 	~Player();
-
+	bool fire();
 
 	Sprite*  getSprite();
 	//void Physics();
 	
-	bool fire();
+	
 	
 	Physics* getPhysics();
+
+	Combatant* getCombatant();
 private:
 	/*
 		PLAYER'S POSITION ON THE SCREEN
@@ -30,6 +32,8 @@ private:
 	
 	Sprite*  sprite;
 	Physics* physics;
+	Combatant* combatant;
+
 	GLfloat playerWidth;
 	GLfloat playerHeight;
 	GLfloat speedX;
@@ -37,6 +41,7 @@ private:
 	GLfloat fireTimer;
 	GLfloat fireLimit;
 	GLboolean alive;
+	GLint health;
 };
 
 #endif

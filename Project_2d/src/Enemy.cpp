@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include <math.h>
 #include "SettingsManager.h"
+#include "Combatant.h"
 
 
 	Enemy::Enemy(TextureManager* tm, enemyType type){
@@ -28,9 +29,8 @@
 
 		GLint scoutHealth = static_cast<GLint>(settingsManager.get("scout_health"));
 		GLint basicHealth = static_cast<GLint>(settingsManager.get("basic_health"));
-		GLint assaultHealth = static_cast<GLint>(settingsManager.get("assaultHealth"));
+		GLint assaultHealth = static_cast<GLint>(settingsManager.get("assault_health"));
 	
-
 		
 		this->damageTimer=0;
 	
@@ -39,26 +39,33 @@
 		switch(type){
 		case enemyType::SCOUT_ENEMY:
 			this->x=scoutInitialX;
-			this->y=scoutInitialY;			
+			this->y=scoutInitialY;		
+			this->health=scoutHealth;
 			this->sprite= new Sprite(this->x, this->y, scoutWidth, scoutWidth, texture_id::SCOUT, tm);
-			this->physics = new Physics(this->x, this->y, scoutWidth,  scoutHeight, this->sprite, physicsType::P_SCOUT, this->alive, scoutSpeed);
+			this->combatant = new Combatant(this->health, this->sprite);
+			this->physics = new Physics(this->x, this->y, scoutWidth,  scoutHeight, this->sprite, physicsType::P_SCOUT, this->alive, scoutSpeed, combatant);
 			this->health=scoutHealth;
 			break;
 		case enemyType::BASIC_ENEMY:
 			this->x=basicInitialX;
-			this->y=basicInitialY;			
-			this->sprite=new Sprite(this->x, this->y, basicWidth, basicHeight, texture_id::BASIC, tm);
-			this->physics = new Physics(this->x, this->y, basicWidth,  basicHeight, this->sprite, physicsType::P_BASIC, this->alive, basicSpeed);
+			this->y=basicInitialY;		
 			this->health=basicHealth;
+			this->sprite=new Sprite(this->x, this->y, basicWidth, basicHeight, texture_id::BASIC, tm);
+			this->combatant = new Combatant(this->health, this->sprite);
+			this->physics = new Physics(this->x, this->y, basicWidth,  basicHeight, this->sprite, physicsType::P_BASIC, this->alive, basicSpeed, combatant);
+			
 			break;
 		case enemyType::ASSAULT_ENEMY:
 			this->x=assaultInitialX;
-			this->y=assaultInitialY;			
-			this->sprite=new Sprite(this->x, this->y, assaultWidth, assaultHeight, texture_id::ASSAULT, tm);
-			this->physics = new Physics(this->x, this->y, assaultWidth,  assaultHeight, this->sprite, physicsType::P_ASSAULT, this->alive, assaultSpeed);
+			this->y=assaultInitialY;	
 			this->health=assaultHealth;
+			this->sprite=new Sprite(this->x, this->y, assaultWidth, assaultHeight, texture_id::ASSAULT, tm);
+			this->combatant = new Combatant(this->health, this->sprite);
+			this->physics = new Physics(this->x, this->y, assaultWidth,  assaultHeight, this->sprite, physicsType::P_ASSAULT, this->alive, assaultSpeed, combatant);
+			
 			break;
 		}
+		
 	
 	}
 	enemyType Enemy::getType(){
@@ -82,18 +89,9 @@
 	}
 
 
-void Enemy::damage(GLint dmg){
-	if (damageTimer == 0){
-		damageTimer = glfwGetTime();
-		this->health-=dmg;
-	} else if (glfwGetTime()-damageTimer>1){
-		damageTimer = 0;
+	Combatant* Enemy::getCombatant(){
+		return this->combatant;
 	}
-	if (health<0){
-		std::cout << "Exterminated!" << std::endl;
-		this->getSprite()->Explode();
-	}
-}
 	
 
 
@@ -102,4 +100,5 @@ void Enemy::damage(GLint dmg){
 	Enemy::~Enemy(){
 		delete this->physics;
 		delete this->sprite;
+		delete this->combatant;
 	}

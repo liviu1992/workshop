@@ -16,6 +16,8 @@
     <ClCompile Include="..\src\EnemyFactory.cpp" />
     <ClCompile Include="..\src\Physics.cpp" />
     <ClCompile Include="..\src\SettingsManager.cpp" />
+    <ClCompile Include="..\src\PhysicsManager.cpp" />
+    <ClCompile Include="..\src\Combatant.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Matrix.h" />
@@ -32,5 +34,7 @@
     <ClInclude Include="..\src\EnemyFactory.h" />
     <ClInclude Include="..\src\Physics.h" />
     <ClInclude Include="..\src\SettingsManager.h" />
+    <ClInclude Include="..\src\PhysicsManager.h" />
+    <ClInclude Include="..\src\Combatant.h" />
   </ItemGroup>
 </Project>

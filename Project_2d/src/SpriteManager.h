@@ -13,7 +13,6 @@ public:
 	bool Remove(Sprite*  sprite);
 	void Draw();
 	int Size();
-	void SpriteManager::removeAll();
 private:
 	std::vector<Sprite* > sprites;
 
