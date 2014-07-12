@@ -1,0 +1,8 @@
+<Settings>
+	<Item name="speed_circle" value="0.4" />
+	<Item name="speed_square" value = "1.2" />
+	<Item name="window_width" value = "1024"/>
+	<Item name="window_height" value="768" />
+	<Item name="fullscreen" value="0" />
+
+</Settings>
