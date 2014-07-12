@@ -14,7 +14,6 @@
     <ClCompile Include="..\src\joc.cpp" />
     <ClCompile Include="..\src\Matrix.cpp" />
     <ClCompile Include="..\src\Painter.cpp" />
-    <ClCompile Include="..\src\Renderer.cpp" />
     <ClCompile Include="..\src\stb_image.c" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
@@ -23,7 +22,6 @@
   <ItemGroup>
     <ClInclude Include="..\src\Matrix.h" />
     <ClInclude Include="..\src\Painter.h" />
-    <ClInclude Include="..\src\Renderer.h" />
     <ClInclude Include="..\src\stb_image.h" />
     <ClInclude Include="..\src\Texture.h" />
     <ClInclude Include="..\src\TextureManager.h" />

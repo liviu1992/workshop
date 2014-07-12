@@ -41,32 +41,19 @@ struct element{
 	AICI SE AFLA TIPURILE DE SETARI PE CARE LE PUTEM 
 	MODIFICA DIN FISIERUL settings.xml
 */
-unsigned int num_sprites = 0;
-enum setting{
-	SPEED_PLAYER,
-	SPEED_SQUARE,
+GLuint num_sprites = 100;
+enum setting{	
+	NUM_SPRITES,
 	WINDOW_WIDTH,
 	WINDOW_HEIGHT,
 	FULL_SCREEN
 };
 
-/*
-	MAI JOS SUNT PARAMETRII JOCULUI(VARIABILE
-	CORESPUNZATOARE TIPURILOR DE SETARI)
-
-*/
-float speedPlayer;
-float speedSquare;
 
 int g_gl_width = 640;
 int g_gl_height = 480;
 int g_gl_fullscreen = 0;
 
-/*
-	INCARCA SETARILE JOCULUI DIN FISIERUL settings.xml
-	SE UTILIZEAZA LA INTRAREA IN JOC SAU LA APASAREA 
-	TASTEI L
-*/
 void loadSettings(){
 	
 	rapidxml::xml_document<> doc;
@@ -83,19 +70,17 @@ void loadSettings(){
 		//std::string name = pNode->first_attribute("name")->value();
 		float value = (float) atof(pNode->first_attribute("value")->value());
 		switch(counter){
-		case SPEED_PLAYER:
-			speedPlayer = value;
-			//std::cout << "speed circle " << speedCircle << std::endl;
-			break;
-		case SPEED_SQUARE:
-			speedSquare = value;
+		
+		
+		case NUM_SPRITES:
+			num_sprites = static_cast<GLuint>(value);
 			//std::cout << "speed square " << speedSquare << std::endl;
 			break;
 		case WINDOW_WIDTH:
-			g_gl_width = (int)value;
+			g_gl_width = static_cast<GLint>(value);
 			break;
 		case WINDOW_HEIGHT:
-			g_gl_height = (int)value;
+			g_gl_height = static_cast<GLint>(value);
 			break;
 		case FULL_SCREEN:
 			g_gl_fullscreen = (int)value;
@@ -103,8 +88,7 @@ void loadSettings(){
 			break;
 
 		default:
-			std::cout << "Eroare citire setari" << std::endl;
-			
+			std::cout << "Eroare la citirea setarilor din 'data/settings.xml'" << std::endl;			
 		}
 		counter++;
 
@@ -121,7 +105,6 @@ void glfw_window_size_callback (GLFWwindow* window, int width, int height) {
   g_gl_width = width;
   g_gl_height = height;
   
-  /* putem modifica aici matricile de perspectiva */
 }
 
 int main () {
@@ -148,49 +131,36 @@ int main () {
 	  window = glfwCreateWindow (g_gl_width, g_gl_height, "Workshop1", NULL, NULL);
   }
 
-  if (!window) {
-    // nu am reusit sa facem fereastra, oprim totul si dam mesaj de eroare
-	printf ( "ERROR: could not open window with GLFW3\n");
-    glfwTerminate();
-    return 1;
-  }
-
-	glfwSetErrorCallback (glfw_error_callback);
-
+	if (!window) {
+		// nu am reusit sa facem fereastra, oprim totul si dam mesaj de eroare
+		printf ( "ERROR: could not open window with GLFW3\n");
+		glfwTerminate();
+		return 1;
+	  }
+  	glfwSetErrorCallback (glfw_error_callback);
 	glfwSetWindowSizeCallback (window, glfw_window_size_callback);
-
-   
-
 	// Atasam contextul de fereastra
-	glfwMakeContextCurrent (window);
-                                  
+	glfwMakeContextCurrent (window);                                  
 	// Pornit extension handler-ul
 	glewInit ();
-
-	// Vedem versiunile
- 
-	Utils::showOpengGLInfo();
-  
+	// Vedem versiunile 
+	Utils::showOpengGLInfo();  
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable( GL_BLEND );
-
-
 	//............Antialiasing...............
 	glfwWindowHint (GLFW_SAMPLES, 4);
 
+	TextureManager tm;  //incarca si aplica textura
+	Painter p;			//se ocupa de randare
 
-
-	TextureManager tm;
-	Painter p;
-
-	GLuint num_sprites = 27000;
+	
 
 	//generez spriteurile(sub forma de pozitii)
-	std::vector<GLfloat> spriteX;
+	std::vector<GLfloat> spriteX;     //aici pun offseturile pe X
 	spriteX.reserve(50000);
-	std::vector<GLfloat> spriteY;
+	std::vector<GLfloat> spriteY;	  //aici pun offseturile pe Y
 	spriteX.reserve(50000);
-	std::vector<GLshort> direction_right;
+	std::vector<GLshort> direction_right;   //aici tin directia in care se misca (daca e 1 e in dreapta, -1 in stanga)
 	spriteX.reserve(50000);
 
 	/*
@@ -198,9 +168,9 @@ int main () {
 		vizibile toate)
 
 	*/
-	std::srand((unsigned) time(0));
+	std::srand((unsigned) time(0));     //pun un seed unic la functia rand
 	for (unsigned int i=0; i<num_sprites; i++){	
-		GLfloat x_off = static_cast<GLfloat>(rand()%1024)/1024*3-1.5f;
+		GLfloat x_off = static_cast<GLfloat>(rand()%1024)/1024*3-1.5f;   
 		GLfloat y_off = static_cast<GLfloat>(rand()%768)/768*3 -1.5f;
 		if (y_off>0.4f ){
 			y_off-=0.6f;//*static_cast<GLfloat>(rand()%6+1);
@@ -218,46 +188,35 @@ int main () {
 
 
 	}
+
+	/*
+		Amestec cele 2 siruri pentru(sper) o distributie mai uniforma
+	*/
 	std::random_shuffle(spriteX.begin(), spriteX.end());
 	std::random_shuffle(spriteY.begin(), spriteY.end());
 
 
+	//incarc pe GPU offseturile 
 	p.changeX(spriteX, num_sprites);
 	p.changeY(spriteY, num_sprites);
 
 
-	unsigned int count = 0;
-	unsigned int step = 0;
-	unsigned int batch = 100;
-	unsigned int t = 0;
-	unsigned int leftovers;
-	unsigned int endPoint;
+	unsigned int count = 0;			//cu asta numar
+	unsigned int batch = 100;		//cat de multe spriteuri misc pe frame(dimensiunea unui lot)
+	unsigned int t = 0;				//la al catele lot sunt
+	unsigned int leftovers;			//cate elemente peste dimensiunea standard(batch) are ultimul lot
+	unsigned int endPoint;			//de unde incep elementele suplimentare ale ultimului lot
 
-	GLshort* current_dir;
-	GLfloat* current_x;
+	GLshort* current_dir;   //pointer la element din vectorul cu directii
+	GLfloat* current_x;		//pointer la element din vectorul cu offsetul x
 
-	float lastTime = (float) glfwGetTime();
-	float newTime;
-	float frameTime;	
-	glClearColor(0,0,0,0);
+	GLboolean first = true;    //are loc daca sunt la primul frame
+
+
+	glClearColor(0,0,0,0);  //setez culoarea de fundal a ecranului(cu ce culoare "curat" ecranul)
 	while (!glfwWindowShouldClose(window)) {
-		Utils::_update_fps_counter (window, &num_sprites);	
-
-		/*
-			Fac viteza de miscare sa fie independenta de framerate.
-			Inmultesc viteza cu timpul dintre frameuri.
-
-		*/
-		newTime = (float) glfwGetTime();
-
-		frameTime = newTime-lastTime;
-		lastTime=newTime;
-
-		/*
-			######################################################
-		*/
-
-	  //..... Randare................. 
+		Utils::_update_fps_counter (window, &num_sprites);	//pentru afisaj fps(si nr_spriteuri)
+			  //..... Randare................. 
 	  // stergem ce s-a desenat anterior
 	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	  glViewport (0, 0, g_gl_width, g_gl_height);
@@ -266,16 +225,26 @@ int main () {
 
 	  p.Render();                 //desenez spriteurile
 	  p.changeX(spriteX, num_sprites);  //updatez pozitiile pe X
-	  p.changeY(spriteY, num_sprites);  //updatez pozitiile pe Y(se schimba doar la incrementari, decrementari
+	 
 									    //deci aceasta linie de cod ar putea fi mutata 
 
 	  count++;  //variabila al carei unic rol e sa aiba alta valaore la urmatorul frame
 
 	  t = count%(num_sprites/batch)+1;      //calculez la al catelea lot sunt cu miscarea
-	      
-	  leftovers = num_sprites - (num_sprites/batch * batch);  //calculez cate elemente sunt in plus in ultimul lot
 
-	  endPoint = num_sprites-leftovers;          //calculez unde incepe partea supimentara a ultimului lot
+	  /*
+		codul de mai jos se executa doar la primul frame(si ulterior la fiecare modificare a nr de elemente
+	  */
+
+	  if (first){    
+		   p.changeY(spriteY, num_sprites);  //updatez pozitiile pe Y(se schimba doar la incrementari, decrementari
+
+		  leftovers = num_sprites - (num_sprites/batch * batch);  //calculez cate elemente sunt in plus in ultimul lot
+
+		  endPoint = num_sprites-leftovers;          //calculez unde incepe partea supimentara a ultimului lot
+
+		  first = false; //nu mai sunt la primul frame
+	  }
 	 /*
 		MISC PE RAND FIECARE SPRITE IN LOTURI A CATE 100(ultimul va avea pana in 199 de elemente)
 	 */
@@ -287,22 +256,13 @@ int main () {
 				(*current_dir)=-1;
 			} else if ((*current_x)<-0.8f){
 				(*current_dir)=1;
-			}
-		
-		  
+			}		  
 		 
 			 //spriteX.at(i)+=0.001f*(*current_dir);
 			spriteX.at(i)+=0.01f*(*current_dir);
 
-
 	  }
-
-
-
-	
-
-
-		//  facem swap la buffere (Double buffer)
+	  	//  facem swap la buffere (Double buffer)
 		glfwSwapBuffers(window);
 
 		glfwPollEvents();
@@ -331,24 +291,36 @@ int main () {
 			spriteY.push_back(y_off);
 			direction_right.push_back(1);
 			num_sprites++;
-		
 
+			leftovers = num_sprites - (num_sprites/batch * batch);  //calculez cate elemente sunt in plus in ultimul lot
+
+			endPoint = num_sprites-leftovers;
+		
+			 p.changeY(spriteY, num_sprites);  //updatez pozitiile pe Y(se schimba doar la incrementari, decrementari
 		}
 		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_KP_SUBTRACT)) {
 			//scad nr de sprite cu 1
-			spriteX.pop_back();
-			spriteY.pop_back();
-			direction_right.pop_back();
-			num_sprites--;
+			
+			if (num_sprites>(batch+1)){
+				spriteX.pop_back();
+				spriteY.pop_back();
+				direction_right.pop_back();
+				num_sprites--;
+				leftovers = num_sprites - (num_sprites/batch * batch);  //calculez cate elemente sunt in plus in ultimul lot
+
+			    endPoint = num_sprites-leftovers;
+
+				 p.changeY(spriteY, num_sprites);  //updatez pozitiile pe Y(se schimba doar la incrementari, decrementari
+
+			} else {
+				std::cout << "Nu pot fi mai putin de " << batch << " de elemente!";  
+			}
 		}
 
 	 
 	}
   
   glfwTerminate();
- 
- 
- 
- // _CrtDumpMemoryLeaks();
+
   return 0;
 }

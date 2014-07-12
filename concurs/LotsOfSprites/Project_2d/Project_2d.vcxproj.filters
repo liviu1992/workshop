@@ -8,7 +8,6 @@
     <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\Vector3.cpp" />
     <ClCompile Include="..\src\Painter.cpp" />
-    <ClCompile Include="..\src\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Matrix.h" />
@@ -18,6 +17,5 @@
     <ClInclude Include="..\src\TextureManager.h" />
     <ClInclude Include="..\src\Vector3.h" />
     <ClInclude Include="..\src\Painter.h" />
-    <ClInclude Include="..\src\Renderer.h" />
   </ItemGroup>
 </Project>
