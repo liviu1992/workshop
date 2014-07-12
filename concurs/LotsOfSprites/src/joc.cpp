@@ -13,6 +13,7 @@
 #include <time.h>
 #include "TextureManager.h"
 #include "Painter.h"
+#include <algorithm>
 
 #ifdef _DEBUG
    #ifndef DBG_NEW
@@ -182,7 +183,7 @@ int main () {
 	TextureManager tm;
 	Painter p;
 
-	GLuint num_sprites = 40000;
+	GLuint num_sprites = 27000;
 
 	//generez spriteurile(sub forma de pozitii)
 	std::vector<GLfloat> spriteX;
@@ -191,16 +192,25 @@ int main () {
 	spriteX.reserve(50000);
 	std::vector<GLshort> direction_right;
 	spriteX.reserve(50000);
+
+	/*
+		Mai jos generez spriteurile initiale(si incerc sa le incadrez intre anumite limite(sa fie
+		vizibile toate)
+
+	*/
 	std::srand((unsigned) time(0));
-	for (unsigned int i=0; i<num_sprites; i++){
-	
-	
+	for (unsigned int i=0; i<num_sprites; i++){	
 		GLfloat x_off = static_cast<GLfloat>(rand()%1024)/1024*3-1.5f;
 		GLfloat y_off = static_cast<GLfloat>(rand()%768)/768*3 -1.5f;
 		if (y_off>0.4f ){
-			y_off-=0.6f;
+			y_off-=0.6f;//*static_cast<GLfloat>(rand()%6+1);
 		}  else if (y_off<-0.4f ){
-			y_off+=0.6f;
+			y_off+=0.1f;//*static_cast<GLfloat>(rand()%6+1);
+		}
+		if (x_off>0.4f){
+			x_off-=0.6f;//*static_cast<GLfloat>(rand()%6+1);
+		} else if (x_off<-0.4f){
+			x_off+=0.6f;//*static_cast<GLfloat>(rand()%6+1);
 		}
 		spriteX.push_back(x_off);
 		spriteY.push_back(y_off);
@@ -208,6 +218,8 @@ int main () {
 
 
 	}
+	std::random_shuffle(spriteX.begin(), spriteX.end());
+	std::random_shuffle(spriteY.begin(), spriteY.end());
 
 
 	p.changeX(spriteX, num_sprites);
@@ -216,6 +228,10 @@ int main () {
 
 	unsigned int count = 0;
 	unsigned int step = 0;
+	unsigned int batch = 100;
+	unsigned int t = 0;
+	unsigned int leftovers;
+	unsigned int endPoint;
 
 	GLshort* current_dir;
 	GLfloat* current_x;
@@ -245,31 +261,45 @@ int main () {
 	  // stergem ce s-a desenat anterior
 	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	  glViewport (0, 0, g_gl_width, g_gl_height);
-	  /*
-	  TO DO
-	  */
-	  p.Render();
-	  p.changeX(spriteX, num_sprites);
-	  p.changeY(spriteY, num_sprites);
 	  
-	  count += 1;
-	  step = count % 1001 + 1;
-	 
-	  for (unsigned int i=0; i<num_sprites; i=i+step){
-		  current_dir = &direction_right.at(i);
-		  current_x = &spriteX.at(i);
-		  if ((*current_x)>1.0f){
-			  (*current_dir)=-1;
-		  } else if ((*current_x)<-1.0f){
-			  (*current_dir)=1;
-		  }
+
+
+	  p.Render();                 //desenez spriteurile
+	  p.changeX(spriteX, num_sprites);  //updatez pozitiile pe X
+	  p.changeY(spriteY, num_sprites);  //updatez pozitiile pe Y(se schimba doar la incrementari, decrementari
+									    //deci aceasta linie de cod ar putea fi mutata 
+
+	  count++;  //variabila al carei unic rol e sa aiba alta valaore la urmatorul frame
+
+	  t = count%(num_sprites/batch)+1;      //calculez la al catelea lot sunt cu miscarea
+	      
+	  leftovers = num_sprites - (num_sprites/batch * batch);  //calculez cate elemente sunt in plus in ultimul lot
+
+	  endPoint = num_sprites-leftovers;          //calculez unde incepe partea supimentara a ultimului lot
+	 /*
+		MISC PE RAND FIECARE SPRITE IN LOTURI A CATE 100(ultimul va avea pana in 199 de elemente)
+	 */
+	
+	  for (unsigned int i=(t-1)*batch; i<t*batch || (i>=endPoint && i<num_sprites); i++){
+			current_dir = &direction_right.at(i);
+			current_x = &spriteX.at(i);
+			if ((*current_x)>0.8f){
+				(*current_dir)=-1;
+			} else if ((*current_x)<-0.8f){
+				(*current_dir)=1;
+			}
+		
 		  
 		 
-			  spriteX.at(i)+=0.001f*(*current_dir);
-		  
-		  
+			 //spriteX.at(i)+=0.001f*(*current_dir);
+			spriteX.at(i)+=0.01f*(*current_dir);
+
 
 	  }
+
+
+
+	
 
 
 		//  facem swap la buffere (Double buffer)
@@ -285,8 +315,18 @@ int main () {
 		}
 		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_KP_ADD)) {
 			//cresc nr de sprite cu 1
-			GLfloat x_off = static_cast<GLfloat>(rand()%1024)/1024-0.5f;
-			GLfloat y_off = static_cast<GLfloat>(rand()%768)/768-0.5f;
+			GLfloat x_off = static_cast<GLfloat>(rand()%1024)/1024*3-1.5f;
+			GLfloat y_off = static_cast<GLfloat>(rand()%768)/768*3 -1.5f;
+			if (y_off>0.4f ){
+				y_off-=0.6f;//*static_cast<GLfloat>(rand()%6+1);
+			}  else if (y_off<-0.4f ){
+				y_off+=0.1f;//*static_cast<GLfloat>(rand()%6+1);
+			}
+			if (x_off>0.4f){
+				x_off-=0.6f;//*static_cast<GLfloat>(rand()%6+1);
+			} else if (x_off<-0.4f){
+				x_off+=0.6f;//*static_cast<GLfloat>(rand()%6+1);
+			}
 			spriteX.push_back(x_off);
 			spriteY.push_back(y_off);
 			direction_right.push_back(1);

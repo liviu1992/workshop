@@ -1,3 +1,5 @@
+
+
 #ifndef PAINTER_H
 #define PAINTER_H
 #include "GL\glew.h"

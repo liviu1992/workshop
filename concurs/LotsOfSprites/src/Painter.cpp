@@ -5,7 +5,7 @@ Painter::Painter() : xOffsets(dummy), yOffsets(dummy){
 		-0.01f, 0.01f,
 		-0.01f,-0.01f,
 		0.01f, 0.01f,
-
+	
 		0.01f, 0.01f,
 		-0.01f, -0.01f,
 		0.01f, -0.01f,
