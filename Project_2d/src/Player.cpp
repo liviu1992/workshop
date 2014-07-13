@@ -19,7 +19,6 @@
 		this->x=initialX;
 		this->y=initialY;
 	
-		std::cout << this->x << "   " << this->y << std::endl;
 
 
 		this->playerWidth=pWidth;
@@ -61,13 +60,3 @@
 		delete this->physics;
 	}
 
-	bool Player::fire(){
-		
-		if (glfwGetTime()>=fireTimer+fireLimit){
-			fireTimer = (float)glfwGetTime();
-			return true;
-		}
-		else {
-			return false;
-		}
-	}

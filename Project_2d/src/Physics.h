@@ -42,7 +42,7 @@ public:
 
 	this->mass = mass;
 	this->combatant=combatant;
-	
+	this->owner = false;
 
 	SettingsManager settingsManager;
 	this->sine_amplitude = settingsManager.get("sine_amplitude");
@@ -52,6 +52,7 @@ public:
 	this->limit_up = settingsManager.get("limit_up");
 	this->limit_right = settingsManager.get("limit_right");
 	this->limit_left =  settingsManager.get("limit_left");
+	GLfloat fire_limit = settingsManager.get("fire_limit");
 
 	this->damage = static_cast<int>(settingsManager.get("attack_damage"));
 
@@ -86,11 +87,15 @@ public:
 		break;
 
 	}
+
+	this->fireTimer=0.f;
+	this->fireLimit=fire_limit;
 	
 	
 	};
 
-
+	void setOwnerIfRocket(GLboolean owner);  //true for player, false for enemy
+	GLboolean getOwner();
 	Combatant* getCombatant();
 	GLfloat GetX();
 	GLfloat GetY();
@@ -114,7 +119,14 @@ public:
 	physicsType getType();
 	Sprite* getSprite();
 	GLfloat getMass();
+
+	GLboolean canIFire();
 private:
+	GLboolean canFire;
+	GLdouble fireTimer;
+	GLdouble fireLimit;
+
+	GLboolean owner;
 	GLfloat x;
 	GLfloat y;
 	GLfloat width;

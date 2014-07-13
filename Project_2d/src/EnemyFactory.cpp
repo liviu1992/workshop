@@ -79,7 +79,7 @@ EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, Spr
 			std::cout << "Basic generated " << std::endl;
 
 		}
-
+		
 		
 		//how many units of type C
 

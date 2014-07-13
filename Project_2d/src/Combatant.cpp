@@ -8,12 +8,15 @@ void Combatant::damage(GLint damage){
 		std::cout << health << std::endl;
 		health-=damage;
 	} else if (glfwGetTime()-damageTimer>1.5){
-		std::cout << "Resetting timer" << std::endl;
+	
 		damageTimer = 0;
 	}
 	if (health<0){
-		std::cout << "Exterminated!" << std::endl;
+		std::cout << "Killed!" << std::endl;
 		sprite->Explode();
 	}
 
+}
+GLint Combatant::getHealth(){
+	return this->health;
 }

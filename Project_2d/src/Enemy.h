@@ -33,6 +33,7 @@ public:
 
 	enemyType getType();
 	void damage(GLint dmg);
+	bool fire();
 private:
 	GLfloat x;
 	GLfloat y;
@@ -49,5 +50,8 @@ private:
 	enemyType type;
 	GLint health;
 	GLdouble damageTimer;
+	GLdouble fireLimit;
+	GLdouble fireTimer;
+
 };
 #endif

@@ -1,10 +1,29 @@
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\COMBATANT.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\ENEMY.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\ENEMYFACTORY.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\JOC.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\MATRIX.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\PHYSICS.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\PHYSICSMANAGER.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\PLAYER.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\PROJECTILE.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\SETTINGSMANAGER.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\SHAPES.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\SPRITE.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\SPRITEMANAGER.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\TEXTURE.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\TEXTUREMANAGER.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\VECTOR3.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\VC110.PDB
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\TEMP\STB_IMAGE.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\PHYSICSMANAGER.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\VC110.PDB
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\COMBATANT.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\ENEMY.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\ENEMYFACTORY.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\JOC.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\MATRIX.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\PHYSICS.OBJ
-C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\PHYSICSMANAGER.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\PLAYER.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\PROJECTILE.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\SETTINGSMANAGER.OBJ
@@ -14,46 +33,48 @@ C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\SPRITEMANAG
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\TEXTURE.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\TEXTUREMANAGER.OBJ
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\VECTOR3.OBJ
-C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\VC110.PDB
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\TEMP\STB_IMAGE.OBJ
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\DEBUG\PROJECT_2D.ILK
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\DEBUG\PROJECT_2D.EXE
+C:\USERS\LIVIU\DOCUMENTS\VAULT\PROJECT_2D_7_10_LATE\DEBUG\PROJECT_2D.PDB
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\DEBUG\PROJECT_2D.ILK
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\DEBUG\PROJECT_2D.EXE
 C:\USERS\LIVIU\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\PROJECT_2D\DEBUG\PROJECT_2D.PDB
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Combatant.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Enemy.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\EnemyFactory.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\joc.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Matrix.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Physics.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\PhysicsManager.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Player.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Projectile.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\SettingsManager.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Shapes.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Sprite.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\SpriteManager.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\stb_image.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Texture.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\TextureManager.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\Vector3.obj
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\cl.command.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\CL.read.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\CL.write.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link-cvtres.read.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link-cvtres.write.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link-rc.read.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link-rc.write.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link.1576-cvtres.read.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link.1576-cvtres.write.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link.1576-rc.read.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link.1576-rc.write.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link.1576.read.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link.1576.write.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link.command.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link.read.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\link.write.1.tlog
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\vc110.idb
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Temp\vc110.pdb
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Debug\Project_2d.pdb
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Debug\Project_2d.exe
-C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Debug\Project_2d.ilk
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Combatant.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Enemy.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\EnemyFactory.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\joc.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Matrix.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Physics.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\PhysicsManager.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Player.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Projectile.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\SettingsManager.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Shapes.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Sprite.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\SpriteManager.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\stb_image.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Texture.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\TextureManager.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\Vector3.obj
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\cl.command.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\CL.read.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\CL.write.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link-cvtres.read.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link-cvtres.write.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link-rc.read.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link-rc.write.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link.3888-cvtres.read.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link.3888-cvtres.write.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link.3888-rc.read.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link.3888-rc.write.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link.3888.read.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link.3888.write.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link.command.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link.read.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\link.write.1.tlog
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\vc110.idb
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Temp\vc110.pdb
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.pdb
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.exe
+C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.ilk

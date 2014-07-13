@@ -385,11 +385,19 @@ int main () {
 	GLint enemiesKilled=0;
 	GLint enemiesTotal=1;
 
+	std::vector<Enemy*> enemies;
+	std::vector<Projectile*> projectiles;
+
+
 	TextureManager textManager;
 	SpriteManager spriteManager;
-	PhysicsManager physicsManager;
+	PhysicsManager physicsManager(&projectiles, &textManager, &spriteManager);
 	
-	std::vector<Enemy*> enemies;
+
+	Player player(&textManager);
+	physicsManager.Add(player.getPhysics());
+
+	
 	EnemyFactory en(&textManager, &enemies, &spriteManager, &physicsManager);
 	en.Generate(enemiesTotal);
 
@@ -398,16 +406,16 @@ int main () {
 	std::cout << "Enemies left: " << enemiesTotal << std::endl;
 	Sprite sky(background_x, background_y, background_width,background_height,texture_id::SPACE, &textManager);
 	
-	Player player(&textManager);
+	
 
-	std::vector<Projectile*> projectiles;
+	
 
 
 	
 	
 
 	spriteManager.Add(player.getSprite());
-	physicsManager.Add(player.getPhysics());
+	
 
 	 
 
@@ -478,6 +486,7 @@ int main () {
 		  drawNumber(enemiesTotal-enemiesKilled,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
 	  
 		  physicsManager.TestCollisions();
+		  physicsManager.TestAttacks();
 		 // physicsManager.Update();
 		  for (unsigned int i=0; i<enemies.size(); i++){
 			  if (!enemies.at(i)->getSprite()->getDead()){
@@ -533,15 +542,30 @@ int main () {
 		  /*
 			aici verific daca mai e vreun inamic viu, daca nu castig
 		  */
-		  GLboolean win=true;
+
+
+
+
+
+
+		  GLboolean end=true;
 		  if (enemiesTotal != enemiesKilled){
-			  win = false;
+			  end = false;
+		  }
+
+		  if (player.getCombatant()->getHealth()>0){
+			  end = false;
 		  }
 		
-		  if (win){
+		  if (end){
 
 			  gamePlaying=false;
-			  victory=true;
+			  if (player.getCombatant()->getHealth()>0){
+				   victory=true;
+			  } else {
+				  victory= false;
+			  }
+			 
 		}
 
 
@@ -569,11 +593,13 @@ int main () {
 		  loadSettings();
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE)){
-		  if (player.fire()){
+		  if (player.getPhysics()->canIFire()){
 			  projectiles.push_back(new Projectile(&textManager));		 
 			  projectiles.at(projectiles.size()-1)->Fire(player.getPhysics()->GetX(), player.getPhysics()->GetY(), player.getPhysics()->getRotate());
 			  spriteManager.Add(projectiles.at(projectiles.size()-1)->getSprite());
 			  physicsManager.Add(projectiles.at(projectiles.size()-1)->getPhysics());
+			  projectiles.at(projectiles.size()-1)->getPhysics()->setOwnerIfRocket(true); //racheta e lansata de player(deci
+																						  //va distruge inamici
 			  //penalizez jucatorul pentru consum excesiv de munitie
 			  if (score>defeat_score){
 				  score-=rocket_penalty;

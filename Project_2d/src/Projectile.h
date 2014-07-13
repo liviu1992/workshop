@@ -27,7 +27,7 @@ public:
 	~Projectile();
 	void Rotate(GLfloat rotate);
 	Combatant* getCombatant();
-
+	
 private:
 	GLfloat x;
 	GLfloat y;

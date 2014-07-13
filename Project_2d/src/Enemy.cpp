@@ -31,8 +31,9 @@
 		GLint scoutHealth = static_cast<GLint>(settingsManager.get("scout_health"));
 		GLint basicHealth = static_cast<GLint>(settingsManager.get("basic_health"));
 		GLint assaultHealth = static_cast<GLint>(settingsManager.get("assault_health"));
+		this->fireLimit = static_cast<GLdouble>(settingsManager.get("fire_limit"));
 	
-		
+		this->fireTimer=0;
 		this->damageTimer=0;
 	
 		this->alive= true;
@@ -102,4 +103,15 @@
 		delete this->physics;
 		delete this->sprite;
 		delete this->combatant;
+	}
+
+	bool Enemy::fire(){
+		
+		if (glfwGetTime()>=fireTimer+fireLimit){
+			fireTimer = (float)glfwGetTime();
+			return true;
+		}
+		else {
+			return false;
+		}
 	}

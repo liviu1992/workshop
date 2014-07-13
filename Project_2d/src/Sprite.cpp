@@ -121,7 +121,6 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 				this->explosionTimer = 0;
 				this->explosion = false;
 				this->dead = true;
-				std::cout << "Dead!" << std::endl;
 				
 			}
 

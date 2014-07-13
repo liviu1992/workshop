@@ -11,17 +11,14 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 
 	//intotdeauna din A se va face totul pentru a pastra simplitatea 
 	if (isA){
-		if (this->type==physicsType::P_ROCKET && !(manifold->objectA->getType()==physicsType::P_PLAYER)){
-		/*	if (!sprite->getExplode()){
-				sprite->Explode();	
-			}
-			*/
+		if (this->type!=physicsType::P_ROCKET && (manifold->objectA->getType()==physicsType::P_PLAYER) && manifold->objectB->getType()==physicsType::P_ROCKET && !manifold->objectB->getOwner()){
+			combatant->damage(damage);
+			manifold->objectB->getSprite()->Explode();
 			
 		}
 		else {
-			if (this->type!=physicsType::P_ROCKET && manifold->objectA->getType()!=physicsType::P_PLAYER && manifold->objectB->getType()==physicsType::P_ROCKET){
+			if (this->type!=physicsType::P_ROCKET && manifold->objectA->getType()!=physicsType::P_PLAYER && manifold->objectB->getType()==physicsType::P_ROCKET && manifold->objectB->getOwner()){
 				if (!manifold->objectA->getSprite()->getExplode() && !manifold->objectA->getSprite()->getDead()){
-					std::cout << "Damaging!" <<std::endl;
 					combatant->damage(damage);
 					manifold->objectB->getSprite()->Explode();
 
@@ -226,4 +223,22 @@ void Physics::Update(){
 void Physics::fire(){
 	this->fired=true;
 
+}
+
+GLboolean Physics::getOwner(){
+	return this->owner;
+}
+
+void Physics::setOwnerIfRocket(GLboolean owner){
+	this->owner = owner;
+}
+
+GLboolean Physics::canIFire(){
+	if (glfwGetTime()>=fireTimer+fireLimit){
+			fireTimer = (float)glfwGetTime();
+			return true;
+		}
+		else {
+			return false;
+		}
 }

@@ -12,7 +12,7 @@ public:
 
 };
 
-	
+	GLint getHealth();
 	void damage(GLint damage);
 private:
 	GLdouble damageTimer;
