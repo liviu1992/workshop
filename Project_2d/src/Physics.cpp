@@ -5,9 +5,10 @@ GLfloat Physics::getMass(){
 	return this->mass;
 }
 
-void Physics::onCollision(Manifold* manifold, GLboolean isA){
 
+void Physics::onCollision(Manifold* manifold, GLboolean isA){
 	
+
 
 	//intotdeauna din A se va face totul pentru a pastra simplitatea 
 	if (isA){
@@ -118,6 +119,9 @@ void Physics::Update(){
 		this->mspeedX=0;
 		this->mspeedY=0;
 
+		this->getSprite()->getMatrix()->moveCamera(this->x, this->y);
+
+
 		break;
 	case physicsType::P_ROCKET:
 		if (this->fired){
@@ -131,24 +135,24 @@ void Physics::Update(){
 				this->x+=-sin(rotate)*speedX*speed;
 				this->sprite->move(this->x, this->y);
 			}
-			if ( this->y>1.8){
+			if ( this->y>this->rocketMaximumRange){
 				this->sprite->setDead(true);		
 				this->alive=false;
 
 			
 			}
-			if ( this->y<-1.8){
+			if ( this->y<-this->rocketMaximumRange){
 				this->sprite->setDead(true);		
 				this->alive=false;
 
 			}
 
-			if ( this->x>1.8){
+			if ( this->x>this->rocketMaximumRange){
 				this->sprite->setDead(true);
 				this->alive=false;
 			
 			}
-			if ( this->x<-1.8){
+			if ( this->x<-this->rocketMaximumRange){
 				this->sprite->setDead(true);	
 				this->alive=false;
 
@@ -218,6 +222,11 @@ void Physics::Update(){
 		}
 	}
 
+	
+
+
+	this->getSprite()->getMatrix()->updateMatrix();
+
 }
 //doar pentru proiectile
 void Physics::fire(){
@@ -228,7 +237,12 @@ void Physics::fire(){
 GLboolean Physics::getOwner(){
 	return this->owner;
 }
-
+GLboolean Physics::fireCommandIssued(){
+	return this->fireCommand;
+}
+void Physics::issueFireCommand(GLboolean value){
+	this->fireCommand=value;
+}
 void Physics::setOwnerIfRocket(GLboolean owner){
 	this->owner = owner;
 }
@@ -241,4 +255,8 @@ GLboolean Physics::canIFire(){
 		else {
 			return false;
 		}
+}
+
+GLfloat Physics::getFov(){
+	return static_cast<GLfloat>(this->fov);
 }

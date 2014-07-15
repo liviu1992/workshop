@@ -111,9 +111,51 @@ TextureManager::TextureManager(){
 	fid.file="num_9.png";
 	fid.id = texture_id::NUM9;					
 	images[33] = fid;
+	PLANET_GREEN,
+	PLANET_JUPITER,
+	PLANET_VENUS,
+	PLANET_LAVA,
+	PLANET_STAR,
+	PLANET_K,
+	METEOR_1,
+	METEOR_2,
+	fid.file="green_planet.png";
+	fid.id=texture_id::PLANET_GREEN;
+	images[34] = fid;
+
+	fid.file="jupiter.png";
+	fid.id=texture_id::PLANET_JUPITER;
+	images[35] = fid;
+
+	fid.file="k_planet.png";
+	fid.id=texture_id::PLANET_K;
+	images[36] = fid;
+
+	fid.file="lava_planet.png";
+	fid.id=texture_id::PLANET_LAVA;
+	images[37] = fid;
+
+	fid.file="meteor1.png";
+	fid.id=texture_id::METEOR_1;
+	images[38] = fid;
+
+	fid.file="meteor2.png";
+	fid.id=texture_id::METEOR_2;
+	images[39] = fid;
+
+	fid.file="venus.png";
+	fid.id=texture_id::PLANET_VENUS;
+	images[40] = fid;
+
+	fid.file="star.png";
+	fid.id=texture_id::PLANET_STAR;
+	images[41] = fid;
+
+
+
 	fid.file="rocket_light.png";
 	fid.id = texture_id::ROCKET;										
-	images[34] = fid;
+	images[42] = fid;
 	
 	
 	this->LoadTextures();
@@ -272,13 +314,6 @@ void TextureManager::getTexture(texture_id type, GLuint textureArray){
 }
 
 void TextureManager::Bind(){
-	
-	
-
-	
-		
-
-
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 }

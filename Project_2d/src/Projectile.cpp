@@ -9,7 +9,7 @@
 Projectile::Projectile(TextureManager* tm){
 	SettingsManager settingsManager;
 
-
+	
 
 	GLfloat initialX = settingsManager.get("projectile_initial_x");
 	GLfloat initialY =settingsManager.get("projectile_initial_y");

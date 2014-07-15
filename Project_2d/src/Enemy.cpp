@@ -26,12 +26,12 @@
 		GLfloat scoutSpeed = settingsManager.get("scout_speed");
 		GLfloat basicSpeed = settingsManager.get("basic_speed");
 		GLfloat assaultSpeed = settingsManager.get("assault_speed");
-		GLfloat enemy_mass = settingsManager.get("enemy_mass");
+		GLfloat enemy_mass;
 
 		GLint scoutHealth = static_cast<GLint>(settingsManager.get("scout_health"));
 		GLint basicHealth = static_cast<GLint>(settingsManager.get("basic_health"));
 		GLint assaultHealth = static_cast<GLint>(settingsManager.get("assault_health"));
-		this->fireLimit = static_cast<GLdouble>(settingsManager.get("fire_limit"));
+		this->fireLimit = static_cast<GLdouble>(settingsManager.get("enemy_fire_limit"));
 	
 		this->fireTimer=0;
 		this->damageTimer=0;
@@ -43,12 +43,14 @@
 			this->x=scoutInitialX;
 			this->y=scoutInitialY;		
 			this->health=scoutHealth;
+			enemy_mass = settingsManager.get("scout_mass");
 			this->sprite= new Sprite(this->x, this->y, scoutWidth, scoutWidth, texture_id::SCOUT, tm);
 			this->combatant = new Combatant(this->health, this->sprite);
 			this->physics = new Physics(this->x, this->y, scoutWidth,  scoutHeight, this->sprite, physicsType::P_SCOUT, this->alive, scoutSpeed, combatant, enemy_mass);
 			this->health=scoutHealth;
 			break;
 		case enemyType::BASIC_ENEMY:
+			enemy_mass = settingsManager.get("basic_mass");
 			this->x=basicInitialX;
 			this->y=basicInitialY;		
 			this->health=basicHealth;
@@ -58,6 +60,7 @@
 			
 			break;
 		case enemyType::ASSAULT_ENEMY:
+			enemy_mass = settingsManager.get("assault_mass");
 			this->x=assaultInitialX;
 			this->y=assaultInitialY;	
 			this->health=assaultHealth;

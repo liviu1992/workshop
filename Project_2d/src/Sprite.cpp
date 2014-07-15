@@ -10,6 +10,7 @@
 #define FRAME 0.1666f  //timpul aproximativ necesar unui cadru (1 sec. / 60 cadre = 1.666666... sec. )
 
 Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id textureId, TextureManager* tm){
+			
 		SettingsManager settingsManager;
 		this->tm=tm;
 		
@@ -66,6 +67,8 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 		this->transfMat =glGetUniformLocation(this->shaderProgram, "TransfMatrix");
 
 		//si acum sunt gata sa desenez...
+		
+	
 	}
 
 
@@ -76,6 +79,7 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 		glDeleteProgram(this->shaderProgram);
 		glDeleteShader(this->vertexShader);
 		glDeleteShader(this->fragmentShader);
+		delete this->matrix;
 
 	}
 	GLboolean Sprite::getDead(){
@@ -91,7 +95,7 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 		
 		//incarc datele legate de matricea de transformare
-		glUniformMatrix4fv(this->transfMat, 1, GL_FALSE, &(this->matrix.getData()[0][0])); 
+		glUniformMatrix4fv(this->transfMat, 1, GL_FALSE, &(this->matrix->getData()[0][0])); 
 
 
 
@@ -154,15 +158,17 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 	void Sprite::move(GLfloat x, GLfloat y){
 		this->x=x;
 		this->y=y;
-		this->matrix.translateTo(x,y);
+		this->matrix->translateTo(x,y);
 	}
 
 
 	void Sprite::Rotate(GLfloat rotate, GLfloat x, GLfloat y){
 		this->rotate=rotate;
-		this->matrix.rotate(rotate, x, y);
+		this->matrix->rotate(rotate);
 	}
-	
+	Matrix* Sprite::getMatrix(){
+		return this->matrix;
+	}
 
 	void Sprite::setupCoords(GLfloat x, GLfloat y, GLfloat width, GLfloat height){
 		/*
@@ -173,14 +179,10 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 		this->y=y;
 		this->width=width;
 		this->height=height;
-	/*	this->vectors[0]=Vector3(x-width/2,y+height/2, 0);
-		this->vectors[1]=Vector3(x+width/2,y+height/2, 0);
-		this->vectors[2]=Vector3(x-width/2,y-height/2, 0);
 
-		this->vectors[3]=Vector3(x+width/2,y+height/2, 0);
-		this->vectors[4]=Vector3(x+width/2,y-height/2, 0);
-		this->vectors[5]=Vector3(x-width/2,y-height/2, 0);
-		*/
+
+		matrix = new Matrix(x,y,0);
+	
 
 		this->vectors[0]=Vector3(x-width/2,y+height/2, 0);
 		this->vectors[1]=Vector3(x-width/2,y-height/2, 0);

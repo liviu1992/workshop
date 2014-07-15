@@ -35,7 +35,7 @@ public:
 	GLboolean getDead();
 	void setDead(GLboolean dead);
 	~Sprite();
-
+	Matrix* getMatrix();
 protected:
 	void setupCoords(GLfloat x, GLfloat y, GLfloat width, GLfloat height);
 	void setupTexCoords();
@@ -45,6 +45,7 @@ protected:
 	GLfloat y;
 	GLfloat width;
 	GLfloat height;
+	
 	
 	enum {
 		POSITION_VB,
@@ -59,7 +60,7 @@ protected:
 	unsigned int drawCount;
 	
 
-	Matrix matrix;
+	Matrix* matrix;
 
 	GLuint transfMat;
 

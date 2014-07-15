@@ -18,6 +18,8 @@
     <ClCompile Include="..\src\SettingsManager.cpp" />
     <ClCompile Include="..\src\PhysicsManager.cpp" />
     <ClCompile Include="..\src\Combatant.cpp" />
+    <ClCompile Include="..\src\LayerManager.cpp" />
+    <ClCompile Include="..\src\MapGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Matrix.h" />
@@ -36,5 +38,7 @@
     <ClInclude Include="..\src\SettingsManager.h" />
     <ClInclude Include="..\src\PhysicsManager.h" />
     <ClInclude Include="..\src\Combatant.h" />
+    <ClInclude Include="..\src\LayerManager.h" />
+    <ClInclude Include="..\src\MapGenerator.h" />
   </ItemGroup>
 </Project>

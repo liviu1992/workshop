@@ -19,6 +19,38 @@ bool PhysicsManager::collisionDetectorAABB(GLfloat cxA, GLfloat cyA, GLfloat wA,
 	return true;
 
 }
+void PhysicsManager::AllAttack(){
+	for (unsigned int i=0; i<this->physics.size(); i++){
+		if (this->physics.at(i)->fireCommandIssued()){
+			//std::cout << "Fire" << std::endl;
+			LaunchProjectile(this->physics.at(i));
+			physics.at(i)->issueFireCommand(false);
+
+		}
+
+	}
+
+
+}
+void PhysicsManager::LaunchProjectile(Physics* parent){
+	
+		this->projectiles->push_back(new Projectile(this->tm ));
+		this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setPosition(parent->GetX(), parent->GetY());
+		if (parent->getType()==physicsType::P_PLAYER){
+			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setOwnerIfRocket(true);
+			this->sm->Add(this->projectiles->at(this->projectiles->size()-1)->getSprite());
+			this->Add(this->projectiles->at(this->projectiles->size()-1)->getPhysics());
+			this->projectiles->at(this->projectiles->size()-1)->Fire(parent->GetX(), parent->GetY(),parent->getRotate()/*physics.at(i)->getRotate()*/);
+		} else {
+			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setRotate(180);
+			this->sm->Add(this->projectiles->at(this->projectiles->size()-1)->getSprite());
+			this->Add(this->projectiles->at(this->projectiles->size()-1)->getPhysics());
+			this->projectiles->at(this->projectiles->size()-1)->Fire(parent->GetX(), parent->GetY(),307.f * 3.14f/180.f/*physics.at(i)->getRotate()*/);
+		}
+		
+	
+
+}
 /*
 	tests if any enemy can fire at the player
 */
@@ -35,18 +67,15 @@ void PhysicsManager::TestAttacks(){
 			glm::vec2 enemyToPlayer = glm::normalize(playerPosition - enemyPosition);
 
 			GLfloat angle = static_cast<GLfloat>(glm::acos(glm::dot(enemyFacing, enemyToPlayer))*180/3.141);
-			GLfloat fov = 60;
+			GLfloat fov = this->physics.at(i)->getFov();
 			if (angle < fov/2){    //testez daca playerul e in raza vizuala a inamicului
 				//si daca e trag pe directia (0, -1) 
-				if (this->physics.at(i)->canIFire()){
-					this->projectiles->push_back(new Projectile(this->tm ));
-					this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setPosition(physics.at(i)->GetX(), physics.at(i)->GetY());
-					this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setRotate(180);
-
-					this->sm->Add(this->projectiles->at(this->projectiles->size()-1)->getSprite());
-					this->Add(this->projectiles->at(this->projectiles->size()-1)->getPhysics());
-					this->projectiles->at(this->projectiles->size()-1)->Fire(physics.at(i)->GetX(), physics.at(i)->GetY(),307 * 3.14/180/*physics.at(i)->getRotate()*/);
+				if (physics.at(i)->canIFire()){
+					//LaunchProjectile(physics.at(i));
+					//std::cout << "Fire command issued " << std::endl;
+					physics.at(i)->issueFireCommand(true);
 				}
+				
 			}
 		
 
@@ -64,17 +93,20 @@ void PhysicsManager::TestAttacks(){
 	din manifold o sa iau viteza pe normala
 */
 void solveCollision(Physics* objectA, Physics* objectB, Manifold* manifold){
-	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()==physicsType::P_PLAYER) && objectA->getOwner()) ||
-		((objectB->getType()==physicsType::P_ROCKET) && (objectA->getType()==physicsType::P_PLAYER) && objectA->getOwner())){
+	//nu rezolv coliziuni intre racheta trasa de player si player
+	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()==physicsType::P_PLAYER) && objectB->getOwner())) { /*||
+		((objectB->getType()==physicsType::P_ROCKET) && (objectA->getType()==physicsType::P_PLAYER) && objectA->getOwner())){*/
 			return;
 	}
-	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()!=physicsType::P_PLAYER) && !objectA->getOwner()) ||
-		((objectB->getType()==physicsType::P_ROCKET) && (objectA->getType()!=physicsType::P_PLAYER) && !objectA->getOwner())){
+	//nu rezolv coliziuni intre racheta trasa de inamici si acestia
+	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()!=physicsType::P_PLAYER) && !objectB->getOwner())  ){ /*||
+		((objectB->getType()==physicsType::P_ROCKET) && (objectA->getType()!=physicsType::P_PLAYER) && !objectA->getOwner())){		*/
 			return;
 	}
-	
 
 
+
+//	if ((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()!=physicsType::P_PLAYER)  && objectA->get
 
 	GLfloat velAlongNormal = manifold->penetration;
 	//GLfloat e = MIN(objectA->getRestitution(), objectB->getRestitution());
@@ -85,22 +117,11 @@ void solveCollision(Physics* objectA, Physics* objectB, Manifold* manifold){
 	j = j/10;
 	glm::vec2 impulse = j * manifold->normal;
 
-	glm::vec2 velocityA = objectA->getMass() * impulse;
-	glm::vec2 velocityB = -objectB->getMass() * impulse;
+	glm::vec2 velocityA = -objectA->getMass() * impulse;
+	glm::vec2 velocityB = objectB->getMass() * impulse;
 	
-	/*if (objectA->getType()==physicsType::P_PLAYER){
-			objectB->setPosition(objectB->GetX()+velocityB.x, objectB->GetY()+velocityB.y);
-			std::cout << "Player A " << std::endl;
-			return;
-
-	}
-	if (objectB->getType()==physicsType::P_PLAYER){
-			objectA->setPosition(objectA->GetX()+velocityA.x, objectA->GetY()+velocityA.y);
-			std::cout << "Player B " << std::endl;
-			return;
-
-	}*/
-	objectA->setPosition(objectA->GetX()+velocityA.x, objectA->GetY()-velocityA.y);
+	
+	objectA->setPosition(objectA->GetX()+velocityA.x, objectA->GetY()+velocityA.y);
 	objectB->setPosition(objectB->GetX()+velocityB.x, objectB->GetY()+velocityB.y);
 
 }
@@ -138,9 +159,6 @@ void PhysicsManager::TestCollisions(){
 	for (unsigned int i=0; i<physics.size(); i++){
 		for (unsigned int j=i+1; j<physics.size(); j++){
 			TestCollision(this->physics.at(i), this->physics.at(j));
-
-				
-			
 
 
 		}
@@ -215,7 +233,11 @@ GLboolean PhysicsManager::TestCollision(Physics* objectA, Physics* objectB){
 		//trimit manifoldul la cele 2 obiecte
 		manifold.objectA->onCollision(&manifold, true);
 		manifold.objectB->onCollision(&manifold, false);
+
 		solveCollision(objectA, objectB, &manifold);
+		
+		
+	
 	}
 	
 

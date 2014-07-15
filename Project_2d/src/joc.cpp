@@ -23,6 +23,8 @@
 #include <map>
 #include "SettingsManager.h"
 #include "PhysicsManager.h"
+#include "LayerManager.h"
+#include "MapGenerator.h"
 
 #ifdef _DEBUG
    #ifndef DBG_NEW
@@ -120,6 +122,11 @@ GLfloat defeat_screen_x;
 GLfloat defeat_screen_y;
 GLfloat defeat_screen_width;
 GLfloat defeat_screen_height;
+
+GLfloat health_x;
+GLfloat health_y;
+GLfloat health_width;
+GLfloat health_height;
 
 GLint g_gl_width = 640;
 GLint g_gl_height = 480;
@@ -295,6 +302,14 @@ int main () {
 	defeat_screen_width = settingsManager.get("defeat_screen_width");
 	defeat_screen_height = settingsManager.get("defeat_screen_height");
 
+
+	health_x = settingsManager.get("health_x");
+	health_y = settingsManager.get("health_y");
+	health_width = settingsManager.get("health_width");
+	health_height = settingsManager.get("health_height");
+
+	std::cout << health_x << " " << health_y << " " << health_width << " " << health_height << std::endl;
+
 	
 	initial_score = static_cast<GLint>(settingsManager.get("initial_score"));
     defeat_score = static_cast<GLint>(settingsManager.get("defeat_score"));
@@ -391,10 +406,16 @@ int main () {
 
 	TextureManager textManager;
 	SpriteManager spriteManager;
+	SpriteManager worldSpriteManager;
 	PhysicsManager physicsManager(&projectiles, &textManager, &spriteManager);
 	
-
+	
 	Player player(&textManager);
+	LayerManager layerManager(&player);
+	MapGenerator mapGenerator(&layerManager, &textManager);
+
+    mapGenerator.Generate();
+
 	physicsManager.Add(player.getPhysics());
 
 	
@@ -431,6 +452,9 @@ int main () {
 	Sprite text_enemies(text_enemies_x, text_enemies_y, text_enemies_width, text_enemies_height, texture_id::TEXT_ENEMIES, &textManager);
 
 
+
+	
+
 	float lastTime = (float) glfwGetTime();
 	float newTime;
 	float frameTime;	
@@ -466,28 +490,42 @@ int main () {
 
 	  if (gamePlaying){
 
-		 
+		 /*
+			!!! se vede straniu (ceva gen gravitatie 0)
 
-
-
-
+		 */
+		
 		  sky.draw();
+		  sky.move(player.getPhysics()->GetX(), player.getPhysics()->GetY());
+		  sky.getMatrix()->updateMatrix();
+
+
+
+		
+
+
+		//  worldSpriteManager.Draw();
+		  layerManager.Draw();
+
 		  spriteManager.Draw();
 
-		  text_score.draw();
+		 
 		  //draw score
 		  drawNumber(score, score_x, score_y, score_width, score_height, &textManager);
 		  
 		
 
 		  text_enemies.draw();
-
+		  text_score.draw();
 		   //draw enemies
 		  drawNumber(enemiesTotal-enemiesKilled,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
-	  
+
+		  //player health
+		  drawNumber(player.getCombatant()->getHealth(), health_x,health_y, health_width,health_height, &textManager);
+		  
 		  physicsManager.TestCollisions();
 		  physicsManager.TestAttacks();
-		 // physicsManager.Update();
+		  physicsManager.AllAttack();
 		  for (unsigned int i=0; i<enemies.size(); i++){
 			  if (!enemies.at(i)->getSprite()->getDead()){
 				  enemies.at(i)->getPhysics()->setSpeed(speedPlayer*frameTime);
@@ -504,8 +542,6 @@ int main () {
 					score+=assault_bounty;
 				}
 													 
-
-
 
 
 
@@ -534,10 +570,7 @@ int main () {
 
 		  player.getPhysics()->Update();
 		  
-
-		  //aici am facut sistemul de detectare a coliziunilor
-
-	
+		  layerManager.Update();
 		  
 		  /*
 			aici verific daca mai e vreun inamic viu, daca nu castig
@@ -548,16 +581,16 @@ int main () {
 
 
 
-		  GLboolean end=true;
+		  GLboolean no_enemies=true;
+		  GLboolean no_health=true;
 		  if (enemiesTotal != enemiesKilled){
-			  end = false;
-		  }
-
+			 no_enemies=false;
+		  } 
 		  if (player.getCombatant()->getHealth()>0){
-			  end = false;
+			  no_health=false;
 		  }
 		
-		  if (end){
+		  if (no_enemies || no_health){
 
 			  gamePlaying=false;
 			  if (player.getCombatant()->getHealth()>0){
@@ -569,37 +602,39 @@ int main () {
 		}
 
 
-		   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
+	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
 		  player.getPhysics()->setSpeed(speedPlayer*frameTime);
 		  player.getPhysics()->setSpeedY(1);
-		 
+		
+		
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S)){
 		  player.getPhysics()->setSpeed(speedPlayer*frameTime);
 		  player.getPhysics()->setSpeedY(-1);
+
+		
 		
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A)){
 		 player.getPhysics()->setSpeed(speedPlayer*frameTime);
 		 player.getPhysics()->setSpeedX(-1);
 
+		
+
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D)){
 		player.getPhysics()->setSpeed(speedPlayer*frameTime);
 		player.getPhysics()->setSpeedX(1);
 
+		
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_L)){
 		  loadSettings();
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE)){
 		  if (player.getPhysics()->canIFire()){
-			  projectiles.push_back(new Projectile(&textManager));		 
-			  projectiles.at(projectiles.size()-1)->Fire(player.getPhysics()->GetX(), player.getPhysics()->GetY(), player.getPhysics()->getRotate());
-			  spriteManager.Add(projectiles.at(projectiles.size()-1)->getSprite());
-			  physicsManager.Add(projectiles.at(projectiles.size()-1)->getPhysics());
-			  projectiles.at(projectiles.size()-1)->getPhysics()->setOwnerIfRocket(true); //racheta e lansata de player(deci
-																						  //va distruge inamici
+			
+			 player.getPhysics()->issueFireCommand(true);
 			  //penalizez jucatorul pentru consum excesiv de munitie
 			  if (score>defeat_score){
 				  score-=rocket_penalty;

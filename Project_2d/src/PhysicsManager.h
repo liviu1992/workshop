@@ -21,6 +21,9 @@ public:
 	int Size();
 	bool collisionDetectorAABB(GLfloat cxA, GLfloat cyA, GLfloat wA, GLfloat hA, GLfloat cxB, GLfloat cyB, GLfloat wB, GLfloat hB );
 	void TestAttacks();
+	void LaunchProjectile(Physics* parent);
+	void AllAttack();
+	
 private:
 	std::vector<Physics*> physics;
 	std::vector<Projectile*>*projectiles;

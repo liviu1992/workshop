@@ -5,7 +5,7 @@ void Combatant::damage(GLint damage){
 
 	if (damageTimer == 0){
 		damageTimer = glfwGetTime();
-		std::cout << health << std::endl;
+	
 		health-=damage;
 	} else if (glfwGetTime()-damageTimer>1.5){
 	
