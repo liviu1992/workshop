@@ -111,14 +111,7 @@ TextureManager::TextureManager(){
 	fid.file="num_9.png";
 	fid.id = texture_id::NUM9;					
 	images[33] = fid;
-	PLANET_GREEN,
-	PLANET_JUPITER,
-	PLANET_VENUS,
-	PLANET_LAVA,
-	PLANET_STAR,
-	PLANET_K,
-	METEOR_1,
-	METEOR_2,
+	
 	fid.file="green_planet.png";
 	fid.id=texture_id::PLANET_GREEN;
 	images[34] = fid;
@@ -135,27 +128,59 @@ TextureManager::TextureManager(){
 	fid.id=texture_id::PLANET_LAVA;
 	images[37] = fid;
 
+	fid.file= "planet_mars.png";
+	fid.id=texture_id::PLANET_MARS;
+	images[38] = fid;
+
+	fid.file = "planet_pluto.png";
+	fid.id=texture_id::PLANET_PLUTO;
+	images[39]=fid;
+
+	fid.file = "planet_neptune.png";
+	fid.id=texture_id::PLANET_NEPTUNE;
+	images[40]=fid;
+
+	fid.file="planet1.png";
+	fid.id=texture_id::PLANET_ONE;
+	images[41]=fid;
+
 	fid.file="meteor1.png";
 	fid.id=texture_id::METEOR_1;
-	images[38] = fid;
+	images[42] = fid;
 
 	fid.file="meteor2.png";
 	fid.id=texture_id::METEOR_2;
-	images[39] = fid;
+	images[43] = fid;
+
+	fid.file="meteor3.png";
+	fid.id=texture_id::METEOR_3;
+	images[44] = fid;
+
+	fid.file="meteor4.png";
+	fid.id=texture_id::METEOR_4;
+	images[45] = fid;
+
+	fid.file="meteor5.png";
+	fid.id=texture_id::METEOR_5;
+	images[46] = fid;
+
+	fid.file="meteor6.png";
+	fid.id=texture_id::METEOR_6;
+	images[47] = fid;
 
 	fid.file="venus.png";
 	fid.id=texture_id::PLANET_VENUS;
-	images[40] = fid;
+	images[48] = fid;
 
 	fid.file="star.png";
 	fid.id=texture_id::PLANET_STAR;
-	images[41] = fid;
+	images[49] = fid;
 
 
 
 	fid.file="rocket_light.png";
 	fid.id = texture_id::ROCKET;										
-	images[42] = fid;
+	images[50] = fid;
 	
 	
 	this->LoadTextures();

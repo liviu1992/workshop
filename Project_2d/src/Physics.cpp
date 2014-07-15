@@ -15,14 +15,14 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 		if (this->type!=physicsType::P_ROCKET && (manifold->objectA->getType()==physicsType::P_PLAYER) && manifold->objectB->getType()==physicsType::P_ROCKET && !manifold->objectB->getOwner()){
 			combatant->damage(damage);
 			manifold->objectB->getSprite()->Explode();
-			
+		
 		}
 		else {
 			if (this->type!=physicsType::P_ROCKET && manifold->objectA->getType()!=physicsType::P_PLAYER && manifold->objectB->getType()==physicsType::P_ROCKET && manifold->objectB->getOwner()){
 				if (!manifold->objectA->getSprite()->getExplode() && !manifold->objectA->getSprite()->getDead()){
 					combatant->damage(damage);
 					manifold->objectB->getSprite()->Explode();
-
+					
 				}
 			
 		
@@ -31,15 +31,6 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 	
 
 	} 
-
-	/*glm::vec2 newD =manifold->normal*manifold->penetration;
-
-	manifold->objectA->setPosition(-newD.x, -newD.y);
-
-	manifold->objectB->setPosition(newD.x, newD.y);*/
-	
-
-	//aici pun pentru intersectia cu o racheta
 
 }
 Combatant* Physics::getCombatant(){
@@ -135,24 +126,24 @@ void Physics::Update(){
 				this->x+=-sin(rotate)*speedX*speed;
 				this->sprite->move(this->x, this->y);
 			}
-			if ( this->y>this->rocketMaximumRange){
+			if ( this->y>this->rocketOriginY + this->rocketMaximumRange){
 				this->sprite->setDead(true);		
 				this->alive=false;
 
 			
 			}
-			if ( this->y<-this->rocketMaximumRange){
+			if ( this->y<-this->rocketOriginY - rocketMaximumRange){
 				this->sprite->setDead(true);		
 				this->alive=false;
 
 			}
 
-			if ( this->x>this->rocketMaximumRange){
+			if ( this->x>this->rocketOriginX  + this->rocketMaximumRange){
 				this->sprite->setDead(true);
 				this->alive=false;
 			
 			}
-			if ( this->x<-this->rocketMaximumRange){
+			if ( this->x<-this->rocketOriginX - this->rocketMaximumRange){
 				this->sprite->setDead(true);	
 				this->alive=false;
 
@@ -231,6 +222,8 @@ void Physics::Update(){
 //doar pentru proiectile
 void Physics::fire(){
 	this->fired=true;
+	this->rocketOriginX=this->x;
+	this->rocketOriginY=this->y;
 
 }
 

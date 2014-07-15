@@ -184,7 +184,8 @@ private:
 	GLfloat mass;
 	
 	GLfloat rocketMaximumRange;
-
+	GLfloat rocketOriginX;
+	GLfloat rocketOriginY;
 
 };
 

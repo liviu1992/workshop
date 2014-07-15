@@ -76,7 +76,7 @@
 	<Item name = "projectile_height" value="0.2"/>
 	<Item name = "projectile_speed" value="2"/>
 	<Item name = "projectile_mass" value="1"/>
-	<Item name = "rocket_maximum_range" value="10"/>
+	<Item name = "rocket_maximum_range" value="4"/>
 
 	
 	<Item name = "sine_amplitude" value="4"/>

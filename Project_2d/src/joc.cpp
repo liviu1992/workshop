@@ -496,8 +496,7 @@ int main () {
 		 */
 		
 		  sky.draw();
-		  sky.move(player.getPhysics()->GetX(), player.getPhysics()->GetY());
-		  sky.getMatrix()->updateMatrix();
+		  
 
 
 
@@ -569,6 +568,9 @@ int main () {
 		  }
 
 		  player.getPhysics()->Update();
+
+		  sky.move(player.getPhysics()->GetX(), player.getPhysics()->GetY());
+		  sky.getMatrix()->updateMatrix();
 		  
 		  layerManager.Update();
 		  
