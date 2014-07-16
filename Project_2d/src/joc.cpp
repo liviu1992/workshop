@@ -605,29 +605,25 @@ int main () {
 
 
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
-		  player.getPhysics()->setSpeed(speedPlayer*frameTime);
-		  player.getPhysics()->setSpeedY(1);
-		
+		  player.getPhysics()->setSpeed(frameTime);
+		  player.getPhysics()->setSpeedY(speedPlayer);
+		  player.getPhysics()->setSpeedX(speedPlayer);
 		
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S)){
-		  player.getPhysics()->setSpeed(speedPlayer*frameTime);
-		  player.getPhysics()->setSpeedY(-1);
-
+		  player.getPhysics()->setSpeed(frameTime);
+		  player.getPhysics()->setSpeedY(-speedPlayer);
+		  player.getPhysics()->setSpeedX(-speedPlayer);
 		
 		
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A)){
-		 player.getPhysics()->setSpeed(speedPlayer*frameTime);
-		 player.getPhysics()->setSpeedX(-1);
-
+		 player.getPhysics()->Rotate(rotationSpeed);
 		
 
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D)){
-		player.getPhysics()->setSpeed(speedPlayer*frameTime);
-		player.getPhysics()->setSpeedX(1);
-
+		player.getPhysics()->Rotate(-rotationSpeed);
 		
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_L)){
@@ -648,10 +644,10 @@ int main () {
 		  }
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q)){
-		  player.getPhysics()->Rotate(rotationSpeed);
+		  
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E)){
-		  player.getPhysics()->Rotate(-rotationSpeed);
+		 
 	  }
 
 		

@@ -15,12 +15,12 @@ void MapGenerator::Generate(){
 	srand((unsigned)time(0));
 	unsigned int num_planets = 20;
 	for (unsigned int i=0; i<num_planets; i++){
-		GLfloat x = rand() % 1000/100.0f - 5.f;
-		GLfloat y = rand() % 1000/100.0f - 5.f;
-		GLfloat size = rand() % 10 *0.1f;
+		GLfloat x = rand() % 1500/100.0f - 7.5f;
+		GLfloat y = rand() % 1500/100.0f - 7.5f;
+		GLfloat size = rand() % 9 *0.1f+0.1f;
 		GLfloat depth = rand() % 5 * 0.1f + 0.3f;
 		
-		GLint planet = rand() % 10;
+		GLint planet = rand() % 12;
 		this->layerManager->Add(new Sprite(x,y, size, size, static_cast<texture_id>(texture_id::PLANET_GREEN+planet), textureManager), depth);
 
 	}
@@ -29,8 +29,8 @@ void MapGenerator::Generate(){
 	*/
 	unsigned int num_asteroids = 50;
 	for (unsigned int i=0; i<num_asteroids; i++){
-		GLfloat x = rand() % 1000/100.0f - 5.f;
-		GLfloat y = rand() % 1000/100.0f - 5.f;
+		GLfloat x = rand() % 1500/100.0f - 7.5f;
+		GLfloat y = rand() % 1500/100.0f - 7.5f;
 		GLfloat size = rand() % 4 *0.1f;
 		GLfloat depth = rand() % 3 * 0.1f;		
 		GLint meteor = rand() % 6;

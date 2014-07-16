@@ -144,43 +144,55 @@ TextureManager::TextureManager(){
 	fid.id=texture_id::PLANET_ONE;
 	images[41]=fid;
 
+	fid.file="planet_io.png";
+	fid.id=texture_id::PLANET_ONE;
+	images[42]=fid;
+
+	fid.file="planet_ceres.png";
+	fid.id=texture_id::PLANET_CERES;
+	images[43]=fid;
+
+	fid.file="planet_water.png";
+	fid.id=texture_id::PLANET_WATER;
+	images[44]=fid;
+
 	fid.file="meteor1.png";
 	fid.id=texture_id::METEOR_1;
-	images[42] = fid;
+	images[45] = fid;
 
 	fid.file="meteor2.png";
 	fid.id=texture_id::METEOR_2;
-	images[43] = fid;
+	images[46] = fid;
 
 	fid.file="meteor3.png";
 	fid.id=texture_id::METEOR_3;
-	images[44] = fid;
+	images[47] = fid;
 
 	fid.file="meteor4.png";
 	fid.id=texture_id::METEOR_4;
-	images[45] = fid;
+	images[48] = fid;
 
 	fid.file="meteor5.png";
 	fid.id=texture_id::METEOR_5;
-	images[46] = fid;
+	images[49] = fid;
 
 	fid.file="meteor6.png";
 	fid.id=texture_id::METEOR_6;
-	images[47] = fid;
+	images[50] = fid;
 
 	fid.file="venus.png";
 	fid.id=texture_id::PLANET_VENUS;
-	images[48] = fid;
+	images[51] = fid;
 
 	fid.file="star.png";
 	fid.id=texture_id::PLANET_STAR;
-	images[49] = fid;
+	images[52] = fid;
 
 
 
 	fid.file="rocket_light.png";
 	fid.id = texture_id::ROCKET;										
-	images[50] = fid;
+	images[53] = fid;
 	
 	
 	this->LoadTextures();

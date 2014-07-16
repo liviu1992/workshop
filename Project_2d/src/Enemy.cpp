@@ -38,6 +38,9 @@
 	
 		this->alive= true;
 		this->type=type;
+
+
+
 		switch(type){
 		case enemyType::SCOUT_ENEMY:
 			this->x=scoutInitialX;

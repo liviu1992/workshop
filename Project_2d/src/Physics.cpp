@@ -8,21 +8,24 @@ GLfloat Physics::getMass(){
 
 void Physics::onCollision(Manifold* manifold, GLboolean isA){
 	
-
+	
 
 	//intotdeauna din A se va face totul pentru a pastra simplitatea 
 	if (isA){
 		if (this->type!=physicsType::P_ROCKET && (manifold->objectA->getType()==physicsType::P_PLAYER) && manifold->objectB->getType()==physicsType::P_ROCKET && !manifold->objectB->getOwner()){
 			combatant->damage(damage);
 			manifold->objectB->getSprite()->Explode();
-		
+			manifold->objectB->isExploding=true;
+			//manifold->objectB->Rotate(-manifold->objectB->getRotate());
+			
 		}
 		else {
 			if (this->type!=physicsType::P_ROCKET && manifold->objectA->getType()!=physicsType::P_PLAYER && manifold->objectB->getType()==physicsType::P_ROCKET && manifold->objectB->getOwner()){
 				if (!manifold->objectA->getSprite()->getExplode() && !manifold->objectA->getSprite()->getDead()){
 					combatant->damage(damage);
 					manifold->objectB->getSprite()->Explode();
-					
+					//manifold->objectB->Rotate(-manifold->objectB->getRotate());
+					manifold->objectB->isExploding=true;
 				}
 			
 		
@@ -33,13 +36,29 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 	} 
 
 }
+
+void Physics::setEnemyOrigin(GLfloat originX, GLfloat originY){
+	this->enemyOriginX=originX;
+	this->enemyOriginY=originY;
+}
+
+
 Combatant* Physics::getCombatant(){
 	return this->combatant;
 }
 physicsType Physics::getType(){
 	return this->type;
 }
-
+void Physics::setParentSpeed(GLfloat parentSpeedX, GLfloat parentSpeedY){
+	this->parentSpeedX=parentSpeedX;
+	this->parentSpeedY=parentSpeedY;
+}
+GLfloat Physics::getSpeedX(){
+	return this->speedX*this->speed*0.05f;
+}
+GLfloat Physics::getSpeedY(){
+	return this->speedY*this->speed*0.05f;
+}
 GLfloat Physics::GetX(){
 	return this->x;
 }
@@ -81,10 +100,10 @@ void  Physics::setSpeed(GLfloat speed){
 	this->speed=speed;
 }
 void  Physics::setSpeedX(GLfloat speedX){
-	this->mspeedX=speedX;
+	this->speedX+=speedX;
 }
 void  Physics::setSpeedY(GLfloat speedY){
-	this->mspeedY=speedY;
+	this->speedY+=speedY;
 }
 void  Physics::Rotate(GLfloat rotate){
 	this->rotate += rotate;
@@ -102,13 +121,26 @@ Sprite* Physics::getSprite(){
 }
 
 void Physics::Update(){
+	if (isExploding){
+		this->Rotate(-this->getRotate());
+		return;
+	}
 	switch(this->type){
 	case physicsType::P_PLAYER:
-		this->x=this->x+speedX*mspeedX*this->speed;
-		this->y=this->y+speedY*mspeedY*this->speed;
+	
+	
+
+		this->y+=cos(rotate)*speedY*speed*0.05f;
+		this->x+=-sin(rotate)*speedX*speed*0.05f;
+		
+		speedX*=0.98;
+		speedY*=0.98;
+
+
+		//this->x=this->x+speedX*mspeedX*this->speed;
+		//this->y=this->y+speedY*mspeedY*this->speed;
 		this->sprite->move(this->x,this->y);
-		this->mspeedX=0;
-		this->mspeedY=0;
+		
 
 		this->getSprite()->getMatrix()->moveCamera(this->x, this->y);
 
@@ -119,7 +151,7 @@ void Physics::Update(){
 			this->sprite->Rotate(this->rotate, this->GetX(), this->GetY());
 			this->speedX=2;
 			this->speedY=2;
-	
+			
 
 			if (this->fired){
 				this->y+=cos(rotate)*speedY*speed;
@@ -132,7 +164,7 @@ void Physics::Update(){
 
 			
 			}
-			if ( this->y<-this->rocketOriginY - rocketMaximumRange){
+			if ( this->y<this->rocketOriginY - rocketMaximumRange){
 				this->sprite->setDead(true);		
 				this->alive=false;
 
@@ -143,7 +175,7 @@ void Physics::Update(){
 				this->alive=false;
 			
 			}
-			if ( this->x<-this->rocketOriginX - this->rocketMaximumRange){
+			if ( this->x<this->rocketOriginX - this->rocketMaximumRange){
 				this->sprite->setDead(true);	
 				this->alive=false;
 
@@ -161,7 +193,7 @@ void Physics::Update(){
 			LEFT-RIGHT MOVE
 		*/
 			if (left){
-				if (this->x<this->limit_left){
+				if (this->x<this->enemyOriginX + this->limit_left){
 					right=true;
 					left=false;
 				}
@@ -169,7 +201,7 @@ void Physics::Update(){
 			}
 
 			if (right){
-				if (this->x>this->limit_right){
+				if (this->x>enemyOriginX + this->limit_right){
 					left=true;
 					right=false;
 				}
@@ -183,8 +215,8 @@ void Physics::Update(){
 		/*
 			MISCARE CIRCULARA
 		*/
-			this->x=this->x + (float)this->speed*this->circ_width*(float)std::cos(glfwGetTime());
-			this->y=this->y + (float)this->speed*this->circ_height*(float)std::sin(glfwGetTime());
+			this->x=enemyOriginX +this->x + (float)this->speed*this->circ_width*(float)std::cos(glfwGetTime());
+			this->y=enemyOriginY +this->y + (float)this->speed*this->circ_height*(float)std::sin(glfwGetTime());
 			this->sprite->move(this->x,this->y);		
 			break;
 
@@ -195,7 +227,7 @@ void Physics::Update(){
 		case movement::SIN:
 			this->y=this->y + (float)this->speed*(float)std::sin(glfwGetTime()*this->sine_amplitude);
 			if (left){
-				if (this->x<this->limit_left){
+				if (this->x<enemyOriginX +this->limit_left){
 					right=true;
 					left=false;
 				}
@@ -203,7 +235,7 @@ void Physics::Update(){
 			}
 
 			if (right){
-				if (this->x>this->limit_right){
+				if (this->x>enemyOriginX + this->limit_right){
 					left=true;
 					right=false;
 				}

@@ -115,7 +115,10 @@ public:
 		this->fireLimit=fire_limit;
 	
 		this->fireCommand=false;
-	
+		this->speed=0;
+		this->isExploding=false;
+
+		this->setEnemyOrigin(x,y);
 	};
 	GLboolean fireCommandIssued();
 	void issueFireCommand(GLboolean value);
@@ -146,6 +149,10 @@ public:
 	GLfloat getMass();
 	GLfloat getFov();
 	GLboolean canIFire();
+	void setParentSpeed(GLfloat parentSpeedX, GLfloat parentSpeedY);
+	GLfloat getSpeedX();
+	GLfloat getSpeedY();
+	void setEnemyOrigin(GLfloat originX, GLfloat originY);
 private:
 	GLboolean canFire;
 	GLdouble fireTimer;
@@ -186,6 +193,14 @@ private:
 	GLfloat rocketMaximumRange;
 	GLfloat rocketOriginX;
 	GLfloat rocketOriginY;
+	GLfloat enemyOriginX;
+	GLfloat enemyOriginY;
+
+	GLboolean isExploding;
+
+
+	GLfloat parentSpeedX;
+	GLfloat parentSpeedY;
 
 };
 

@@ -40,6 +40,7 @@ void PhysicsManager::LaunchProjectile(Physics* parent){
 			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setOwnerIfRocket(true);
 			this->sm->Add(this->projectiles->at(this->projectiles->size()-1)->getSprite());
 			this->Add(this->projectiles->at(this->projectiles->size()-1)->getPhysics());
+			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setParentSpeed(parent->getSpeedX(), parent->getSpeedY());
 			this->projectiles->at(this->projectiles->size()-1)->Fire(parent->GetX(), parent->GetY(),parent->getRotate()/*physics.at(i)->getRotate()*/);
 		} else {
 			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setRotate(180);
@@ -149,9 +150,6 @@ bool PhysicsManager::Remove(Physics*  a_physics){
 			this->physics.erase(this->physics.begin()+i);
 		}
 	}
-	
-
-
 	return result;
 }
 void PhysicsManager::TestCollisions(){
