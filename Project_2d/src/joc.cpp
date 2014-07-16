@@ -132,6 +132,7 @@ GLint g_gl_width = 640;
 GLint g_gl_height = 480;
 GLint g_gl_fullscreen = 0;
 
+
 /*
 	INCARCA SETARILE JOCULUI DIN FISIERUL settings.xml
 	SE UTILIZEAZA LA INTRAREA IN JOC SAU LA APASAREA 
@@ -373,12 +374,12 @@ int main () {
 	physicsManager.Add(player.getPhysics());
 
 	
-	EnemyFactory en(&textManager, &enemies, &spriteManager, &physicsManager);
-	en.Generate(enemiesTotal);
+	EnemyFactory enemyFactory(&textManager, &enemies, &spriteManager, &physicsManager);
+	enemyFactory.Generate(enemiesTotal);
 
 	
 
-	std::cout << "Enemies left: " << enemiesTotal << std::endl;
+	
 	Sprite sky(background_x, background_y, background_width,background_height,texture_id::SPACE, &textManager);
 	
 	
@@ -471,7 +472,7 @@ int main () {
 		  text_enemies.draw();
 		  text_score.draw();
 		   //draw enemies
-		  drawNumber(enemiesTotal-enemiesKilled,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
+		  drawNumber(enemiesKilled,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
 
 		  //player health
 		  drawNumber(player.getCombatant()->getHealth(), health_x,health_y, health_width,health_height, &textManager);
@@ -487,6 +488,7 @@ int main () {
 			  } else {
 				  													
 				enemiesKilled++;
+				enemyFactory.addRandomEnemy();
 															
 				if (enemies.at(i)->getType()==enemyType::BASIC_ENEMY){
 					score+=basic_bounty;
@@ -532,7 +534,7 @@ int main () {
 		
 		  GLboolean no_enemies=true;
 		  GLboolean no_health=true;
-		  if (enemiesTotal != enemiesKilled){
+		  if (100 != enemiesKilled){
 			 no_enemies=false;
 		  } 
 		  if (player.getCombatant()->getHealth()>0){
@@ -630,7 +632,7 @@ int main () {
 				
 				Sprite text_final_enemies(final_text_enemies_x, final_text_enemies_y, final_text_enemies_width, final_text_enemies_height, texture_id::TEXT_ENEMIES, &textManager);
 				text_final_enemies.draw();
-				drawNumber(enemiesTotal-enemiesKilled,final_enemies_x, final_enemies_y, final_enemies_width, final_enemies_height, &textManager);
+				drawNumber(enemiesKilled,final_enemies_x, final_enemies_y, final_enemies_width, final_enemies_height, &textManager);
 			}
 
 		}

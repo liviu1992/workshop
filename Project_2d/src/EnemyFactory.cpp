@@ -6,30 +6,33 @@ EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, Spr
 		this->tm = tm;
 		this->sm = sm;
 		this->pm = pm;
+		SettingsManager settingsManager;
+		scout_seed = static_cast<GLint>(settingsManager.get("scout_seed"));
+		basic_seed = static_cast<GLint>(settingsManager.get("basic_seed"));
+		assault_seed = static_cast<GLint>(settingsManager.get("assault_seed"));
+		scout_limit_up = settingsManager.get("scout_limit_up");
+		scout_limit_down = settingsManager.get("scout_limit_down");
+		scout_limit_left = settingsManager.get("scout_limit_left");
+		scout_limit_right = settingsManager.get("scout_limit_right");
+		scout_bounce = settingsManager.get("scout_bounce");
+
+		basic_limit_up = settingsManager.get(" basic_limit_up");
+		basic_limit_down = settingsManager.get(" basic_limit_down");
+		basic_limit_left = settingsManager.get(" basic_limit_left");
+		basic_limit_right = settingsManager.get(" basic_limit_right");
+		basic_bounce = settingsManager.get("basic_bounce");
+
+		assault_limit_up = settingsManager.get("assault_limit_up");
+		assault_limit_down = settingsManager.get("assault_limit_down");
+		assault_limit_left = settingsManager.get("assault_limit_left");
+		assault_limit_right = settingsManager.get("assault_limit_right");
+		assault_bounce = settingsManager.get("assault_bounce");
+
+
 	}
 
 	void EnemyFactory::Generate(GLint &numEnemies){
-		SettingsManager settingsManager;
-		GLint scout_seed = static_cast<GLint>(settingsManager.get("scout_seed"));
-		GLint basic_seed = static_cast<GLint>(settingsManager.get("basic_seed"));
-		GLint assault_seed = static_cast<GLint>(settingsManager.get("assault_seed"));
-		GLfloat scout_limit_up = settingsManager.get("scout_limit_up");
-		GLfloat scout_limit_down = settingsManager.get("scout_limit_down");
-		GLfloat scout_limit_left = settingsManager.get("scout_limit_left");
-		GLfloat scout_limit_right = settingsManager.get("scout_limit_right");
-		GLfloat scout_bounce = settingsManager.get("scout_bounce");
-
-		GLfloat basic_limit_up = settingsManager.get(" basic_limit_up");
-		GLfloat  basic_limit_down = settingsManager.get(" basic_limit_down");
-		GLfloat  basic_limit_left = settingsManager.get(" basic_limit_left");
-		GLfloat  basic_limit_right = settingsManager.get(" basic_limit_right");
-		GLfloat basic_bounce = settingsManager.get("basic_bounce");
-
-		GLfloat assault_limit_up = settingsManager.get("assault_limit_up");
-		GLfloat assault_limit_down = settingsManager.get("assault_limit_down");
-		GLfloat assault_limit_left = settingsManager.get("assault_limit_left");
-		GLfloat assault_limit_right = settingsManager.get("assault_limit_right");
-		GLfloat assault_bounce = settingsManager.get("assault_bounce");
+		
 
 		std::srand((unsigned) time(0));
 		//how many units of type A
@@ -38,23 +41,8 @@ EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, Spr
 		
 		GLfloat x, y;  //positions
 		for (int i=0; i<seed1; i++){
-			enemies->push_back(new Enemy(tm, enemyType::SCOUT_ENEMY));
-			sm->Add(enemies->at(enemies->size()-1)->getSprite());
-			pm->Add(enemies->at(enemies->size()-1)->getPhysics());
-			x = 1.0f*(100 -(rand()% 200))/100;
-			y = 1.0f*(100 -(rand()% 200))/100;
-			if (x<scout_limit_left){
-				x+=scout_bounce;
-			} else if (x>scout_limit_right){
-				x-=scout_bounce;
-			}
-			if (y<scout_limit_down){
-				y+=scout_bounce;
-			} else if (y>scout_limit_up){
-				y-=scout_bounce;
-			}
-			enemies->at(enemies->size()-1)->getPhysics()->setPosition(x, y);
-			std::cout << "Scout generated  at " <<x << "  " << y <<  std::endl;
+			addRandomEnemyOfGivenType(enemyType::SCOUT_ENEMY);
+			
 		}
 
 	
@@ -63,20 +51,7 @@ EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, Spr
 		int seed2 = basic_seed + std::rand()%4;
 
 		for (int i=0; i<seed2; i++){
-			enemies->push_back(new Enemy(tm, enemyType::BASIC_ENEMY));
-			sm->Add(enemies->at(enemies->size()-1)->getSprite());
-			pm->Add(enemies->at(enemies->size()-1)->getPhysics());
-			x = 1.0f*(100 -(rand()% 200))/100;
-			y = 1.0f*(100 -(rand()% 200))/100;
-			if (y<basic_limit_down){
-				y+=basic_bounce;
-			} else if (y>basic_limit_up){
-				y-=basic_bounce;
-			}
-			
-			
-			enemies->at(enemies->size()-1)->getPhysics()->setPosition(x, y);
-			std::cout << "Basic generated " << std::endl;
+			addRandomEnemyOfGivenType(enemyType::BASIC_ENEMY);
 
 		}
 		
@@ -87,24 +62,7 @@ EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, Spr
 		
 
 		for (int i=0; i<seed3; i++){
-			enemies->push_back(new Enemy(tm, enemyType::ASSAULT_ENEMY));
-			sm->Add(enemies->at(enemies->size()-1)->getSprite());
-			pm->Add(enemies->at(enemies->size()-1)->getPhysics());
-			
-			x = 1.0f*(100 -(rand()% 200))/100;
-			y = 1.0f*(100 -(rand()% 200))/100;
-			if (y<assault_limit_down){
-				y+=assault_bounce;
-			} else if (y>assault_limit_up){
-				y-=assault_bounce;
-			}
-			if (x<assault_limit_left){
-				x+=assault_bounce;
-			} else if (x>assault_limit_right){
-				x-=assault_bounce;
-			}
-			enemies->at(enemies->size()-1)->getPhysics()->setPosition(x, y);
-			std::cout << "Assault generated " << std::endl;
+			addRandomEnemyOfGivenType(enemyType::ASSAULT_ENEMY);
 
 		}
 
@@ -115,5 +73,30 @@ EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, Spr
 */
 
 		numEnemies=seed1+seed2+seed3;
-		std::cout << numEnemies << " generated" << std::endl;
+	//	std::cout << numEnemies << " generated" << std::endl;
+	}
+	void EnemyFactory::addRandomEnemyOfGivenType(enemyType type){
+		enemies->push_back(new Enemy(tm, type));
+		sm->Add(enemies->at(enemies->size()-1)->getSprite());
+		pm->Add(enemies->at(enemies->size()-1)->getPhysics());
+			
+		GLfloat x, y;
+		x = 1.0f*((rand()% 3000-1500))/100;
+		y = 1.0f*((rand()% 3000-1500))/100;
+			
+		enemies->at(enemies->size()-1)->getPhysics()->setPosition(x, y);
+	}
+
+	void EnemyFactory::addRandomEnemy(){
+		enemyType type = static_cast<enemyType>(enemyType::SCOUT_ENEMY+ (rand() % 3));
+		enemies->push_back(new Enemy(tm, type));
+		sm->Add(enemies->at(enemies->size()-1)->getSprite());
+		pm->Add(enemies->at(enemies->size()-1)->getPhysics());
+			
+		GLfloat x, y;
+		x = 1.0f*(4000 -(rand()% 2000))/100;
+		y = 1.0f*(4000 -(rand()% 2000))/100;
+			
+		enemies->at(enemies->size()-1)->getPhysics()->setPosition(x, y);
+
 	}
