@@ -138,7 +138,7 @@ GLint g_gl_fullscreen = 0;
 	TASTEI L
 */
 void loadSettings(){
-	
+	std::cout << "Loading settings from '../data/settings.xml'..." << std::endl;
 	rapidxml::xml_document<> doc;
 	std::ifstream file("../data/settings.xml");
 	std::stringstream ss;
@@ -156,38 +156,25 @@ void loadSettings(){
 
 		settings[name]=value;
 	}
+	std::cout << "Settings loaded" << std::endl;
 
 }
 
 
-void drawNumber(GLuint number, GLfloat x, GLfloat y, GLfloat width, GLfloat height, TextureManager *td){
-		
-		
+void drawNumber(GLuint number, GLfloat x, GLfloat y, GLfloat width, GLfloat height, TextureManager *td){		
 		char num[7];
 		sprintf_s(num, "%5dk", number);
-
 		GLfloat cifraWidth = width/5;
-		
-
-		
-
 		for (char c = 1; c<7; c++){
 			if (num[c]=='k'){
 				break;
 			} else if (num[c]>='0' && num[c]<='9') {
 				//deseneaza cifra
-
 				Sprite cifra(x+(c-1)*cifraWidth, y,cifraWidth, height, static_cast<texture_id>(texture_id::NUM0+num[c]-48), td);
 				cifra.draw();
-				
-
-
 			}
 
-		}
-		
-
-		
+		}		
 	}
 
 /*
@@ -241,74 +228,56 @@ int main () {
 	speedSquare=settingsManager.get("square_speed");
 	rotationSpeed = settingsManager.get("rotation_speed");
 	attack_damage = settingsManager.get("attack_damage");
-
 	background_x=settingsManager.get("background_x");
 	background_y = settingsManager.get("background_y");
 	background_width = settingsManager.get("background_width");
-	background_height = settingsManager.get("background_height");
-
-	
+	background_height = settingsManager.get("background_height");	
 	score_x = settingsManager.get("score_x");
 	score_y = settingsManager.get("score_y");
 	score_width = settingsManager.get("score_width");
 	score_height = settingsManager.get("score_height");
-
 	enemies_x = settingsManager.get("enemies_x");
 	enemies_y = settingsManager.get("enemies_y");
 	enemies_width = settingsManager.get("enemies_width");
 	enemies_height = settingsManager.get("enemies_height");
-
-
 	final_score_x = settingsManager.get("final_score_x");
 	final_score_y = settingsManager.get("final_score_y");
 	final_score_width = settingsManager.get("final_score_width");
 	final_score_height = settingsManager.get("final_score_height");
-
 	final_enemies_x = settingsManager.get("final_enemies_x");
 	final_enemies_y = settingsManager.get("final_enemies_y");
 	final_enemies_width = settingsManager.get("final_enemies_width");
 	final_enemies_height = settingsManager.get("final_enemies_height");
-
-
 	text_score_x = settingsManager.get("text_score_x");
 	text_score_y = settingsManager.get("text_score_y");
 	text_score_width = settingsManager.get("text_score_width");
 	text_score_height = settingsManager.get("text_score_height");
-
 	text_enemies_x = settingsManager.get("text_enemies_x");
 	text_enemies_y = settingsManager.get("text_enemies_y");
 	text_enemies_width = settingsManager.get("text_enemies_width");
 	text_enemies_height = settingsManager.get("text_enemies_height");
-
-
-
 	final_text_score_x = settingsManager.get("final_text_score_x");
 	final_text_score_y = settingsManager.get("final_text_score_y");
 	final_text_score_width = settingsManager.get("final_text_score_width");
 	final_text_score_height = settingsManager.get("final_text_score_height");
-
 	final_text_enemies_x = settingsManager.get("final_text_enemies_x");
 	final_text_enemies_y = settingsManager.get("final_text_enemies_y");
 	final_text_enemies_width = settingsManager.get("final_text_enemies_width");
 	final_text_enemies_height = settingsManager.get("final_text_enemies_height");
-
 	victory_screen_x = settingsManager.get("victory_screen_x");
 	victory_screen_y = settingsManager.get("victory_screen_y");
 	victory_screen_width = settingsManager.get("victory_screen_width");
 	victory_screen_height = settingsManager.get("victory_screen_height");
-
 	defeat_screen_x = settingsManager.get("defeat_screen_x");
 	defeat_screen_y = settingsManager.get("defeat_screen_y");
 	defeat_screen_width = settingsManager.get("defeat_screen_width");
 	defeat_screen_height = settingsManager.get("defeat_screen_height");
-
-
 	health_x = settingsManager.get("health_x");
 	health_y = settingsManager.get("health_y");
 	health_width = settingsManager.get("health_width");
 	health_height = settingsManager.get("health_height");
 
-	std::cout << health_x << " " << health_y << " " << health_width << " " << health_height << std::endl;
+
 
 	
 	initial_score = static_cast<GLint>(settingsManager.get("initial_score"));
@@ -355,32 +324,17 @@ int main () {
     glfwTerminate();
     return 1;
   }
-  /*
 
 
 
-  */
 
-	
-  //TODO fix this unhandled exception \/
- /* glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-  glDebugMessageCallback(openglDebugCallback, NULL);
-  glEnable(GL_DEBUG_OUTPUT);*/
-  
 	glfwSetErrorCallback (glfw_error_callback);
-
-	glfwSetWindowSizeCallback (window, glfw_window_size_callback);
-
-   
-
+	glfwSetWindowSizeCallback (window, glfw_window_size_callback);   
 	// Atasam contextul de fereastra
-	glfwMakeContextCurrent (window);
-                                  
+	glfwMakeContextCurrent (window);                                  
 	// Pornit extension handler-ul
 	glewInit ();
-
-	// Vedem versiunile
- 
+	// Vedem versiunile 
 	Utils::showOpengGLInfo();
   
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -406,7 +360,7 @@ int main () {
 
 	TextureManager textManager;
 	SpriteManager spriteManager;
-	SpriteManager worldSpriteManager;
+	//SpriteManager worldSpriteManager;
 	PhysicsManager physicsManager(&projectiles, &textManager, &spriteManager);
 	
 	
@@ -523,6 +477,7 @@ int main () {
 		  drawNumber(player.getCombatant()->getHealth(), health_x,health_y, health_width,health_height, &textManager);
 		  
 		  physicsManager.TestCollisions();
+		  physicsManager.AllSearch();
 		  physicsManager.TestAttacks();
 		  physicsManager.AllAttack();
 		  for (unsigned int i=0; i<enemies.size(); i++){
@@ -574,15 +529,7 @@ int main () {
 		  
 		  layerManager.Update();
 		  
-		  /*
-			aici verific daca mai e vreun inamic viu, daca nu castig
-		  */
-
-
-
-
-
-
+		
 		  GLboolean no_enemies=true;
 		  GLboolean no_health=true;
 		  if (enemiesTotal != enemiesKilled){

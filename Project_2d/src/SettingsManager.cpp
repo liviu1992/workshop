@@ -3,6 +3,7 @@ std::map<std::string, GLfloat> settings;
 
 
 SettingsManager::SettingsManager(){
+
 }
 
 GLfloat SettingsManager::get(std::string key){

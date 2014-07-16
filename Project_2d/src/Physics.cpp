@@ -65,6 +65,26 @@ GLfloat Physics::GetX(){
 GLfloat Physics::GetY(){
 	return this->y;
 }
+
+void Physics::advanceTowards(GLfloat x, GLfloat y){
+	
+	if (x<this->x){
+		this->x-= advanceStep;
+		this->enemyOriginX-=advanceStep;
+	} else if (x>this->x){
+		this->x+= advanceStep;
+		this->enemyOriginX+=advanceStep;
+	}
+
+	if (y+fireDistance<this->y){
+		this->y-= advanceStep;
+		this->enemyOriginY-=advanceStep;
+	} else if (y+fireDistance>this->y){
+		this->y+= advanceStep;
+		this->enemyOriginY+=advanceStep;
+	}
+}
+
 void Physics::SetX(GLfloat x){
 	this->x=x;
 }
@@ -81,7 +101,6 @@ GLfloat Physics::GetWidth(){
 
 }
 void Physics::setPosition(GLfloat x, GLfloat y){
-
 	this->x=x;
 	this->y=y;
 	this->sprite->move(this->x,this->y);
@@ -215,8 +234,8 @@ void Physics::Update(){
 		/*
 			MISCARE CIRCULARA
 		*/
-			this->x=enemyOriginX +this->x + (float)this->speed*this->circ_width*(float)std::cos(glfwGetTime());
-			this->y=enemyOriginY +this->y + (float)this->speed*this->circ_height*(float)std::sin(glfwGetTime());
+			this->x=enemyOriginX +this->x +(float)this->speed*this->circ_width*(float)std::cos(glfwGetTime()*0.01);
+			this->y=enemyOriginY-0.5f +this->y + (float)this->speed*this->circ_height*(float)std::sin(glfwGetTime()*0.01);
 			this->sprite->move(this->x,this->y);		
 			break;
 

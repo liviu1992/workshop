@@ -90,27 +90,48 @@ void PhysicsManager::TestAttacks(){
 
 }
 
+void PhysicsManager::AllSearch(){
+	
+	for (unsigned int i=0; i<physics.size(); i++){
+		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET)){
+
+			//verific daca se afla playerul prin preajma
+			//testez daca distanta player - inamic este mai mica de o anumita valoare
+			//daca e asa, inamicul se va deplasa in pozitia de atac
+			if (glm::distance(glm::vec2(physics.at(i)->GetX(), physics.at(i)->GetY()),
+				 glm::vec2(physics.at(0)->GetX(), physics.at(i)->GetY()))< distance_to_engage){
+
+					 //acum ma deplasez catre player
+
+					 this->physics.at(i)->advanceTowards(physics.at(0)->GetX(), physics.at(0)->GetY());
+
+
+
+
+			}
+
+		}
+	}
+
+}
+
 /*
 	din manifold o sa iau viteza pe normala
 */
 void solveCollision(Physics* objectA, Physics* objectB, Manifold* manifold){
 	//nu rezolv coliziuni intre racheta trasa de player si player
-	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()==physicsType::P_PLAYER) && objectB->getOwner())) { /*||
-		((objectB->getType()==physicsType::P_ROCKET) && (objectA->getType()==physicsType::P_PLAYER) && objectA->getOwner())){*/
+	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()==physicsType::P_PLAYER) && objectB->getOwner())) { 
 			return;
 	}
 	//nu rezolv coliziuni intre racheta trasa de inamici si acestia
-	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()!=physicsType::P_PLAYER) && !objectB->getOwner())  ){ /*||
-		((objectB->getType()==physicsType::P_ROCKET) && (objectA->getType()!=physicsType::P_PLAYER) && !objectA->getOwner())){		*/
+	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()!=physicsType::P_PLAYER) && !objectB->getOwner())  ){
 			return;
 	}
 
 
 
-//	if ((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()!=physicsType::P_PLAYER)  && objectA->get
 
 	GLfloat velAlongNormal = manifold->penetration;
-	//GLfloat e = MIN(objectA->getRestitution(), objectB->getRestitution());
 	GLfloat e = 0.1f;// 0.01f;
 
 	GLfloat j = -(1+e) * velAlongNormal;
@@ -131,6 +152,8 @@ PhysicsManager::PhysicsManager(std::vector<Projectile*>* projectiles, TextureMan
 	this->projectiles = projectiles;
 	this->tm = tm;
 	this->sm = sm;
+	SettingsManager settingsManager;
+	distance_to_engage = settingsManager.get("distance_to_engage");
 	std::cout << "PhysicsManager initializes" << std::endl;
 	
 }

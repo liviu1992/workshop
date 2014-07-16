@@ -2,11 +2,18 @@
 	
 	<Item name="square_speed" value = "1.2" />
 
+	<!--
+		Variabile ce descriu dimensiunile
+		ferestrei de joc
+	-->
+
 	<Item name="window_width" value = "800" />
 	<Item name="window_height" value="600" />
 	<Item name="fullscreen" value="0" />
 
-
+	<!--
+		Variabile ce descriu nava jucatorului
+	-->
 
 	<Item name= "player_initial_x" value = "0"/>
 	<Item name= "player_initial_y" value = "0"/>
@@ -18,6 +25,9 @@
 	<Item name= "player_mass" value = "0" />
 
 
+	<!--
+		Variabile ce descriu tipul de inamic scout
+	-->
 	<Item name= "scout_initial_x" value = "0"/>
 	<Item name= "scout_initial_y" value = "0"/>
 	<Item name= "scout_width" value = "0.1"/>
@@ -34,6 +44,9 @@
 	<Item name= "scout_fov" value = "20" />
 
 
+	<!--
+		Variabile ce descriu tipul de inamic basic
+	-->
 	<Item name= "basic_initial_x" value = "0"/>
 	<Item name= "basic_initial_y" value = "0"/>
 	<Item name= "basic_width" value = "0.1" />
@@ -49,7 +62,9 @@
 	<Item name= "basic_fire_limit" value = "3" />
 	<Item name= "basic_fov" value = "30" />
 
-
+	<!--
+		Variabile ce descriu tipul de inamic assault
+	-->
 
 	<Item name= "assault_initial_x" value= "0"/>
 	<Item name= "assault_initial_y" value = "0"/>
@@ -65,10 +80,14 @@
 	<Item name= "assault_mass" value = "2" />
 	<Item name= "assault_fire_limit" value = "4" />
 	<Item name= "assault_fov" value = "40" />
-
+	
 
 	<Item name= "enemy_mass" value = "1" />
 	<Item name= "enemy_fire_limit" value = "5" />
+
+	<!--
+		Variabile ce descriu proiectilul
+	-->
 
 	<Item name = "projectile_initial_x" value="-0.07"/>
 	<Item name = "projectile_initial_y" value="0"/>
@@ -79,15 +98,24 @@
 	<Item name = "rocket_maximum_range" value="4"/>
 
 	
+
+	<!--
+		Variabile ce descriu miscarile efectuate
+		de inamici
+	-->
 	<Item name = "sine_amplitude" value="4"/>
-	<Item name = "circ_height" value="0.4"/>
-	<Item name = "circ_width" value="0.5"/>
-
-
+	<Item name = "circ_height" value="0.04"/>
+	<Item name = "circ_width" value="0.05"/>
 	<Item name = "limit_left" value = "-0.8"/>
 	<Item name = "limit_right" value = "0.8"/>
 	<Item name = "limit_up" value = "0.8"/>
 	<Item name = "limit_down" value = "-0.8"/>
+
+
+	<!--
+		Variabile ce descriu pozitia si dimensiunile 
+		imaginii de background
+	-->
 
 	<Item name = "background_x" value = "0"/>
 	<Item name = "background_y" value = "0"/>
@@ -99,7 +127,7 @@
 	<Item name = "attack_damage" value = "5"/>
 
 		
-	<Item name = "initial_score" value = "50"/>
+	<Item name = "initial_score" value = "100"/>
 	<Item name = "defeat_score" value = "0"/>
 	<Item name = "rocket_penalty" value = "1"/>
 	<Item name = "scout_bounty" value = "10"/>
@@ -151,12 +179,25 @@
 	<Item name = "final_text_enemies_width" value = "0.8"/>
 	<Item name =  "final_text_enemies_height" value = "0.25"/>
 
+	<!--
+		Variabile ce descriu pozitia si 
+		dimensiunile imaginii de background
+		atunci cand un joc este castigat
+
+	-->
+
 	<Item name = "victory_screen_x" value = "0"/>
 	<Item name = "victory_screen_y" value = "0"/>
 	<Item name = "victory_screen_width" value = "3"/>
 	<Item name = "victory_screen_height" value = "3"/>
 
 
+	<!--
+		Variabile ce descriu pozitia si 
+		dimensiunile imaginii de background
+		atunci cand un joc este pierdut
+
+	-->	
 	<Item name = "defeat_screen_x" value = "0"/>
 	<Item name = "defeat_screen_y" value = "0"/>
 	<Item name = "defeat_screen_width" value = "3"/>
@@ -165,12 +206,31 @@
 	<Item name = "scout_seed" value = "3"/>
 	<Item name = "basic_seed" value = "2"/>
 	<Item name = "assault_seed" value = "1"/>
+	
 
+	<!--
+		Variabile ce descriu pozitia si 
+		dimensiunile afisajului ce ne 
+		arata viata jucatorului
+
+	-->
 	<Item name = "health_x" value = "0.8"/>
 	<Item name = "health_y" value = "-1"/>
 	<Item name = "health_width" value = "0.6" />
 	<Item name = "health_height" value = "0.3" />	
 
+	<!--
+		Variabile legate de sistemul de urmarire
+		al AI-ului
+	-->
+	<Item name = "advance_step" value = "0.016" />
+	<Item name = "fire_distance" value = "1.1"/>
+	<Item name = "distance_to_engage" value = "15" />
+
+	<!--   
+		Variabile legate de durata unei explozii
+	
+	-->
 	<Item name = "exp_t0" value = "3" />
 	<Item name = "exp_t1" value = "3" />
 	<Item name = "exp_t2" value = "3" />

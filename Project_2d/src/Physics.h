@@ -52,7 +52,8 @@ public:
 		this->limit_up = settingsManager.get("limit_up");
 		this->limit_right = settingsManager.get("limit_right");
 		this->limit_left =  settingsManager.get("limit_left");
-
+		this->advanceStep = settingsManager.get("advance_step");
+		this->fireDistance = settingsManager.get("fire_distance");
 
 		this->rocketMaximumRange=settingsManager.get("rocket_maximum_range");
 
@@ -105,7 +106,7 @@ public:
 		case physicsType::P_ASSAULT:
 			this->left=true;
 			this->right=false;
-			this->mov=movement::CIRC;	
+			this->mov=movement::SIN;	
 	
 			break;
 
@@ -153,6 +154,7 @@ public:
 	GLfloat getSpeedX();
 	GLfloat getSpeedY();
 	void setEnemyOrigin(GLfloat originX, GLfloat originY);
+	void advanceTowards(GLfloat x, GLfloat y);
 private:
 	GLboolean canFire;
 	GLdouble fireTimer;
@@ -202,6 +204,9 @@ private:
 	GLfloat parentSpeedX;
 	GLfloat parentSpeedY;
 
+
+	GLfloat advanceStep;
+	GLfloat fireDistance;
 };
 
 struct Manifold{

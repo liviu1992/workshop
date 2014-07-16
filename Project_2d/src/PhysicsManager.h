@@ -23,6 +23,7 @@ public:
 	void TestAttacks();
 	void LaunchProjectile(Physics* parent);
 	void AllAttack();
+	void AllSearch();
 	
 private:
 	std::vector<Physics*> physics;
@@ -30,6 +31,7 @@ private:
 	TextureManager* tm;
 	SpriteManager* sm;
 	PhysicsManager* pm;
+	GLfloat distance_to_engage;
 };
 
 #endif
