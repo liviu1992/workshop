@@ -11,9 +11,9 @@
 
 
 
-SpriteManager::SpriteManager(){
+SpriteManager::SpriteManager(Player* player){
 	std::cout << "SpriteManager initializes" << std::endl;
-
+	this->player=player;
 }
 
 
@@ -53,7 +53,9 @@ bool SpriteManager::Remove(Sprite*  sprite){
 */
 void SpriteManager::Draw(){
 	for (int i=sprites.size()-1; i>=0; i--){
-		sprites.at(i)->draw();
+		if (glm::distance(sprites.at(i)->getPosition(), player->getSprite()->getPosition())<1.8){
+			sprites.at(i)->draw();
+		}
 	}
 
 }

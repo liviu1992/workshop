@@ -12,6 +12,14 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 
 	//intotdeauna din A se va face totul pentru a pastra simplitatea 
 	if (isA){
+		if (manifold->objectB->getType()==physicsType::P_POWERUP){
+			//player will get the powerup
+			std::cout << "Increasing health" << std::endl;
+			manifold->objectA->getCombatant()->increaseHealth(10);
+			//manifold->objectB->getCombatant()->increaseHealth(10);
+			manifold->objectB->getSprite()->setDead(true);
+		}
+
 		if (this->type!=physicsType::P_ROCKET && (manifold->objectA->getType()==physicsType::P_PLAYER) && manifold->objectB->getType()==physicsType::P_ROCKET && !manifold->objectB->getOwner()){
 			combatant->damage(damage);
 			manifold->objectB->getSprite()->Explode();
@@ -19,8 +27,7 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 			//manifold->objectB->Rotate(-manifold->objectB->getRotate());
 			
 		}
-		else {
-			if (this->type!=physicsType::P_ROCKET && manifold->objectA->getType()!=physicsType::P_PLAYER && manifold->objectB->getType()==physicsType::P_ROCKET && manifold->objectB->getOwner()){
+		else if (this->type!=physicsType::P_ROCKET && manifold->objectA->getType()!=physicsType::P_PLAYER && manifold->objectB->getType()==physicsType::P_ROCKET && manifold->objectB->getOwner()){
 				if (!manifold->objectA->getSprite()->getExplode() && !manifold->objectA->getSprite()->getDead()){
 					combatant->damage(damage);
 					manifold->objectB->getSprite()->Explode();
@@ -29,7 +36,7 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 				}
 			
 		
-			}
+			
 		}
 	
 
@@ -152,8 +159,8 @@ void Physics::Update(){
 		this->y+=cos(rotate)*speedY*speed*0.05f;
 		this->x+=-sin(rotate)*speedX*speed*0.05f;
 		
-		speedX*=0.98;
-		speedY*=0.98;
+		speedX*=0.98f;
+		speedY*=0.98f;
 
 
 		//this->x=this->x+speedX*mspeedX*this->speed;
@@ -275,6 +282,7 @@ void Physics::fire(){
 	this->fired=true;
 	this->rocketOriginX=this->x;
 	this->rocketOriginY=this->y;
+	
 
 }
 

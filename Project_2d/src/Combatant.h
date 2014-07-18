@@ -1,3 +1,10 @@
+/*
+	Aceasta clasa se ocupa de administrarea vietii si a avariilor
+
+
+*/
+
+
 #ifndef COMBATANT_H
 #define COMBATANT_H
 #include <GL\glew.h>
@@ -11,7 +18,7 @@ public:
 		this->sprite=sprite;
 
 };
-
+	void increaseHealth(GLint amount);
 	GLint getHealth();
 	void damage(GLint damage);
 private:

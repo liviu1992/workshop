@@ -15,6 +15,7 @@ enum physicsType{
 	P_SCOUT,
 	P_BASIC,
 	P_ASSAULT,
+	P_POWERUP,
 	P_ROCKET
 };
 

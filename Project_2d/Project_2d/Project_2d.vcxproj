@@ -21,6 +21,7 @@
     <ClCompile Include="..\src\Physics.cpp" />
     <ClCompile Include="..\src\PhysicsManager.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
+    <ClCompile Include="..\src\Powerup.cpp" />
     <ClCompile Include="..\src\Projectile.cpp" />
     <ClCompile Include="..\src\SettingsManager.cpp" />
     <ClCompile Include="..\src\Shapes.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="..\src\Physics.h" />
     <ClInclude Include="..\src\PhysicsManager.h" />
     <ClInclude Include="..\src\Player.h" />
+    <ClInclude Include="..\src\Powerup.h" />
     <ClInclude Include="..\src\Projectile.h" />
     <ClInclude Include="..\src\SettingsManager.h" />
     <ClInclude Include="..\src\Sprite.h" />

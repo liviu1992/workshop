@@ -18,8 +18,19 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-
+#include <algorithm>
+#include <chrono>
+#include <map>
 using namespace rapidxml;
+
+
+
+
+
+
+
+
+
 
 struct subtexture{
 	std::string name;
@@ -58,7 +69,8 @@ private:
 	std::vector<struct subtexture> textureAtlas;
 	GLfloat uvCoords[8];
 	fileId images[texture_id::ROCKET+1];
-	std::vector<textureElement> textureElements;
+	//std::vector<textureElement> textureElements;
+	std::map<texture_id, textureElement> textureElements;
 };
 
 #endif

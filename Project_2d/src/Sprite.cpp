@@ -25,13 +25,17 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 		//spun cati vertecsi voi desena
 		this->drawCount = 4;
-
+		
 
 		//initializez timerul pentru explozii
 		this->explosionTimer = 0;
 
 		//initial spriteul nu explodeaza
 		this->explosion = false;
+
+		this->left=false;
+		this->right=false;
+		this->advancing=false;
 
 		//la inceput spriteul este "viu"
 		this->dead = false;
@@ -82,6 +86,19 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 		delete this->matrix;
 
 	}
+
+	void Sprite::setLeft(GLboolean left){
+		this->left = left;
+		
+	}
+	void Sprite::setRight(GLboolean right){
+		this->right=right;
+		
+	}
+	void Sprite::setAdvance(GLboolean advance){
+		this->advancing = advance;
+		
+	}
 	GLboolean Sprite::getDead(){
 		return this->dead;
 	}
@@ -101,7 +118,36 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 
 
 		if (!explosion && !dead){
-			tm->getTexture(textureId, vertexArrayBuffers[TEXTURE_VB]);
+			//tm->getTexture(textureId, vertexArrayBuffers[TEXTURE_VB]);
+			//tm->getTexture(static_cast<texture_id>(texture_id::ADV_1), vertexArrayBuffers[TEXTURE_VB]);
+			if (advancing){
+				if (k<0 || k>12){
+					k=0;
+				}
+				//animatia pentru avansare
+				tm->getTexture(static_cast<texture_id>(texture_id::ADV_1+k%7), vertexArrayBuffers[TEXTURE_VB]);
+				this->advancing=false;
+				k++;
+			} else if (left){
+				if (k<0 || k>12){
+					k=0;
+				}
+				//animatia pentru stanga
+				tm->getTexture(static_cast<texture_id>(texture_id::LEFT_1+k%7), vertexArrayBuffers[TEXTURE_VB]);
+				this->left=false;
+				k++;
+			} else if (right){
+				if (k<0 || k>12){
+					k=0;
+				}
+				//animatia pentru dreapta
+				tm->getTexture(static_cast<texture_id>(texture_id::RIGHT_1+k%7), vertexArrayBuffers[TEXTURE_VB]);
+				this->right=false;
+				k++;
+			} else {
+				tm->getTexture(textureId, vertexArrayBuffers[TEXTURE_VB]);
+			}
+			
 			
 		} else {
 			// fac explozia
@@ -145,7 +191,9 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 		glBindVertexArray(0);
 	
 	}
-
+	glm::vec2 Sprite::getPosition(){
+		return glm::vec2(x,y);
+	}
 	void Sprite::Explode(){
 		this->explosion = true;
 

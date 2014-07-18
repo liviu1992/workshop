@@ -32,11 +32,15 @@ public:
 	void Sprite::Rotate(GLfloat rotate, GLfloat x, GLfloat y);
 	void Explode();
 	GLboolean getExplode();
+	void setLeft(GLboolean left);
+	void setRight(GLboolean right);
+	void setAdvance(GLboolean advancing);
 	GLboolean getDead();
 	void setDead(GLboolean dead);
 	~Sprite();
 	Matrix* getMatrix();
-protected:
+	glm::vec2 getPosition();
+private:
 	void setupCoords(GLfloat x, GLfloat y, GLfloat width, GLfloat height);
 	void setupTexCoords();
 	void setupArrays();
@@ -45,6 +49,10 @@ protected:
 	GLfloat y;
 	GLfloat width;
 	GLfloat height;
+	
+	GLboolean left;
+	GLboolean right;
+	GLboolean advancing;
 	
 	
 	enum {
@@ -77,6 +85,7 @@ protected:
 	GLboolean dead;
 	GLdouble explosionTiming[16];
 	GLint k;
+
 	
 };
 

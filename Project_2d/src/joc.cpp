@@ -25,6 +25,7 @@
 #include "PhysicsManager.h"
 #include "LayerManager.h"
 #include "MapGenerator.h"
+#include "Powerup.h"
 
 #ifdef _DEBUG
    #ifndef DBG_NEW
@@ -357,15 +358,18 @@ int main () {
 
 	std::vector<Enemy*> enemies;
 	std::vector<Projectile*> projectiles;
+	std::vector<Powerup*> powerups;
 
 
 	TextureManager textManager;
-	SpriteManager spriteManager;
+	Player player(&textManager);
+	Physics* playerPhysics = player.getPhysics();
+	SpriteManager spriteManager(&player);
 	//SpriteManager worldSpriteManager;
 	PhysicsManager physicsManager(&projectiles, &textManager, &spriteManager);
 	
 	
-	Player player(&textManager);
+	
 	LayerManager layerManager(&player);
 	MapGenerator mapGenerator(&layerManager, &textManager);
 
@@ -451,44 +455,46 @@ int main () {
 		 */
 		
 		  sky.draw();
-		  
-
-
-
-		
-
-
 		//  worldSpriteManager.Draw();
+		  layerManager.Update();
 		  layerManager.Draw();
-
-		  spriteManager.Draw();
-
-		 
+		  spriteManager.Draw();	 
 		  //draw score
 		  drawNumber(score, score_x, score_y, score_width, score_height, &textManager);
-		  
-		
-
 		  text_enemies.draw();
 		  text_score.draw();
 		   //draw enemies
 		  drawNumber(enemiesKilled,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
-
-		  //player health
+		   //player health
 		  drawNumber(player.getCombatant()->getHealth(), health_x,health_y, health_width,health_height, &textManager);
 		  
 		  physicsManager.TestCollisions();
 		  physicsManager.AllSearch();
 		  physicsManager.TestAttacks();
 		  physicsManager.AllAttack();
+
+
 		  for (unsigned int i=0; i<enemies.size(); i++){
+			  Physics* enemyPhysics = enemies.at(i)->getPhysics();
 			  if (!enemies.at(i)->getSprite()->getDead()){
-				  enemies.at(i)->getPhysics()->setSpeed(speedPlayer*frameTime);
-				  enemies.at(i)->getPhysics()->Update();
+				  enemyPhysics->setSpeed(speedPlayer*frameTime);
+				  enemyPhysics->Update();
 			  } else {
 				  													
 				enemiesKilled++;
 				enemyFactory.addRandomEnemy();
+
+
+				//mai jos o sa pun codul necesar aparitiei unui powerup in locul 
+				//inamicului distrus
+				std::cout << "Preparing powerup" << std::endl;
+				powerups.push_back(new Powerup(enemyPhysics->GetX(), enemyPhysics->GetY(), &textManager));
+				spriteManager.Add(powerups.at(powerups.size()-1)->getSprite());
+				physicsManager.Add(powerups.at(powerups.size()-1)->getPhysics());				
+				std::cout << "Powerup deployed" << std::endl;
+				//std::cout << "Number of powerups " << powerups.size() << std::endl;
+
+				//
 															
 				if (enemies.at(i)->getType()==enemyType::BASIC_ENEMY){
 					score+=basic_bounty;
@@ -502,7 +508,7 @@ int main () {
 
 
 				  spriteManager.Remove(enemies.at(i)->getSprite());
-				  physicsManager.Remove(enemies.at(i)->getPhysics());
+				  physicsManager.Remove(enemyPhysics);
 
 				  delete enemies.at(i);
 				  enemies.erase(enemies.begin()+i);
@@ -510,26 +516,43 @@ int main () {
 
 		  }
 		  for (unsigned int i=0; i<projectiles.size(); i++){
+			  Physics* projectilePhysics=projectiles.at(i)->getPhysics();
 			  if (!projectiles.at(i)->getSprite()->getDead() && projectiles.at(i)->isAlive()){
-				  projectiles.at(i)->getPhysics()->setSpeed(speedPlayer*frameTime);
-				  projectiles.at(i)->getPhysics()->Update();
+				  projectilePhysics->setSpeed(speedPlayer*frameTime);
+				  projectilePhysics->Update();
 			  } else {
-
 				  spriteManager.Remove(projectiles.at(i)->getSprite());
-				  physicsManager.Remove(projectiles.at(i)->getPhysics());
+				  physicsManager.Remove(projectilePhysics);
 				  delete projectiles.at(i);
 				  projectiles.erase(projectiles.begin()+i);
 		
 			  }
 		  
 		  }
+		  /*
+			verific daca exista powerups-uri luate de player, daca da le elimin 
+		  */
+		  for (unsigned int i=0; i<powerups.size(); i++){
+			  
+			  if (!powerups.at(i)->getSprite()->getDead()){
+
+			  } else {
+				 spriteManager.Remove(powerups.at(i)->getSprite());
+				 physicsManager.Remove(powerups.at(i)->getPhysics());
+				 delete powerups.at(i);
+				 powerups.erase(powerups.begin()+i);
+				  
+			  }
+			
+		  }
+		  
 
 		  player.getPhysics()->Update();
 
 		  sky.move(player.getPhysics()->GetX(), player.getPhysics()->GetY());
 		  sky.getMatrix()->updateMatrix();
 		  
-		  layerManager.Update();
+		  
 		  
 		
 		  GLboolean no_enemies=true;
@@ -554,34 +577,41 @@ int main () {
 
 
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
-		  player.getPhysics()->setSpeed(frameTime);
-		  player.getPhysics()->setSpeedY(speedPlayer);
-		  player.getPhysics()->setSpeedX(speedPlayer);
-		
+		  playerPhysics->setSpeed(frameTime);
+		  playerPhysics->setSpeedY(speedPlayer);
+		  playerPhysics->setSpeedX(speedPlayer);
+		  player.getSprite()->setLeft(false);
+		  player.getSprite()->setRight(false);		
+		  player.getSprite()->setAdvance(true);
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S)){
-		  player.getPhysics()->setSpeed(frameTime);
-		  player.getPhysics()->setSpeedY(-speedPlayer);
-		  player.getPhysics()->setSpeedX(-speedPlayer);
-		
+		  playerPhysics->setSpeed(frameTime);
+		  playerPhysics->setSpeedY(-speedPlayer);
+		  playerPhysics->setSpeedX(-speedPlayer);
+		  player.getSprite()->setLeft(false);
+		  player.getSprite()->setRight(false);		
+		  player.getSprite()->setAdvance(true);
 		
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A)){
-		 player.getPhysics()->Rotate(rotationSpeed);
-		
-
+		 playerPhysics->Rotate(rotationSpeed);
+		 player.getSprite()->setLeft(true);
+		 player.getSprite()->setRight(false);		
+		 player.getSprite()->setAdvance(false);
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D)){
-		player.getPhysics()->Rotate(-rotationSpeed);
-		
+		 playerPhysics->Rotate(-rotationSpeed);
+		  player.getSprite()->setLeft(false);
+		 player.getSprite()->setRight(true);		
+		 player.getSprite()->setAdvance(false);
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_L)){
 		  loadSettings();
 	  }
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE)){
-		  if (player.getPhysics()->canIFire()){
+		  if (playerPhysics->canIFire()){
 			
-			 player.getPhysics()->issueFireCommand(true);
+			 playerPhysics->issueFireCommand(true);
 			  //penalizez jucatorul pentru consum excesiv de munitie
 			  if (score>defeat_score){
 				  score-=rocket_penalty;
@@ -592,25 +622,23 @@ int main () {
 			  }
 		  }
 	  }
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q)){
-		  
-	  }
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E)){
-		 
-	  }
+	
 
 		
 	} else {
 			if (victory){
 				victory_screen.draw();
 
-				  for (unsigned int i=0; i<enemies.size(); i++){
-					  delete enemies.at(i);
+				for (unsigned int i=0; i<enemies.size(); i++){
+					delete enemies.at(i);
   
-				  }
-				  for (unsigned int i=0; i<projectiles.size(); i++){
-					  delete projectiles.at(i);
-				  }
+				}
+				for (unsigned int i=0; i<projectiles.size(); i++){
+					delete projectiles.at(i);
+				}
+				for (unsigned int i=0; i<powerups.size(); i++){
+					delete powerups.at(i);
+				}
 
 				enemies.clear();
   
@@ -662,6 +690,11 @@ int main () {
   for (unsigned int i=0; i<projectiles.size(); i++){
 	  delete projectiles.at(i);
   }
+
+  for (unsigned int i=0; i<powerups.size(); i++){
+	  delete powerups.at(i);
+  }
+
   enemies.clear();
   
   projectiles.clear();

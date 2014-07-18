@@ -16,10 +16,12 @@
 	void LayerManager::Update(){
 		//the close layer
 		for (unsigned int i=0; i<layer.size(); i++){
-			layer.at(i).sprite->move(this->player->getPhysics()->GetX()*layer.at(i).depth, this->player->getPhysics()->GetY()*layer.at(i).depth);
-			layer.at(i).sprite->getMatrix()->updateMatrix();
-	
+			if (glm::distance(this->player->getSprite()->getPosition(), layer.at(i).sprite->getPosition())<8.f){
+				layer.at(i).sprite->move(this->player->getPhysics()->GetX()*layer.at(i).depth, this->player->getPhysics()->GetY()*layer.at(i).depth);
+				layer.at(i).sprite->getMatrix()->updateMatrix();
 			}
+	
+		}
 		
 		
 
@@ -30,8 +32,10 @@
 
 	void LayerManager::Draw(){
 		for (unsigned int i=0; i<layer.size(); i++){
-			layer.at(i).sprite->draw();
-	
+
+			if (glm::distance(this->player->getSprite()->getPosition(), layer.at(i).sprite->getPosition())<8.f){
+				layer.at(i).sprite->draw();
+			}
 		}
 	}
 

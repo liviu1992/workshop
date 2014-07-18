@@ -1,5 +1,9 @@
 #include "TextureManager.h"
+/*
+	dureaza mai mult pana incarca texturile dar pe parcurs pentru a ajunge la o textura
+	nu e necesara decat parcurgerea unui vector de aproximativ 50 de elemente.
 
+*/
 
 
 TextureManager::TextureManager(){
@@ -145,7 +149,7 @@ TextureManager::TextureManager(){
 	images[41]=fid;
 
 	fid.file="planet_io.png";
-	fid.id=texture_id::PLANET_ONE;
+	fid.id=texture_id::PLANET_IO;
 	images[42]=fid;
 
 	fid.file="planet_ceres.png";
@@ -188,11 +192,181 @@ TextureManager::TextureManager(){
 	fid.id=texture_id::PLANET_STAR;
 	images[52] = fid;
 
+	fid.file="powerup1.png";
+	fid.id=texture_id::POWERUP_1;
+	images[53] = fid;
+
+	fid.file="powerup2.png";
+	fid.id=texture_id::POWERUP_2;
+	images[54] = fid;
+
+	fid.file="powerup3.png";
+	fid.id=texture_id::POWERUP_3;
+	images[55] = fid;
+
+	fid.file="space_ship_up_1.png";
+	fid.id=texture_id::ADV_1;
+	images[56] = fid;
+
+	fid.file="space_ship_up_2.png";
+	fid.id=texture_id::ADV_2;
+	images[57] = fid;
+
+	fid.file="space_ship_up_3.png";
+	fid.id=texture_id::ADV_3;
+	images[58] = fid;
+
+	fid.file="space_ship_up_4.png";
+	fid.id=texture_id::ADV_4;
+	images[59] = fid;
+
+	fid.file="space_ship_up_5.png";
+	fid.id=texture_id::ADV_5;
+	images[60] = fid;
+
+	fid.file="space_ship_up_6.png";
+	fid.id=texture_id::ADV_6;
+	images[61] = fid;
+
+	fid.file="space_ship_up_7.png";
+	fid.id=texture_id::ADV_7;
+	images[62] = fid;
+
+	fid.file="space_ship_up_8.png";
+	fid.id=texture_id::ADV_8;
+	images[63] = fid;
+
+	fid.file="space_ship_up_9.png";
+	fid.id=texture_id::ADV_9;
+	images[64] = fid;
+
+	fid.file="space_ship_up_10.png";
+	fid.id=texture_id::ADV_10;
+	images[65] = fid;
+
+	fid.file="space_ship_up_11.png";
+	fid.id=texture_id::ADV_11;
+	images[66] = fid;
+
+	fid.file="space_ship_up_12.png";
+	fid.id=texture_id::ADV_12;
+	images[67] = fid;
+
+	fid.file="space_ship_up_13.png";
+	fid.id=texture_id::ADV_13;
+	images[68] = fid;
+
+
+	fid.file="space_ship_left_1.png";
+	fid.id=texture_id::LEFT_1;
+	images[69] = fid;
+
+	fid.file="space_ship_left_2.png";
+	fid.id=texture_id::LEFT_2;
+	images[70] = fid;
+
+	fid.file="space_ship_left_3.png";
+	fid.id=texture_id::LEFT_3;
+	images[71] = fid;
+
+	fid.file="space_ship_left_4.png";
+	fid.id=texture_id::LEFT_4;
+	images[72] = fid;
+
+	fid.file="space_ship_left_5.png";
+	fid.id=texture_id::LEFT_5;
+	images[73] = fid;
+
+	fid.file="space_ship_left_6.png";
+	fid.id=texture_id::LEFT_6;
+	images[74] = fid;
+
+	fid.file="space_ship_left_7.png";
+	fid.id=texture_id::LEFT_7;
+	images[75] = fid;
+
+	fid.file="space_ship_left_8.png";
+	fid.id=texture_id::LEFT_8;
+	images[76] = fid;
+
+	fid.file="space_ship_left_9.png";
+	fid.id=texture_id::LEFT_9;
+	images[77] = fid;
+
+	fid.file="space_ship_left_10.png";
+	fid.id=texture_id::LEFT_10;
+	images[78] = fid;
+
+	fid.file="space_ship_left_11.png";
+	fid.id=texture_id::LEFT_11;
+	images[79] = fid;
+
+	fid.file="space_ship_left_12.png";
+	fid.id=texture_id::LEFT_12;
+	images[80] = fid;
+
+	fid.file="space_ship_left_13.png";
+	fid.id=texture_id::LEFT_13;
+	images[81] = fid;
+
+
+
+	fid.file="space_ship_right_1.png";
+	fid.id=texture_id::RIGHT_1;
+	images[82] = fid;
+
+	fid.file="space_ship_right_2.png";
+	fid.id=texture_id::RIGHT_2;
+	images[83] = fid;
+
+	fid.file="space_ship_right_3.png";
+	fid.id=texture_id::RIGHT_3;
+	images[84] = fid;
+
+	fid.file="space_ship_right_4.png";
+	fid.id=texture_id::RIGHT_4;
+	images[85] = fid;
+
+	fid.file="space_ship_right_5.png";
+	fid.id=texture_id::RIGHT_5;
+	images[86] = fid;
+
+	fid.file="space_ship_right_6.png";
+	fid.id=texture_id::RIGHT_6;
+	images[87] = fid;
+
+	fid.file="space_ship_right_7.png";
+	fid.id=texture_id::RIGHT_7;
+	images[88] = fid;
+
+	fid.file="space_ship_right_8.png";
+	fid.id=texture_id::RIGHT_8;
+	images[89] = fid;
+
+	fid.file="space_ship_right_9.png";
+	fid.id=texture_id::RIGHT_9;
+	images[90] = fid;
+
+	fid.file="space_ship_right_10.png";
+	fid.id=texture_id::RIGHT_10;
+	images[91] = fid;
+
+	fid.file="space_ship_right_11.png";
+	fid.id=texture_id::RIGHT_11;
+	images[92] = fid;
+
+	fid.file="space_ship_right_12.png";
+	fid.id=texture_id::RIGHT_12;
+	images[93] = fid;
+
+	fid.file="space_ship_right_13.png";
+	fid.id=texture_id::RIGHT_13;
+	images[94] = fid;
 
 
 	fid.file="rocket_light.png";
 	fid.id = texture_id::ROCKET;										
-	images[53] = fid;
+	images[95] = fid;
 	
 	
 	this->LoadTextures();
@@ -299,24 +473,16 @@ void TextureManager::mapIt(){
 							te.uvs[t] = coords[t];
 
 						}
-						textureElements.push_back(te);
+						textureElements[te.ID] = te;
 						
 						c++;
 						break;
 					}
 				}
-				
-			//now we test it
-			/*	for (unsigned int v = 0; v<textureElements.size(); v++){
-					std::cout<< textureElements.at(v).ID << std::endl;
-					std::cout<< textureElements.at(v).uvs[0] <<" " <<  textureElements.at(v).uvs[1]  << std::endl;
-					std::cout<< textureElements.at(v).uvs[2] <<" " <<  textureElements.at(v).uvs[3] << std::endl;
-					std::cout<< textureElements.at(v).uvs[4] <<" " <<  textureElements.at(v).uvs[5] << std::endl;
-					std::cout<< textureElements.at(v).uvs[6] <<" " <<  textureElements.at(v).uvs[7]  <<std::endl;
-				}*/
+		
 				
 		}
-		std::cout << "Elements "<< c << std::endl;
+
 		
 	
 
@@ -326,27 +492,21 @@ void TextureManager::mapIt(){
 */
 void TextureManager::getTexture(texture_id type, GLuint textureArray){
 	
+	
+	//o abordare mai rapida
+	textureElement e=textureElements[type];   
+	for (int t=0; t<8; t++){
+		uvCoords[t] = e.uvs[t];
 
-	for (unsigned int i=0; i<texture_id::ROCKET; i++){
-		if (type == textureElements.at(i).ID){
-				//asta e!
-			
-					
-				for (int t=0; t<8; t++){
-							uvCoords[t] = textureElements.at(i).uvs[t];
-
-				}
-				break;
-			}
-
-		}
+	}
+	
 		
 
-		//activez bufferul
-		glBindBuffer(GL_ARRAY_BUFFER,textureArray);
+	//activez bufferul
+	glBindBuffer(GL_ARRAY_BUFFER,textureArray);
 
-		//incarca bufferul pe GPU
-		glBufferData(GL_ARRAY_BUFFER, 2*4*sizeof(uvCoords[0]), uvCoords, GL_STATIC_DRAW);
+	//incarca bufferul pe GPU
+	glBufferData(GL_ARRAY_BUFFER, 2*4*sizeof(uvCoords[0]), uvCoords, GL_STATIC_DRAW);
 
 }
 

@@ -3,11 +3,11 @@
 #include <iostream>
 #include <vector>
 #include "Sprite.h"
-
+#include "Player.h"
 
 class SpriteManager{
 public:
-	SpriteManager();
+	SpriteManager(Player* player);
 	~SpriteManager();
 	bool Add(Sprite*  sprite);
 	bool Remove(Sprite*  sprite);
@@ -15,7 +15,7 @@ public:
 	int Size();
 private:
 	std::vector<Sprite* > sprites;
-
+	Player* player;
 	
 };
 

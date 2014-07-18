@@ -34,6 +34,11 @@ void PhysicsManager::AllAttack(){
 }
 void PhysicsManager::LaunchProjectile(Physics* parent){
 	
+
+
+		//std::cout << measure<>::execution( [&]() {  
+	
+		/*
 		this->projectiles->push_back(new Projectile(this->tm ));
 		this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setPosition(parent->GetX(), parent->GetY());
 		if (parent->getType()==physicsType::P_PLAYER){
@@ -41,23 +46,48 @@ void PhysicsManager::LaunchProjectile(Physics* parent){
 			this->sm->Add(this->projectiles->at(this->projectiles->size()-1)->getSprite());
 			this->Add(this->projectiles->at(this->projectiles->size()-1)->getPhysics());
 			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setParentSpeed(parent->getSpeedX(), parent->getSpeedY());
-			this->projectiles->at(this->projectiles->size()-1)->Fire(parent->GetX(), parent->GetY(),parent->getRotate()/*physics.at(i)->getRotate()*/);
+			this->projectiles->at(this->projectiles->size()-1)->Fire(parent->GetX(), parent->GetY(),parent->getRotate());
 		} else {
 			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setRotate(180);
 			this->sm->Add(this->projectiles->at(this->projectiles->size()-1)->getSprite());
 			this->Add(this->projectiles->at(this->projectiles->size()-1)->getPhysics());
-			this->projectiles->at(this->projectiles->size()-1)->Fire(parent->GetX(), parent->GetY(),307.f * 3.14f/180.f/*physics.at(i)->getRotate()*/);
+			this->projectiles->at(this->projectiles->size()-1)->Fire(parent->GetX(), parent->GetY(),307.f * 3.14f/180.f);
+		}
+			
+
+		*/
+		
+
+		this->projectiles->push_back(new Projectile(this->tm ));
+		Physics* physics=this->projectiles->at(this->projectiles->size()-1)->getPhysics();
+		Projectile* projectile = this->projectiles->at(this->projectiles->size()-1);
+		physics->setPosition(parent->GetX(), parent->GetY());
+		if (parent->getType()==physicsType::P_PLAYER){
+			physics->setOwnerIfRocket(true);
+			this->sm->Add(projectile->getSprite());
+			this->Add(physics);
+			physics->setParentSpeed(parent->getSpeedX(), parent->getSpeedY());
+			projectile->Fire(parent->GetX(), parent->GetY(),parent->getRotate()/*physics.at(i)->getRotate()*/);
+		} else {
+			physics->setRotate(180);
+			this->sm->Add(projectile->getSprite());
+			this->Add(physics);
+			projectile->Fire(parent->GetX(), parent->GetY(),307.f * 3.14f/180.f/*physics.at(i)->getRotate()*/);
 		}
 		
-	
+		//}) << std::endl;
 
 }
 /*
 	tests if any enemy can fire at the player
 */
 void PhysicsManager::TestAttacks(){
+	//std::cout << measure<>::execution( [&]() {  
+
+
 	for (unsigned int i=1; i<physics.size(); i++){
-		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET)){
+		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP) 			
+			 &&  glm::distance(physics.at(i)->getSprite()->getPosition(), physics.at(0)->getSprite()->getPosition())<4.5f){
 			//then we have an enemy
 			// * stiu ca playerul este primul adaugat in PhysicsManager(de aia incep si de la 1 for-ul)
 			// acum testez daca inamicul poate "vedea" playerul
@@ -80,20 +110,21 @@ void PhysicsManager::TestAttacks(){
 			}
 		
 
-
+		
 
 
 
 		}
 
 	}
+	//}) << std::endl;
 
 }
 
 void PhysicsManager::AllSearch(){
 	
 	for (unsigned int i=0; i<physics.size(); i++){
-		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET)){
+		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP)){
 
 			//verific daca se afla playerul prin preajma
 			//testez daca distanta player - inamic este mai mica de o anumita valoare
@@ -126,6 +157,10 @@ void solveCollision(Physics* objectA, Physics* objectB, Manifold* manifold){
 	//nu rezolv coliziuni intre racheta trasa de inamici si acestia
 	if (((objectA->getType()==physicsType::P_ROCKET) && (objectB->getType()!=physicsType::P_PLAYER) && !objectB->getOwner())  ){
 			return;
+	}
+	//nu rezolv coliziuni ce implica powerupuri si rachete
+	if ((objectA->getType()==physicsType::P_POWERUP) && (objectB->getType()==physicsType::P_ROCKET)){
+		return;
 	}
 
 
@@ -176,16 +211,24 @@ bool PhysicsManager::Remove(Physics*  a_physics){
 	return result;
 }
 void PhysicsManager::TestCollisions(){
+	
+
+
 
 	for (unsigned int i=0; i<physics.size(); i++){
-		for (unsigned int j=i+1; j<physics.size(); j++){
-			TestCollision(this->physics.at(i), this->physics.at(j));
+		if (glm::distance(physics.at(i)->getSprite()->getPosition(), physics.at(0)->getSprite()->getPosition())<1.8f){
+			for (unsigned int j=i+1; j<physics.size(); j++){
+			//	if (glm::distance(physics.at(j)->getSprite()->getPosition(), physics.at(0)->getSprite()->getPosition())<1.8f){
+					TestCollision(this->physics.at(i), this->physics.at(j));
+			//	}
 
-
+			}
 		}
 		
 	}
 
+
+	
 }
 
 GLboolean PhysicsManager::TestCollision(Physics* objectA, Physics* objectB){
@@ -194,20 +237,35 @@ GLboolean PhysicsManager::TestCollision(Physics* objectA, Physics* objectB){
 	manifold.objectA=objectA;
 	manifold.objectB=objectB;
 
-	glm::vec2 n = glm::vec2(objectA->GetX(), objectB->GetY())-glm::vec2(objectB->GetX(), objectB->GetY());
 
-	GLfloat A_min_x = objectA->GetX()-objectA->GetWidth()/2;
-	GLfloat A_max_x = objectA->GetX()+objectA->GetWidth()/2;
-	GLfloat A_min_y = objectA->GetY()-objectA->GetHeight()/2;
-	GLfloat A_max_y = objectA->GetY()+objectA->GetHeight()/2;
+	GLfloat objectAX=objectA->GetX();
+	GLfloat objectAY=objectA->GetY();
+	GLfloat objectAW = objectA->GetWidth();
+	GLfloat objectAH=objectA->GetHeight();
 
-	GLfloat B_min_x = objectB->GetX()-objectB->GetWidth()/2;
-	GLfloat B_max_x = objectB->GetX()+objectB->GetWidth()/2;
-	GLfloat B_min_y = objectB->GetY()-objectB->GetHeight()/2;
-	GLfloat B_max_y = objectB->GetY()+objectB->GetHeight()/2;
+	GLfloat objectBX=objectB->GetX();
+	GLfloat objectBY=objectB->GetY();
+	GLfloat objectBW = objectB->GetWidth();
+	GLfloat objectBH=objectB->GetHeight();
 
-	result = collisionDetectorAABB(objectA->GetX(), objectA->GetY(), objectA->GetWidth(), objectA->GetHeight(),
-		objectB->GetX(), objectB->GetY(), objectB->GetWidth(), objectB->GetHeight());
+
+
+	glm::vec2 n = glm::vec2(objectAX, objectAY)-glm::vec2(objectBX, objectBY);
+
+	
+
+	GLfloat A_min_x =objectAX-objectAW;
+	GLfloat A_max_x = objectAX+objectAW;
+	GLfloat A_min_y = objectAY-objectAH;
+	GLfloat A_max_y = objectAY+objectAH;
+
+	GLfloat B_min_x = objectBX-objectBW;
+	GLfloat B_max_x = objectBX+objectBW;
+	GLfloat B_min_y = objectBY-objectBH;
+	GLfloat B_max_y = objectBY+objectBH;
+
+	result = collisionDetectorAABB(objectAX, objectAY, objectAW, objectAH,
+		objectBX, objectBY, objectBW, objectBH);
 
 	GLfloat A_extent_x = (A_max_x - A_min_x)/ 2;
 	GLfloat B_extent_x = (B_max_x - B_min_x)/ 2;
@@ -239,12 +297,7 @@ GLboolean PhysicsManager::TestCollision(Physics* objectA, Physics* objectB){
 				}
 				manifold.penetration=y_overlap;
 				
-			}
-
-		
-		
-		
-		
+			}		
 		
 		}
 	}
@@ -253,7 +306,7 @@ GLboolean PhysicsManager::TestCollision(Physics* objectA, Physics* objectB){
 	//	std::cout << "Collision! " << manifold.normal.x << " " << manifold.normal.y<< std::endl;
 		//trimit manifoldul la cele 2 obiecte
 		manifold.objectA->onCollision(&manifold, true);
-		manifold.objectB->onCollision(&manifold, false);
+		//manifold.objectB->onCollision(&manifold, false);
 
 		solveCollision(objectA, objectB, &manifold);
 		

@@ -40,6 +40,8 @@ EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, Spr
 		int seed1 = scout_seed+ std::rand()%3;
 		
 		GLfloat x, y;  //positions
+		x=0;
+		y=0;
 		for (int i=0; i<seed1; i++){
 			addRandomEnemyOfGivenType(enemyType::SCOUT_ENEMY);
 			

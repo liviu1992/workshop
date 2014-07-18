@@ -27,7 +27,7 @@
 		this->alive=true;
 		
 
-		this->sprite=new Sprite(this->x, this->y, this->playerWidth, this->playerHeight, texture_id::PLAYER,  tm);
+		this->sprite=new Sprite(this->x, this->y, this->playerWidth, this->playerHeight, texture_id::ADV_1,  tm);
 
 		this->combatant= new Combatant(this->health, this->sprite);
 

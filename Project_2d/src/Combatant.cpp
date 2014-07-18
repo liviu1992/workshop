@@ -17,6 +17,11 @@ void Combatant::damage(GLint damage){
 	}
 
 }
+void Combatant::increaseHealth(GLint amount){
+	
+	this->health+=amount;
+	std::cout << "Health increased" << std::endl;
+}
 GLint Combatant::getHealth(){
 	return this->health;
 }
