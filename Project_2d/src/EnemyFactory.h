@@ -19,13 +19,14 @@
 class EnemyFactory{
 public:
 	
-	EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, SpriteManager* sm, PhysicsManager* pm);
+	EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, SpriteManager* sm, PhysicsManager* pm, Player* player);
 
 	void Generate(GLint &numEnemies);
 
 	void addRandomEnemyOfGivenType(enemyType type);
 	void addRandomEnemy();
 private:
+	Player* player;
 	std::vector<Enemy*>* enemies;
 	TextureManager* tm;
 	SpriteManager* sm;

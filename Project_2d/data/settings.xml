@@ -225,7 +225,7 @@
 	-->
 	<Item name = "advance_step" value = "0.016" />
 	<Item name = "fire_distance" value = "1.1"/>
-	<Item name = "distance_to_engage" value = "15" />
+	<Item name = "distance_to_engage" value = "3" />
 
 	<!--   
 		Variabile legate de durata unei explozii

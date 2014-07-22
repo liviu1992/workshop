@@ -24,7 +24,7 @@
 #include "SettingsManager.h"
 #include "PhysicsManager.h"
 #include "LayerManager.h"
-#include "MapGenerator.h"
+//#include "MapGenerator.h"
 #include "Powerup.h"
 
 #ifdef _DEBUG
@@ -370,15 +370,17 @@ int main () {
 	
 	
 	
-	LayerManager layerManager(&player);
-	MapGenerator mapGenerator(&layerManager, &textManager);
+	LayerManager layerManager(&player, &textManager);
 
-    mapGenerator.Generate();
+	//generez primul sector
+	//MapGenerator mapGenerator(&layerManager, &textManager);
+
+   // mapGenerator.Generate();
 
 	physicsManager.Add(player.getPhysics());
 
 	
-	EnemyFactory enemyFactory(&textManager, &enemies, &spriteManager, &physicsManager);
+	EnemyFactory enemyFactory(&textManager, &enemies, &spriteManager, &physicsManager, &player);
 	enemyFactory.Generate(enemiesTotal);
 
 	
@@ -449,14 +451,12 @@ int main () {
 
 	  if (gamePlaying){
 
-		 /*
-			!!! se vede straniu (ceva gen gravitatie 0)
-
-		 */
+	
 		
 		  sky.draw();
 		//  worldSpriteManager.Draw();
-		  layerManager.Update();
+		 // mapGenerator.Generate(static_cast<GLint>(player.getPhysics()->GetX()), static_cast<GLint>(player.getPhysics()->GetY()));
+		
 		  layerManager.Draw();
 		  spriteManager.Draw();	 
 		  //draw score
@@ -468,6 +468,12 @@ int main () {
 		   //player health
 		  drawNumber(player.getCombatant()->getHealth(), health_x,health_y, health_width,health_height, &textManager);
 		  
+
+		  //populez sectoarele din jur
+		  
+
+		  layerManager.PopulateCurrent();
+		  layerManager.Update();
 		  physicsManager.TestCollisions();
 		  physicsManager.AllSearch();
 		  physicsManager.TestAttacks();
@@ -487,11 +493,11 @@ int main () {
 
 				//mai jos o sa pun codul necesar aparitiei unui powerup in locul 
 				//inamicului distrus
-				std::cout << "Preparing powerup" << std::endl;
+			//	std::cout << "Preparing powerup" << std::endl;
 				powerups.push_back(new Powerup(enemyPhysics->GetX(), enemyPhysics->GetY(), &textManager));
 				spriteManager.Add(powerups.at(powerups.size()-1)->getSprite());
 				physicsManager.Add(powerups.at(powerups.size()-1)->getPhysics());				
-				std::cout << "Powerup deployed" << std::endl;
+			//	std::cout << "Powerup deployed" << std::endl;
 				//std::cout << "Number of powerups " << powerups.size() << std::endl;
 
 				//
@@ -622,9 +628,9 @@ int main () {
 			  }
 		  }
 	  }
-	
-
+	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_G)){
 		
+	  }
 	} else {
 			if (victory){
 				victory_screen.draw();

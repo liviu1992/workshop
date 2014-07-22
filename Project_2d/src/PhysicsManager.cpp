@@ -129,17 +129,19 @@ void PhysicsManager::AllSearch(){
 			//verific daca se afla playerul prin preajma
 			//testez daca distanta player - inamic este mai mica de o anumita valoare
 			//daca e asa, inamicul se va deplasa in pozitia de atac
-			if (glm::distance(glm::vec2(physics.at(i)->GetX(), physics.at(i)->GetY()),
-				 glm::vec2(physics.at(0)->GetX(), physics.at(i)->GetY()))< distance_to_engage){
+			
 
 					 //acum ma deplasez catre player
+					 if (glm::distance(glm::vec2(physics.at(i)->GetX(), physics.at(i)->GetY()),
+				 glm::vec2(physics.at(0)->GetX(), physics.at(i)->GetY()))< distance_to_engage){
+					 this->physics.at(i)->advanceTowards(physics.at(0)->GetX(), physics.at(0)->GetY(), false);
+					 } else {
+						 this->physics.at(i)->advanceTowards(physics.at(0)->GetX(), physics.at(0)->GetY(), true);
+					 }
 
-					 this->physics.at(i)->advanceTowards(physics.at(0)->GetX(), physics.at(0)->GetY());
 
 
-
-
-			}
+			
 
 		}
 	}

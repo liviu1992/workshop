@@ -16,7 +16,6 @@
     <ClCompile Include="..\src\EnemyFactory.cpp" />
     <ClCompile Include="..\src\joc.cpp" />
     <ClCompile Include="..\src\LayerManager.cpp" />
-    <ClCompile Include="..\src\MapGenerator.cpp" />
     <ClCompile Include="..\src\Matrix.cpp" />
     <ClCompile Include="..\src\Physics.cpp" />
     <ClCompile Include="..\src\PhysicsManager.cpp" />
@@ -37,7 +36,6 @@
     <ClInclude Include="..\src\Enemy.h" />
     <ClInclude Include="..\src\EnemyFactory.h" />
     <ClInclude Include="..\src\LayerManager.h" />
-    <ClInclude Include="..\src\MapGenerator.h" />
     <ClInclude Include="..\src\Matrix.h" />
     <ClInclude Include="..\src\Physics.h" />
     <ClInclude Include="..\src\PhysicsManager.h" />

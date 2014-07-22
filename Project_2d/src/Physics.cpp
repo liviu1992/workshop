@@ -73,22 +73,27 @@ GLfloat Physics::GetY(){
 	return this->y;
 }
 
-void Physics::advanceTowards(GLfloat x, GLfloat y){
-	
+void Physics::advanceTowards(GLfloat x, GLfloat y, GLboolean fast){
+	GLfloat AdvanceStep=0;
+	if (fast){
+		AdvanceStep = 60*advanceStep;
+	} else {
+		AdvanceStep = advanceStep;
+	}
 	if (x<this->x){
-		this->x-= advanceStep;
-		this->enemyOriginX-=advanceStep;
+		this->x-= AdvanceStep;
+		this->enemyOriginX-=AdvanceStep;
 	} else if (x>this->x){
-		this->x+= advanceStep;
-		this->enemyOriginX+=advanceStep;
+		this->x+= AdvanceStep;
+		this->enemyOriginX+=AdvanceStep;
 	}
 
 	if (y+fireDistance<this->y){
-		this->y-= advanceStep;
-		this->enemyOriginY-=advanceStep;
+		this->y-= AdvanceStep;
+		this->enemyOriginY-=AdvanceStep;
 	} else if (y+fireDistance>this->y){
-		this->y+= advanceStep;
-		this->enemyOriginY+=advanceStep;
+		this->y+= AdvanceStep;
+		this->enemyOriginY+=AdvanceStep;
 	}
 }
 

@@ -155,7 +155,7 @@ public:
 	GLfloat getSpeedX();
 	GLfloat getSpeedY();
 	void setEnemyOrigin(GLfloat originX, GLfloat originY);
-	void advanceTowards(GLfloat x, GLfloat y);
+	void advanceTowards(GLfloat x, GLfloat y, GLboolean fast);
 private:
 	GLboolean canFire;
 	GLdouble fireTimer;

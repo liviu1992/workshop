@@ -1,11 +1,12 @@
 #include "EnemyFactory.h"
 
 
-EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, SpriteManager* sm, PhysicsManager* pm){
+EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, SpriteManager* sm, PhysicsManager* pm, Player* player){
 		this->enemies=enemies;
 		this->tm = tm;
 		this->sm = sm;
 		this->pm = pm;
+		this->player=player;
 		SettingsManager settingsManager;
 		scout_seed = static_cast<GLint>(settingsManager.get("scout_seed"));
 		basic_seed = static_cast<GLint>(settingsManager.get("basic_seed"));
@@ -78,26 +79,29 @@ EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, Spr
 	//	std::cout << numEnemies << " generated" << std::endl;
 	}
 	void EnemyFactory::addRandomEnemyOfGivenType(enemyType type){
+		glm::vec2 playerPosition = player->getSprite()->getPosition();
+
 		enemies->push_back(new Enemy(tm, type));
 		sm->Add(enemies->at(enemies->size()-1)->getSprite());
 		pm->Add(enemies->at(enemies->size()-1)->getPhysics());
 			
 		GLfloat x, y;
-		x = 1.0f*((rand()% 3000-1500))/100;
-		y = 1.0f*((rand()% 3000-1500))/100;
+		x = playerPosition.x + 1.0f*((rand()% 3000-1500))/100;
+		y = playerPosition.y + 1.0f*((rand()% 3000-1500))/100;
 			
 		enemies->at(enemies->size()-1)->getPhysics()->setPosition(x, y);
 	}
 
 	void EnemyFactory::addRandomEnemy(){
+		glm::vec2 playerPosition = player->getSprite()->getPosition();
 		enemyType type = static_cast<enemyType>(enemyType::SCOUT_ENEMY+ (rand() % 3));
 		enemies->push_back(new Enemy(tm, type));
 		sm->Add(enemies->at(enemies->size()-1)->getSprite());
 		pm->Add(enemies->at(enemies->size()-1)->getPhysics());
 			
 		GLfloat x, y;
-		x = 1.0f*(4000 -(rand()% 2000))/100;
-		y = 1.0f*(4000 -(rand()% 2000))/100;
+		x = playerPosition.x + 1.0f*(4000 -(rand()% 2000))/100;
+		y = playerPosition.y + 1.0f*(4000 -(rand()% 2000))/100;
 			
 		enemies->at(enemies->size()-1)->getPhysics()->setPosition(x, y);
 
