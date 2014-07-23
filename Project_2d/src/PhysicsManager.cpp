@@ -57,8 +57,12 @@ void PhysicsManager::LaunchProjectile(Physics* parent){
 
 		*/
 		
-
-		this->projectiles->push_back(new Projectile(this->tm ));
+		if (parent->getType()==physicsType::P_PLAYER){
+			this->projectiles->push_back(new Projectile(this->tm, true));
+		} else {
+			this->projectiles->push_back(new Projectile(this->tm, false));
+		}
+		
 		Physics* physics=this->projectiles->at(this->projectiles->size()-1)->getPhysics();
 		Projectile* projectile = this->projectiles->at(this->projectiles->size()-1);
 		physics->setPosition(parent->GetX(), parent->GetY());

@@ -6,7 +6,7 @@
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #define new DEBUG_NEW
 #endif
-Projectile::Projectile(TextureManager* tm){
+Projectile::Projectile(TextureManager* tm, GLboolean owner){
 	SettingsManager settingsManager;
 
 	
@@ -22,7 +22,7 @@ Projectile::Projectile(TextureManager* tm){
 	this->y=initialY;
 	
 	this->health = 5;
-
+	this->owner = owner;
 	
 
 	
@@ -31,9 +31,21 @@ Projectile::Projectile(TextureManager* tm){
 
 	this->projectileWidth=pWidth;
 	this->projectileHeight=pHeight;
-	this->sprite=new Sprite(this->x, this->y, this->projectileWidth, this->projectileHeight, texture_id::ROCKET, tm);
-	this->combatant = new Combatant(this->health, sprite);
-	this->physics=new Physics(this->x, this->y, this->projectileWidth, this->projectileHeight, this->sprite, physicsType::P_ROCKET, this->alive, projectileSpeed, combatant, projectile_mass);
+
+
+
+	if (this->owner){
+		this->sprite=new Sprite(this->x, this->y, this->projectileWidth, this->projectileHeight, texture_id::ROCKET_3, tm);
+		this->combatant = new Combatant(this->health, sprite);
+		this->physics=new Physics(this->x, this->y, this->projectileWidth, this->projectileHeight, this->sprite, physicsType::P_ROCKET, this->alive, projectileSpeed, combatant, projectile_mass);
+		this->physics->setOwnerIfRocket(true);
+	} else {
+		this->sprite=new Sprite(this->x, this->y, this->projectileWidth, this->projectileHeight, texture_id::ROCKET_4, tm);
+		this->combatant = new Combatant(this->health, sprite);
+		this->physics=new Physics(this->x, this->y, this->projectileWidth, this->projectileHeight, this->sprite, physicsType::P_ROCKET, this->alive, projectileSpeed, combatant, projectile_mass);
+		this->physics->setOwnerIfRocket(false);
+	}
+	
 	
 }
 Combatant* Projectile::getCombatant(){

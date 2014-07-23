@@ -3,7 +3,7 @@
 Powerup::Powerup(GLfloat x, GLfloat y, TextureManager* tm, powerupType type){
 	this->tm=tm;
 	GLfloat width = 0.1f;
-	GLfloat height = 0.1f;
+	GLfloat height = 0.07f;
 	this->health = 100;
 	isalive = true;
 	this->type = type;

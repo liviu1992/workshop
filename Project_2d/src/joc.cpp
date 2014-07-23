@@ -404,8 +404,8 @@ int main () {
 	Sprite text_score(text_score_x, text_score_y, text_score_width, text_score_height, texture_id::TEXT_SCORE, &textManager);
 	Sprite text_enemies(text_enemies_x, text_enemies_y, text_enemies_width, text_enemies_height, texture_id::TEXT_ENEMIES, &textManager);
 
-
-
+	Sprite modifier_speed(1.1f, 0.2f, 0.2f,0.24f, texture_id::PWUP_1, &textManager);
+	Sprite modifier_instagib(1.1f, 0.6f, 0.2f,0.24f, texture_id::PWUP_2, &textManager);
 	
 
 	float lastTime = (float) glfwGetTime();
@@ -459,6 +459,13 @@ int main () {
 		  drawNumber(enemiesKilled,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
 		   //player health
 		  drawNumber(player.getCombatant()->getHealth(), health_x,health_y, health_width,health_height, &textManager);
+
+		  if (player.getCombatant()->hasModifier(modifier::HIGH_SPEED)){
+				modifier_speed.draw();
+		  }
+		  if (player.getCombatant()->hasModifier(modifier::INSTAGIB)){
+				modifier_instagib.draw();
+		  }
 		  
 
 		  //populez sectoarele din jur

@@ -14,7 +14,7 @@
 #include "Combatant.h"
 class Projectile{
 public:
-	Projectile(TextureManager* tm);
+	Projectile(TextureManager* tm, GLboolean owner);
 
 
 
@@ -39,6 +39,7 @@ private:
 	TextureManager* tm;
 	Combatant* combatant;
 	GLint health;
+	GLboolean owner; //true for player
 
 };
 
