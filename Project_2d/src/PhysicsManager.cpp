@@ -67,11 +67,13 @@ void PhysicsManager::LaunchProjectile(Physics* parent){
 			this->sm->Add(projectile->getSprite());
 			this->Add(physics);
 			physics->setParentSpeed(parent->getSpeedX(), parent->getSpeedY());
+			projectile->getPhysics()->setParentsPhysics(parent);
 			projectile->Fire(parent->GetX(), parent->GetY(),parent->getRotate()/*physics.at(i)->getRotate()*/);
 		} else {
 			physics->setRotate(180);
 			this->sm->Add(projectile->getSprite());
 			this->Add(physics);
+			projectile->getPhysics()->setParentsPhysics(parent);
 			projectile->Fire(parent->GetX(), parent->GetY(),307.f * 3.14f/180.f/*physics.at(i)->getRotate()*/);
 		}
 		
@@ -86,7 +88,7 @@ void PhysicsManager::TestAttacks(){
 
 
 	for (unsigned int i=1; i<physics.size(); i++){
-		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP) 			
+		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP_1 || physics.at(i)->getType()==physicsType::P_POWERUP_2 || physics.at(i)->getType()==physicsType::P_POWERUP_3 ) 			
 			 &&  glm::distance(physics.at(i)->getSprite()->getPosition(), physics.at(0)->getSprite()->getPosition())<4.5f){
 			//then we have an enemy
 			// * stiu ca playerul este primul adaugat in PhysicsManager(de aia incep si de la 1 for-ul)
@@ -124,7 +126,7 @@ void PhysicsManager::TestAttacks(){
 void PhysicsManager::AllSearch(){
 	
 	for (unsigned int i=0; i<physics.size(); i++){
-		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP)){
+		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP_1 || physics.at(i)->getType()==physicsType::P_POWERUP_2 ||  physics.at(i)->getType()==physicsType::P_POWERUP_3  )){
 
 			//verific daca se afla playerul prin preajma
 			//testez daca distanta player - inamic este mai mica de o anumita valoare
@@ -161,7 +163,7 @@ void solveCollision(Physics* objectA, Physics* objectB, Manifold* manifold){
 			return;
 	}
 	//nu rezolv coliziuni ce implica powerupuri si rachete
-	if ((objectA->getType()==physicsType::P_POWERUP) && (objectB->getType()==physicsType::P_ROCKET)){
+	if ((objectA->getType()==physicsType::P_POWERUP_1 || objectA->getType()==physicsType::P_POWERUP_2 || objectA->getType()==physicsType::P_POWERUP_3) && (objectB->getType()==physicsType::P_ROCKET)){
 		return;
 	}
 

@@ -390,17 +390,9 @@ int main () {
 	
 	
 
-	
-
-
-	
-	
-
 	spriteManager.Add(player.getSprite());
-	
 
-	 
-
+	srand((unsigned) time(0));
 
 
 	GLboolean gamePlaying=true;
@@ -494,7 +486,20 @@ int main () {
 				//mai jos o sa pun codul necesar aparitiei unui powerup in locul 
 				//inamicului distrus
 			//	std::cout << "Preparing powerup" << std::endl;
-				powerups.push_back(new Powerup(enemyPhysics->GetX(), enemyPhysics->GetY(), &textManager));
+				powerupType PowerupType;
+				GLshort t;
+				t = rand()% 10;  
+				if (t<7){
+					PowerupType = powerupType::PW1_1;
+				} else if (t<9){
+					PowerupType = powerupType::PW1_2;
+				} else {
+					PowerupType = powerupType::PW1_3;
+				}
+				
+
+
+				powerups.push_back(new Powerup(enemyPhysics->GetX(), enemyPhysics->GetY(), &textManager, PowerupType));
 				spriteManager.Add(powerups.at(powerups.size()-1)->getSprite());
 				physicsManager.Add(powerups.at(powerups.size()-1)->getPhysics());				
 			//	std::cout << "Powerup deployed" << std::endl;
@@ -541,6 +546,17 @@ int main () {
 		  for (unsigned int i=0; i<powerups.size(); i++){
 			  
 			  if (!powerups.at(i)->getSprite()->getDead()){
+				  /*   
+					sterg powerup-ul dupa 10 secunde de viata pentru a preveni umplerea hartii cu prea 
+					multe sprite-uri
+				  */
+					if (powerups.at(i)->getCreationTime() <= glfwGetTime()-10){
+						spriteManager.Remove(powerups.at(i)->getSprite());
+						physicsManager.Remove(powerups.at(i)->getPhysics());
+						delete powerups.at(i);
+						powerups.erase(powerups.begin()+i);
+					}
+
 
 			  } else {
 				 spriteManager.Remove(powerups.at(i)->getSprite());
@@ -551,6 +567,9 @@ int main () {
 			  }
 			
 		  }
+
+
+		  
 		  
 
 		  player.getPhysics()->Update();
@@ -614,6 +633,30 @@ int main () {
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_L)){
 		  loadSettings();
 	  }
+
+
+	  // instagib cheat
+	   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_I)){
+		   if (!player.getCombatant()->hasModifier(modifier::INSTAGIB)){
+				player.getCombatant()->addModifier(modifier::INSTAGIB);
+				std::cout << "IG" << std::endl;
+		   } else {
+			   player.getCombatant()->removeModifier(modifier::INSTAGIB);
+			   std::cout << "NIG" << std::endl;
+		   }
+	  }
+	    // instagib cheat
+	   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_H)){
+		   if (!player.getCombatant()->hasModifier(modifier::HIGH_SPEED)){
+				player.getCombatant()->addModifier(modifier::HIGH_SPEED);
+				std::cout << "HS" << std::endl;
+		   } else {
+			   player.getCombatant()->removeModifier(modifier::HIGH_SPEED);
+			   std::cout << "NHS" << std::endl;
+		   }
+	  }
+
+
 	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE)){
 		  if (playerPhysics->canIFire()){
 			

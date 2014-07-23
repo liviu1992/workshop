@@ -15,7 +15,9 @@ enum physicsType{
 	P_SCOUT,
 	P_BASIC,
 	P_ASSAULT,
-	P_POWERUP,
+	P_POWERUP_1,
+	P_POWERUP_2,
+	P_POWERUP_3,
 	P_ROCKET
 };
 
@@ -115,12 +117,18 @@ public:
 
 		this->fireTimer=0.f;
 		this->fireLimit=fire_limit;
+		this->m_fireLimit = fire_limit;
 	
 		this->fireCommand=false;
 		this->speed=0;
 		this->isExploding=false;
 
 		this->setEnemyOrigin(x,y);
+		
+
+
+	
+
 	};
 	GLboolean fireCommandIssued();
 	void issueFireCommand(GLboolean value);
@@ -156,6 +164,10 @@ public:
 	GLfloat getSpeedY();
 	void setEnemyOrigin(GLfloat originX, GLfloat originY);
 	void advanceTowards(GLfloat x, GLfloat y, GLboolean fast);
+
+
+	Physics* getParentsPhysics();
+	void setParentsPhysics(Physics* physics);
 private:
 	GLboolean canFire;
 	GLdouble fireTimer;
@@ -171,6 +183,8 @@ private:
 	GLfloat rotate;
 	GLfloat speed;
 	GLfloat speedX;
+	GLfloat m_speed;
+	GLdouble m_fireLimit;
 	GLfloat speedY;
 	Sprite *sprite;
 	Combatant *combatant;
@@ -208,6 +222,8 @@ private:
 
 	GLfloat advanceStep;
 	GLfloat fireDistance;
+
+	Physics* parentsPhysics;
 };
 
 struct Manifold{

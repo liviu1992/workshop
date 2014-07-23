@@ -12,26 +12,52 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 
 	//intotdeauna din A se va face totul pentru a pastra simplitatea 
 	if (isA){
-		if (manifold->objectB->getType()==physicsType::P_POWERUP){
+		if (manifold->objectB->getType()==physicsType::P_POWERUP_1){
 			//player will get the powerup
-			std::cout << "Increasing health" << std::endl;
+			std::cout << "Increasing health!" << std::endl;
 			manifold->objectA->getCombatant()->increaseHealth(10);
 			//manifold->objectB->getCombatant()->increaseHealth(10);
 			manifold->objectB->getSprite()->setDead(true);
 		}
+		if (manifold->objectB->getType()==physicsType::P_POWERUP_2){
+			//player will get the powerup
+			std::cout << "Increasing speed!" << std::endl;
+
+
+			manifold->objectA->getCombatant()->addModifier(modifier::HIGH_SPEED);
+		
+			manifold->objectB->getSprite()->setDead(true);
+		}
+		if (manifold->objectB->getType()==physicsType::P_POWERUP_3){
+			//player will get the powerup
+			std::cout << "Instagib!" << std::endl;
+
+			manifold->objectA->getCombatant()->addModifier(modifier::INSTAGIB);
+			
+			manifold->objectB->getSprite()->setDead(true);
+		}
+
 
 		if (this->type!=physicsType::P_ROCKET && (manifold->objectA->getType()==physicsType::P_PLAYER) && manifold->objectB->getType()==physicsType::P_ROCKET && !manifold->objectB->getOwner()){
 			combatant->damage(damage);
 			manifold->objectB->getSprite()->Explode();
+			
 			manifold->objectB->isExploding=true;
 			//manifold->objectB->Rotate(-manifold->objectB->getRotate());
 			
 		}
 		else if (this->type!=physicsType::P_ROCKET && manifold->objectA->getType()!=physicsType::P_PLAYER && manifold->objectB->getType()==physicsType::P_ROCKET && manifold->objectB->getOwner()){
 				if (!manifold->objectA->getSprite()->getExplode() && !manifold->objectA->getSprite()->getDead()){
-					combatant->damage(damage);
 					manifold->objectB->getSprite()->Explode();
-					//manifold->objectB->Rotate(-manifold->objectB->getRotate());
+					
+					if (manifold->objectB->getParentsPhysics()->getCombatant()->hasModifier(modifier::INSTAGIB)){
+						std::cout << "Instagibbed!" << std::endl;
+						combatant->damage(9999);
+						
+					} else {
+						combatant->damage(damage);
+					}
+
 					manifold->objectB->isExploding=true;
 				}
 			
@@ -158,8 +184,8 @@ void Physics::Update(){
 	}
 	switch(this->type){
 	case physicsType::P_PLAYER:
-	
-	
+		
+		this->getCombatant()->checkModifierLifetime();    //verific ca dupa un interval de timp modifier-ul se dispara
 
 		this->y+=cos(rotate)*speedY*speed*0.05f;
 		this->x+=-sin(rotate)*speedX*speed*0.05f;
@@ -182,11 +208,25 @@ void Physics::Update(){
 			this->sprite->Rotate(this->rotate, this->GetX(), this->GetY());
 			this->speedX=2;
 			this->speedY=2;
-			
+			//if (this->owner){
+		//	speed*=1.5f;
+			//}
+			if (this->owner){
+				if (this->getParentsPhysics()->getCombatant()->hasModifier(modifier::HIGH_SPEED)){
+					m_speed =2.f*speed;
+					m_fireLimit = fireLimit/4;
+				} else {
+					m_speed = speed;
+					m_fireLimit = fireLimit;
+				}
+			} else {
+				m_speed = speed;
+				m_fireLimit = fireLimit;
+			}
 
 			if (this->fired){
-				this->y+=cos(rotate)*speedY*speed;
-				this->x+=-sin(rotate)*speedX*speed;
+				this->y+=cos(rotate)*speedY*m_speed;
+				this->x+=-sin(rotate)*speedX*m_speed;
 				this->sprite->move(this->x, this->y);
 			}
 			if ( this->y>this->rocketOriginY + this->rocketMaximumRange){
@@ -301,11 +341,11 @@ void Physics::issueFireCommand(GLboolean value){
 	this->fireCommand=value;
 }
 void Physics::setOwnerIfRocket(GLboolean owner){
-	this->owner = owner;
+	this->owner = owner;  //true for player, false for enemy
 }
 
 GLboolean Physics::canIFire(){
-	if (glfwGetTime()>=fireTimer+fireLimit){
+	if (glfwGetTime()>=fireTimer+m_fireLimit){
 			fireTimer = (float)glfwGetTime();
 			return true;
 		}
@@ -316,4 +356,12 @@ GLboolean Physics::canIFire(){
 
 GLfloat Physics::getFov(){
 	return static_cast<GLfloat>(this->fov);
+}
+
+Physics* Physics::getParentsPhysics(){
+	return this->parentsPhysics;
+}
+void Physics::setParentsPhysics(Physics* physics){
+	this->parentsPhysics=physics;
+	
 }

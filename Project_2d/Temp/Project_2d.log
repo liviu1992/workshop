@@ -1,32 +1,64 @@
-﻿Build started 7/22/2014 1:03:15 PM.
-     1>Project "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Project_2d\Project_2d.vcxproj" on node 2 (Build target(s)).
+﻿Build started 7/23/2014 10:57:13 AM.
+     1>Project "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Project_2d\Project_2d.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(345,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\\" /Fd"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\joc.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\\" /Fd"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\Combatant.cpp ..\src\Enemy.cpp ..\src\EnemyFactory.cpp ..\src\joc.cpp ..\src\LayerManager.cpp ..\src\Matrix.cpp ..\src\Physics.cpp ..\src\PhysicsManager.cpp ..\src\Player.cpp ..\src\Powerup.cpp ..\src\Projectile.cpp ..\src\SettingsManager.cpp ..\src\Shapes.h ..\src\Sprite.cpp ..\src\SpriteManager.cpp ..\src\Texture.cpp ..\src\TextureManager.cpp ..\src\Vector3.cpp
+         Vector3.cpp
+         TextureManager.cpp
+         Texture.cpp
+         SpriteManager.cpp
+         Sprite.cpp
+         Shapes.h
+         SettingsManager.cpp
+         Projectile.cpp
+         Powerup.cpp
+         Player.cpp
+         PhysicsManager.cpp
+         Physics.cpp
+         Matrix.cpp
+         LayerManager.cpp
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\layermanager.cpp(193): warning C4244: 'initializing' : conversion from 'GLint' to 'GLfloat', possible loss of data
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\layermanager.cpp(194): warning C4244: 'initializing' : conversion from 'GLint' to 'GLfloat', possible loss of data
          joc.cpp
+         EnemyFactory.cpp
+         Enemy.cpp
+         Combatant.cpp
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\combatant.cpp(51): warning C4800: 'GLboolean' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\combatant.cpp(55): warning C4800: 'GLboolean' : forcing value to bool 'true' or 'false' (performance warning)
+         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\\" /Fd"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\vc110.pdb" /Gd /TC /analyze- /errorReport:prompt ..\src\stb_image.c
+         stb_image.c
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\stb_image.c(298): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : see declaration of 'fopen'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\stb_image.c(360): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : see declaration of 'fopen'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\stb_image.c(398): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : see declaration of 'fopen'
+     1>c:\users\liviu\documents\visual studio 2012\projects\project_2d\src\stb_image.c(4291): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : see declaration of 'fopen'
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\lib\x86" glfw3dll.lib glfw3.lib glew32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.lib" /MACHINE:X86 "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Combatant.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Enemy.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\EnemyFactory.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\joc.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\LayerManager.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Matrix.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Physics.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\PhysicsManager.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Player.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Powerup.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Projectile.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\SettingsManager.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Shapes.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Sprite.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\SpriteManager.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\stb_image.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Texture.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\TextureManager.obj"
-         "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\\Temp\Vector3.obj"
-         Project_2d.vcxproj -> C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Debug\Project_2d.exe
-     1>Done Building Project "C:\Users\Liviu\documents\visual studio 2012\Projects\Project_2d\Project_2d\Project_2d.vcxproj" (Build target(s)).
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Debug\Project_2d.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\lib\x86" glfw3dll.lib glfw3.lib glew32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Debug\Project_2d.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Debug\Project_2d.lib" /MACHINE:X86 "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Combatant.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Enemy.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\EnemyFactory.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\joc.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\LayerManager.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Matrix.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Physics.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\PhysicsManager.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Player.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Powerup.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Projectile.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\SettingsManager.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Shapes.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Sprite.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\SpriteManager.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\stb_image.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Texture.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\TextureManager.obj"
+         "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\\Temp\Vector3.obj"
+         Project_2d.vcxproj -> C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Debug\Project_2d.exe
+     1>Done Building Project "C:\Users\Liviu\Documents\Visual Studio 2012\Projects\Project_2d\Project_2d\Project_2d.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.28
+Time Elapsed 00:00:17.62
