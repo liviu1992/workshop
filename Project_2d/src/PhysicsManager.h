@@ -1,6 +1,5 @@
 #ifndef PHYSICSMANAGER_H
 #define PHYSICSMANAGER_H
-#include "Physics.h"
 #include <vector>
 #include <algorithm>
 #include "Projectile.h"
@@ -8,6 +7,7 @@
 #include <chrono>
 #include <iostream>
 
+class Physics;
 
 class PhysicsManager{
 public:
@@ -31,6 +31,14 @@ private:
 	SpriteManager* sm;
 	PhysicsManager* pm;
 	GLfloat distance_to_engage;
+
+	GLfloat desiredX;
+	GLfloat desiredY;
+
+	GLfloat playerX;
+	GLfloat playerY;
+
+	GLdouble strange;   //folosit pentru a scadea predictibilitatea adversarilor
 };
 
 #endif

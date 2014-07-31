@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <chrono>
+#include "Camera.h"
 
 
 template<typename TimeT = std::chrono::milliseconds>
@@ -44,7 +45,7 @@ struct sector{
 
 class LayerManager{
 public:
-	LayerManager(Player* player, TextureManager* tm);
+	LayerManager(Camera* cam, TextureManager* tm);
 	~LayerManager();
 	void Update();		//updateaza pozitiile obiectelor din currentSectors(pentru a simula efectul de 2.5D
 	void Draw();		//deseneaza pozitiile obiectelor vizibile in acest moment pe ecran
@@ -63,7 +64,7 @@ private:
 	std::vector<sector*> visitedSectors; //aici pun sectoarele deja populate
 	std::vector<object*> activeObjects;
 	TextureManager* textureManager; //util pentru a creea un nou sprite
-	Player* player; //de aici aflam ce sectoare sunt vizibile
+	Camera* cam; //de aici aflam ce sectoare sunt vizibile
 	GLfloat visibileSize;
 	GLint visibleSizeInt;
 	GLboolean first;

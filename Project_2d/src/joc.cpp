@@ -24,8 +24,10 @@
 #include "SettingsManager.h"
 #include "PhysicsManager.h"
 #include "LayerManager.h"
+#include "Camera.h"
 //#include "MapGenerator.h"
 #include "Powerup.h"
+
 
 #ifdef _DEBUG
    #ifndef DBG_NEW
@@ -363,14 +365,17 @@ int main () {
 
 	TextureManager textManager;
 	Player player(&textManager);
+	
 	Physics* playerPhysics = player.getPhysics();
-	SpriteManager spriteManager(&player);
+	playerPhysics->setPlayer(playerPhysics);
+	Camera cam(&player);
+	SpriteManager spriteManager(&cam);
 	//SpriteManager worldSpriteManager;
 	PhysicsManager physicsManager(&projectiles, &textManager, &spriteManager);
+	playerPhysics->setPhysicsManager(&physicsManager);
 	
 	
-	
-	LayerManager layerManager(&player, &textManager);
+	LayerManager layerManager(&cam, &textManager);
 
 	//generez primul sector
 	//MapGenerator mapGenerator(&layerManager, &textManager);
@@ -407,10 +412,18 @@ int main () {
 	Sprite modifier_speed(1.1f, 0.2f, 0.2f,0.24f, texture_id::PWUP_1, &textManager);
 	Sprite modifier_instagib(1.1f, 0.6f, 0.2f,0.24f, texture_id::PWUP_2, &textManager);
 	
-
-	float lastTime = (float) glfwGetTime();
+	
+	/*float lastTime = (float) glfwGetTime();
 	float newTime;
-	float frameTime;	
+	float frameTime;	*/
+	double t = 0.0;
+	const double dt = 0.016;
+
+	double currentTime = glfwGetTime();
+	double accumulator = 0.0;
+
+
+
 	glClearColor(0,0,0,0);
 
 
@@ -419,53 +432,21 @@ int main () {
 	while (!glfwWindowShouldClose(window)) {
 		Utils::_update_fps_counter (window);
 
-		/*
-			Fac viteza de miscare sa fie independenta de framerate.
-			Inmultesc viteza cu timpul dintre frameuri.
 
-		*/
-		newTime = (float) glfwGetTime();
+	double newTime = glfwGetTime();
+    double frameTime = newTime - currentTime;
+    currentTime = newTime;
 
-		frameTime = newTime-lastTime;
-		lastTime=newTime;
+    accumulator += frameTime;
 
-		/*
-			######################################################
-		*/
+    while ( accumulator >= dt )
+    {
 
-	  //..... Randare................. 
-	  // stergem ce s-a desenat anterior
+		//AICI PUN FIZICA
+		if (gamePlaying){
+			 player.getPhysics()->Update();
 
-      
-
-	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	  glViewport (0, 0, g_gl_width, g_gl_height);
-
-	  if (gamePlaying){
-
-	
-		
-		  sky.draw();
-		//  worldSpriteManager.Draw();
-		 // mapGenerator.Generate(static_cast<GLint>(player.getPhysics()->GetX()), static_cast<GLint>(player.getPhysics()->GetY()));
-		
-		  layerManager.Draw();
-		  spriteManager.Draw();	 
-		  //draw score
-		  drawNumber(score, score_x, score_y, score_width, score_height, &textManager);
-		  text_enemies.draw();
-		  text_score.draw();
-		   //draw enemies
-		  drawNumber(enemiesKilled,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
-		   //player health
-		  drawNumber(player.getCombatant()->getHealth(), health_x,health_y, health_width,health_height, &textManager);
-
-		  if (player.getCombatant()->hasModifier(modifier::HIGH_SPEED)){
-				modifier_speed.draw();
-		  }
-		  if (player.getCombatant()->hasModifier(modifier::INSTAGIB)){
-				modifier_instagib.draw();
-		  }
+		 
 		  
 
 		  //populez sectoarele din jur
@@ -532,210 +513,246 @@ int main () {
 				  enemies.erase(enemies.begin()+i);
 			  }
 
-		  }
-		  for (unsigned int i=0; i<projectiles.size(); i++){
-			  Physics* projectilePhysics=projectiles.at(i)->getPhysics();
-			  if (!projectiles.at(i)->getSprite()->getDead() && projectiles.at(i)->isAlive()){
-				  projectilePhysics->setSpeed(speedPlayer*frameTime);
-				  projectilePhysics->Update();
-			  } else {
-				  spriteManager.Remove(projectiles.at(i)->getSprite());
-				  physicsManager.Remove(projectilePhysics);
-				  delete projectiles.at(i);
-				  projectiles.erase(projectiles.begin()+i);
-		
 			  }
+			  for (unsigned int i=0; i<projectiles.size(); i++){
+				  Physics* projectilePhysics=projectiles.at(i)->getPhysics();
+				  if (!projectiles.at(i)->getSprite()->getDead() && projectiles.at(i)->isAlive()){
+					  projectilePhysics->setSpeed(speedPlayer*frameTime);
+					  projectilePhysics->Update();
+				  } else {
+					  spriteManager.Remove(projectiles.at(i)->getSprite());
+					  physicsManager.Remove(projectilePhysics);
+					  delete projectiles.at(i);
+					  projectiles.erase(projectiles.begin()+i);
+		
+				  }
 		  
-		  }
-		  /*
-			verific daca exista powerups-uri luate de player, daca da le elimin 
-		  */
-		  for (unsigned int i=0; i<powerups.size(); i++){
+			  }
+			  /*
+				verific daca exista powerups-uri luate de player, daca da le elimin 
+			  */
+			  for (unsigned int i=0; i<powerups.size(); i++){
 			  
-			  if (!powerups.at(i)->getSprite()->getDead()){
-				  /*   
-					sterg powerup-ul dupa 10 secunde de viata pentru a preveni umplerea hartii cu prea 
-					multe sprite-uri
-				  */
-					if (powerups.at(i)->getCreationTime() <= glfwGetTime()-10){
-						spriteManager.Remove(powerups.at(i)->getSprite());
-						physicsManager.Remove(powerups.at(i)->getPhysics());
-						delete powerups.at(i);
-						powerups.erase(powerups.begin()+i);
-					}
+				  if (!powerups.at(i)->getSprite()->getDead()){
+					  /*   
+						sterg powerup-ul dupa 10 secunde de viata pentru a preveni umplerea hartii cu prea 
+						multe sprite-uri
+					  */
+						if (powerups.at(i)->getCreationTime() <= glfwGetTime()-10){
+							spriteManager.Remove(powerups.at(i)->getSprite());
+							physicsManager.Remove(powerups.at(i)->getPhysics());
+							delete powerups.at(i);
+							powerups.erase(powerups.begin()+i);
+						}
 
 
-			  } else {
-				 spriteManager.Remove(powerups.at(i)->getSprite());
-				 physicsManager.Remove(powerups.at(i)->getPhysics());
-				 delete powerups.at(i);
-				 powerups.erase(powerups.begin()+i);
+				  } else {
+					 spriteManager.Remove(powerups.at(i)->getSprite());
+					 physicsManager.Remove(powerups.at(i)->getPhysics());
+					 delete powerups.at(i);
+					 powerups.erase(powerups.begin()+i);
 				  
-			  }
+				  }
 			
-		  }
+			  }
 
-
-		  
-		  
-
-		  player.getPhysics()->Update();
-
-		  sky.move(player.getPhysics()->GetX(), player.getPhysics()->GetY());
-		  sky.getMatrix()->updateMatrix();
-		  
-		  
-		  
-		
-		  GLboolean no_enemies=true;
-		  GLboolean no_health=true;
-		  if (100 != enemiesKilled){
-			 no_enemies=false;
-		  } 
-		  if (player.getCombatant()->getHealth()>0){
-			  no_health=false;
-		  }
-		
-		  if (no_enemies || no_health){
-
-			  gamePlaying=false;
+			   GLboolean no_enemies=true;
+			  GLboolean no_health=true;
+			  if (100 != enemiesKilled){
+				 no_enemies=false;
+			  } 
 			  if (player.getCombatant()->getHealth()>0){
-				   victory=true;
-			  } else {
-				  victory= false;
+				  no_health=false;
 			  }
-			 
-		}
-
-
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
-		  playerPhysics->setSpeed(frameTime);
-		  playerPhysics->setSpeedY(speedPlayer);
-		  playerPhysics->setSpeedX(speedPlayer);
-		  player.getSprite()->setLeft(false);
-		  player.getSprite()->setRight(false);		
-		  player.getSprite()->setAdvance(true);
-	  }
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S)){
-		  playerPhysics->setSpeed(frameTime);
-		  playerPhysics->setSpeedY(-speedPlayer);
-		  playerPhysics->setSpeedX(-speedPlayer);
-		  player.getSprite()->setLeft(false);
-		  player.getSprite()->setRight(false);		
-		  player.getSprite()->setAdvance(true);
 		
-	  }
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A)){
-		 playerPhysics->Rotate(rotationSpeed);
-		 player.getSprite()->setLeft(true);
-		 player.getSprite()->setRight(false);		
-		 player.getSprite()->setAdvance(false);
-	  }
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D)){
-		 playerPhysics->Rotate(-rotationSpeed);
-		  player.getSprite()->setLeft(false);
-		 player.getSprite()->setRight(true);		
-		 player.getSprite()->setAdvance(false);
-	  }
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_L)){
-		  loadSettings();
-	  }
+			  if (no_enemies || no_health){
 
-
-	  // instagib cheat
-	   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_I)){
-		   if (!player.getCombatant()->hasModifier(modifier::INSTAGIB)){
-				player.getCombatant()->addModifier(modifier::INSTAGIB);
-				std::cout << "IG" << std::endl;
-		   } else {
-			   player.getCombatant()->removeModifier(modifier::INSTAGIB);
-			   std::cout << "NIG" << std::endl;
-		   }
-	  }
-	    // instagib cheat
-	   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_H)){
-		   if (!player.getCombatant()->hasModifier(modifier::HIGH_SPEED)){
-				player.getCombatant()->addModifier(modifier::HIGH_SPEED);
-				std::cout << "HS" << std::endl;
-		   } else {
-			   player.getCombatant()->removeModifier(modifier::HIGH_SPEED);
-			   std::cout << "NHS" << std::endl;
-		   }
-	  }
-
-
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE)){
-		  if (playerPhysics->canIFire()){
-			
-			 playerPhysics->issueFireCommand(true);
-			  //penalizez jucatorul pentru consum excesiv de munitie
-			  if (score>defeat_score){
-				  score-=rocket_penalty;
-			  } else {
-				  score = defeat_score;
 				  gamePlaying=false;
-				  victory=false;
-			  }
-		  }
-	  }
-	  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_G)){
-		
-	  }
-	} else {
-			if (victory){
-				victory_screen.draw();
-
-				for (unsigned int i=0; i<enemies.size(); i++){
-					delete enemies.at(i);
-  
-				}
-				for (unsigned int i=0; i<projectiles.size(); i++){
-					delete projectiles.at(i);
-				}
-				for (unsigned int i=0; i<powerups.size(); i++){
-					delete powerups.at(i);
-				}
-
-				enemies.clear();
-  
-				projectiles.clear();
-		  
-				Sprite text_final_score(final_text_score_x, final_text_score_y, final_text_score_width, final_text_score_height, texture_id::TEXT_SCORE, &textManager);
-				text_final_score.draw();
-				//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
-				drawNumber(score,final_score_x,final_score_y,final_score_width, final_score_height, &textManager);
-	
-		  
-			} else {
-				defeat_screen.draw();
-				Sprite text_final_score(final_text_score_x, final_text_score_y, final_text_score_width, final_text_score_height, texture_id::TEXT_SCORE, &textManager);
-				text_final_score.draw();
-				//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
-				drawNumber(score,final_score_x,final_score_y,final_score_width, final_score_height, &textManager);
-
-				
-				Sprite text_final_enemies(final_text_enemies_x, final_text_enemies_y, final_text_enemies_width, final_text_enemies_height, texture_id::TEXT_ENEMIES, &textManager);
-				text_final_enemies.draw();
-				drawNumber(enemiesKilled,final_enemies_x, final_enemies_y, final_enemies_width, final_enemies_height, &textManager);
+				  if (player.getCombatant()->getHealth()>0){
+					   victory=true;
+				  } else {
+					  victory= false;
+				  }
+			 
 			}
 
+
+		  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)){
+			  playerPhysics->setSpeed(frameTime);
+			  playerPhysics->setSpeedY(speedPlayer);
+			  playerPhysics->setSpeedX(speedPlayer);
+			  player.getSprite()->setLeft(false);
+			  player.getSprite()->setRight(false);		
+			  player.getSprite()->setAdvance(true);
+			 
+		  }
+		  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S)){
+			  playerPhysics->setSpeed(frameTime);
+			  playerPhysics->setSpeedY(-speedPlayer);
+			  playerPhysics->setSpeedX(-speedPlayer);
+			  player.getSprite()->setLeft(false);
+			  player.getSprite()->setRight(false);		
+			  player.getSprite()->setAdvance(true);
+		
+		  }
+		  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A)){
+			 playerPhysics->Rotate(rotationSpeed);
+			 player.getSprite()->setLeft(true);
+			 player.getSprite()->setRight(false);		
+			 player.getSprite()->setAdvance(false);
+			// playerPhysics->rotatingLeft();
+		  }
+		  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D)){
+			 playerPhysics->Rotate(-rotationSpeed);
+			  player.getSprite()->setLeft(false);
+			 player.getSprite()->setRight(true);		
+			 player.getSprite()->setAdvance(false);
+			// playerPhysics->rotatingRight();
+		  }
+		  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_L)){
+			  loadSettings();
+		  }
+
+
+		  // instagib cheat
+		   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_I)){
+			   if (!player.getCombatant()->hasModifier(modifier::INSTAGIB)){
+					player.getCombatant()->addModifier(modifier::INSTAGIB);
+					std::cout << "IG" << std::endl;
+			   } else {
+				   player.getCombatant()->removeModifier(modifier::INSTAGIB);
+				   std::cout << "NIG" << std::endl;
+			   }
+		  }
+			// instagib cheat
+		   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_H)){
+			   if (!player.getCombatant()->hasModifier(modifier::HIGH_SPEED)){
+					player.getCombatant()->addModifier(modifier::HIGH_SPEED);
+					std::cout << "HS" << std::endl;
+			   } else {
+				   player.getCombatant()->removeModifier(modifier::HIGH_SPEED);
+				   std::cout << "NHS" << std::endl;
+			   }
+		  }
+
+
+		  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE)){
+			  if (playerPhysics->canIFire()){
+			
+				 playerPhysics->issueFireCommand(true);
+				  //penalizez jucatorul pentru consum excesiv de munitie
+				  if (score>defeat_score){
+					  score-=rocket_penalty;
+				  } else {
+					  score = defeat_score;
+					  gamePlaying=false;
+					  victory=false;
+				  }
+			  }
+		  }
+		  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_G)){
+		
+		  }
+		  
+		  
+
+		}
+		//
+        //integrate( state, t, dt );
+        accumulator -= dt;
+        t += dt;
+    }
+
+	//AICI MISC CAMERA SI DESENEZ! 
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport (0, 0, g_gl_width, g_gl_height);
+
+
+	if (gamePlaying){
+		cam.updateCamera(); 
+
+
+		sky.move(cam.getX(), cam.getY());
+		sky.getMatrix()->updateMatrix();
+		
+		sky.draw();
+	
+		
+		layerManager.Draw();
+		spriteManager.Draw();	 
+		//draw score
+		drawNumber(score, score_x, score_y, score_width, score_height, &textManager);
+		text_enemies.draw();
+		text_score.draw();
+		//draw enemies
+		drawNumber(enemiesKilled,enemies_x, enemies_y, enemies_width, enemies_height, &textManager);
+		//player health
+		drawNumber(player.getCombatant()->getHealth(), health_x,health_y, health_width,health_height, &textManager);
+
+		if (player.getCombatant()->hasModifier(modifier::HIGH_SPEED)){
+			modifier_speed.draw();
+		}
+		if (player.getCombatant()->hasModifier(modifier::INSTAGIB)){
+			modifier_instagib.draw();
+		}
+		
+	} else {
+		if (victory){
+			victory_screen.draw();
+
+			for (unsigned int i=0; i<enemies.size(); i++){
+				delete enemies.at(i);
+  
+			}
+			for (unsigned int i=0; i<projectiles.size(); i++){
+				delete projectiles.at(i);
+			}
+			for (unsigned int i=0; i<powerups.size(); i++){
+				delete powerups.at(i);
+			}
+
+			enemies.clear();
+  
+			projectiles.clear();
+		  
+			Sprite text_final_score(final_text_score_x, final_text_score_y, final_text_score_width, final_text_score_height, texture_id::TEXT_SCORE, &textManager);
+			text_final_score.draw();
+			//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
+			drawNumber(score,final_score_x,final_score_y,final_score_width, final_score_height, &textManager);
+	
+		  
+		} else {
+			defeat_screen.draw();
+			Sprite text_final_score(final_text_score_x, final_text_score_y, final_text_score_width, final_text_score_height, texture_id::TEXT_SCORE, &textManager);
+			text_final_score.draw();
+			//Sprite text_enemies(0.5f, 1.15f, 0.6f, 0.3f, texture_id::TEXT_ENEMIES, &textManager);
+			drawNumber(score,final_score_x,final_score_y,final_score_width, final_score_height, &textManager);
+
+				
+			Sprite text_final_enemies(final_text_enemies_x, final_text_enemies_y, final_text_enemies_width, final_text_enemies_height, texture_id::TEXT_ENEMIES, &textManager);
+			text_final_enemies.draw();
+			drawNumber(enemiesKilled,final_enemies_x, final_enemies_y, final_enemies_width, final_enemies_height, &textManager);
 		}
 
+	}
+
+	
+
+	//  facem swap la buffere (Double buffer)
+	glfwSwapBuffers(window);
+
+	glfwPollEvents();
 
 
-		//  facem swap la buffere (Double buffer)
-		glfwSwapBuffers(window);
-
-		glfwPollEvents();
-
-
-		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE)) {
-			glfwSetWindowShouldClose (window, 1);
+	if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE)) {
+		glfwSetWindowShouldClose (window, 1);
 		 
 
-		}
-	 
 	}
+
+}
+	 
+	
   
   glfwTerminate();
 

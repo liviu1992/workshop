@@ -1,4 +1,6 @@
 #include "PhysicsManager.h"
+#include "Physics.h"
+
 #define MIN(X,Y) ( (X) < (Y) ? (X) : (Y)) 
 
 bool PhysicsManager::collisionDetectorAABB(GLfloat cxA, GLfloat cyA, GLfloat wA, GLfloat hA, GLfloat cxB, GLfloat cyB, GLfloat wB, GLfloat hB ){
@@ -65,21 +67,23 @@ void PhysicsManager::LaunchProjectile(Physics* parent){
 		
 		Physics* physics=this->projectiles->at(this->projectiles->size()-1)->getPhysics();
 		Projectile* projectile = this->projectiles->at(this->projectiles->size()-1);
-		physics->setPosition(parent->GetX(), parent->GetY());
+		
 		if (parent->getType()==physicsType::P_PLAYER){
+			physics->setPosition(parent->GetX(), parent->GetY());
 			physics->setOwnerIfRocket(true);
 			this->sm->Add(projectile->getSprite());
 			this->Add(physics);
-			physics->setParentSpeed(parent->getSpeedX(), parent->getSpeedY());
+			//physics->setParentSpeed(parent->getSpeedX(), parent->getSpeedY());
 			projectile->getPhysics()->setParentsPhysics(parent);
-			projectile->Fire(parent->GetX(), parent->GetY(),parent->getRotate()/*physics.at(i)->getRotate()*/);
+			projectile->Fire(parent->GetX()+0.0025f, parent->GetY(),parent->getRotate()/*physics.at(i)->getRotate()*/);
 		} else {
-			physics->setRotate(180);
+			physics->setPosition(parent->GetX(), parent->GetY());
+			//physics->setRotate(180);
 			this->sm->Add(projectile->getSprite());
 			this->Add(physics);
 			projectile->getPhysics()->setParentsPhysics(parent);
-			projectile->Fire(parent->GetX(), parent->GetY(),307.f * 3.14f/180.f/*physics.at(i)->getRotate()*/);
-		}
+			projectile->Fire(parent->GetX()+0.0025f, parent->GetY(),parent->getRotate()+  3.141f/*physics.at(i)->getRotate()*/);
+		}  
 		
 		//}) << std::endl;
 
@@ -91,7 +95,7 @@ void PhysicsManager::TestAttacks(){
 	//std::cout << measure<>::execution( [&]() {  
 
 
-	for (unsigned int i=1; i<physics.size(); i++){
+	/*for (unsigned int i=1; i<physics.size(); i++){
 		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP_1 || physics.at(i)->getType()==physicsType::P_POWERUP_2 || physics.at(i)->getType()==physicsType::P_POWERUP_3 ) 			
 			 &&  glm::distance(physics.at(i)->getSprite()->getPosition(), physics.at(0)->getSprite()->getPosition())<4.5f){
 			//then we have an enemy
@@ -106,29 +110,47 @@ void PhysicsManager::TestAttacks(){
 			GLfloat angle = static_cast<GLfloat>(glm::acos(glm::dot(enemyFacing, enemyToPlayer))*180/3.141);
 			GLfloat fov = this->physics.at(i)->getFov();
 			if (angle < fov/2){    //testez daca playerul e in raza vizuala a inamicului
-				//si daca e trag pe directia (0, -1) 
 				if (physics.at(i)->canIFire()){
-					//LaunchProjectile(physics.at(i));
-					//std::cout << "Fire command issued " << std::endl;
 					physics.at(i)->issueFireCommand(true);
 				}
 				
 			}
 		
-
+		
 		
 
 
 
 		}
 
-	}
+	}*/
 	//}) << std::endl;
 
 }
 
 void PhysicsManager::AllSearch(){
+/*	playerX = physics.at(0)->GetX();
+	playerY = physics.at(0)->GetY();
+	if (this->strange==0){
+		this->strange =  glfwGetTime();
 	
+		//obtin noi coordonate apropiate de cele dorite
+		desiredX = playerX + (rand()%1000)/1000.f-0.5f;
+		desiredY = playerY + (rand()%1000)/1000.f-0.5f;
+	} else {
+		if (this->strange+4 < glfwGetTime()){
+
+		} else {
+			this->strange=0;
+		}
+
+
+		
+	}
+
+
+
+
 	for (unsigned int i=0; i<physics.size(); i++){
 		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP_1 || physics.at(i)->getType()==physicsType::P_POWERUP_2 ||  physics.at(i)->getType()==physicsType::P_POWERUP_3  )){
 
@@ -136,13 +158,15 @@ void PhysicsManager::AllSearch(){
 			//testez daca distanta player - inamic este mai mica de o anumita valoare
 			//daca e asa, inamicul se va deplasa in pozitia de atac
 			
+					
+
 
 					 //acum ma deplasez catre player
 					 if (glm::distance(glm::vec2(physics.at(i)->GetX(), physics.at(i)->GetY()),
-				 glm::vec2(physics.at(0)->GetX(), physics.at(i)->GetY()))< distance_to_engage){
-					 this->physics.at(i)->advanceTowards(physics.at(0)->GetX(), physics.at(0)->GetY(), false);
+				 glm::vec2(playerX, playerY))< distance_to_engage){
+					 this->physics.at(i)->advanceTowards(desiredX, desiredY, false);
 					 } else {
-						 this->physics.at(i)->advanceTowards(physics.at(0)->GetX(), physics.at(0)->GetY(), true);
+						 this->physics.at(i)->advanceTowards(desiredX, desiredY, true);
 					 }
 
 
@@ -150,7 +174,7 @@ void PhysicsManager::AllSearch(){
 			
 
 		}
-	}
+	}*/
 
 }
 
@@ -195,8 +219,9 @@ PhysicsManager::PhysicsManager(std::vector<Projectile*>* projectiles, TextureMan
 	this->projectiles = projectiles;
 	this->tm = tm;
 	this->sm = sm;
+	this->strange = 0;
 	SettingsManager settingsManager;
-	distance_to_engage = settingsManager.get("distance_to_engage");
+	
 	std::cout << "PhysicsManager initializes" << std::endl;
 	
 }

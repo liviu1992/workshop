@@ -2,6 +2,8 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include "GLM\glm.hpp"
+#include <glm/gtx/transform.hpp>
+
 #include <iostream>
 
 
@@ -51,13 +53,33 @@ glm::mat4 Matrix::cameraMatrix= glm::lookAt(glm::vec3(0,0,1),
 	void Matrix::updateMatrix(){
 		
 		
+/*
+
 		glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x,-y,0));
 		glm::mat4 rotateInCenter = glm::rotate(glm::mat4(1), angle, glm::vec3(0,0,1));
 		glm::mat4 transBack = glm::translate(glm::mat4(1), glm::vec3(x, y, 0));
 		
 		rotationMatrix =transBack * rotateInCenter * transToCenter;
+		
+
 
 		translationMatrix = glm::translate(glm::mat4(), glm::vec3(x, y, 0));
+	*/	
+		
+		
+		
+		glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x+0.05f,-y+0.05f,0));
+		glm::mat4 rotateInCenter = glm::rotate(glm::mat4(1), angle, glm::vec3(0,0,1));
+		glm::mat4 transBack = glm::translate(glm::mat4(1), glm::vec3(x, y, 0));
+		
+		rotationMatrix =transBack * rotateInCenter * transToCenter;
+		
+
+
+		translationMatrix = glm::translate(glm::mat4(), glm::vec3(x, y, 0));
+
+
+		
 	}
 
 	void Matrix::translateTo(GLfloat x, GLfloat y){

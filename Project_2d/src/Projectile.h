@@ -15,12 +15,8 @@
 class Projectile{
 public:
 	Projectile(TextureManager* tm, GLboolean owner);
-
-
-
 	Sprite*  getSprite();
 	Physics* getPhysics();
-
 	void Fire(GLfloat x, GLfloat y, GLfloat rotate);
 	GLboolean isAlive();
 	void setAlive(GLboolean alive);

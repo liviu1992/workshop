@@ -1,11 +1,11 @@
 #include "LayerManager.h"
 
 
-LayerManager::LayerManager(Player* player, TextureManager* tm){
-	this->player = player;
+LayerManager::LayerManager(Camera* cam, TextureManager* tm){
+	this->cam = cam;
 	this->textureManager = tm;
-	this->visibileSize = 6.f;
-	this->visibleSizeInt = 6;//static_cast<GLint>(this->visibileSize);
+	this->visibileSize = 4.f;
+	this->visibleSizeInt = 4;//static_cast<GLint>(this->visibileSize);
 
 	//acum populez sectorul initial (0, 0)
 
@@ -36,7 +36,7 @@ void LayerManager::Update(){
 
 	UpdateCurrent(); //updatez lista currentSectors
 	for (unsigned int i=0; i<activeObjects.size(); i++){	
-		activeObjects.at(i)->s->move(this->player->getPhysics()->GetX()*activeObjects.at(i)->depth,this->player->getPhysics()->GetY()*activeObjects.at(i)->depth);
+		activeObjects.at(i)->s->move(this->cam->getX()*activeObjects.at(i)->depth,this->cam->getY()*activeObjects.at(i)->depth);
 		activeObjects.at(i)->s->getMatrix()->updateMatrix();
 			
 	
@@ -69,8 +69,9 @@ sector* LayerManager::PopulateSector(GLint mx, GLint my){
 	s->x = mx;
 	s->y = my;
 
-	GLuint numPlanets = rand() %3+1;
-	GLuint numAsteroids = rand() %10+1;
+
+	GLuint numPlanets = 1;//rand() %3+1;
+	GLuint numAsteroids = 4; //rand() %10+1;
 
 	
 	
@@ -82,7 +83,7 @@ sector* LayerManager::PopulateSector(GLint mx, GLint my){
 		//GLfloat size = rand() % 9 *0.1f+0.1f;
 		//GLfloat depth = rand() % 5 * 0.1f + 0.3f;	
 		GLfloat size = rand() % 9 *0.1f+0.1f;
-		GLfloat depth = rand() % 3 * 0.1f+0.3f;	
+		GLfloat depth = rand() % 300 * 0.001f+0.3f;	
 		GLint planet = rand() % 12;
 		object* obj=new object();
 		obj->s = new Sprite(x,y,size, size, static_cast<texture_id>(texture_id::PLANET_GREEN+planet), textureManager);
@@ -95,7 +96,7 @@ sector* LayerManager::PopulateSector(GLint mx, GLint my){
 		GLfloat y = visibleSizeInt*my + (rand() % (this->visibleSizeInt*100))/100.0f - this->visibleSizeInt*0.5f;
 		
 		GLfloat size = rand() % 4 *0.1f;
-		GLfloat depth = rand() % 3 * 0.1f;	
+		GLfloat depth = rand() % 300 * 0.001f;	
 		GLint meteor = rand() % 6;
 		object* obj=new object();
 		obj->s = new Sprite(x,y,size, size, static_cast<texture_id>(texture_id::METEOR_1+meteor), textureManager);
@@ -103,7 +104,7 @@ sector* LayerManager::PopulateSector(GLint mx, GLint my){
 		s->objects.push_back(obj);
 	}
 
-	std::sort(s->objects.begin(), s->objects.end(), &compareDepths);
+	
 
 
 //	std::cout << "x: " << s->x << " y: "<<s->y << std::endl;
@@ -119,8 +120,8 @@ void LayerManager::UpdateCurrent(){
 		mai jos sunt coordonatele sectorului in care se afla playerul
 	*/
 
-	GLfloat pX = player->getPhysics()->GetX();
-	GLfloat pY = player->getPhysics()->GetY();
+	GLfloat pX = cam->getX();
+	GLfloat pY = cam->getY();
 
 	GLint playerX = static_cast<int>(pX)/visibleSizeInt;  
 	GLint playerY = static_cast<int>(pY)/visibleSizeInt;
@@ -147,22 +148,23 @@ void LayerManager::UpdateCurrent(){
 			
 		
 		
-			position = currentSectors.at(i)->objects.at(j)->s->getPosition();
+		//	position = currentSectors.at(i)->objects.at(j)->s->getPosition();
 		//	if (glm::distance(position, glm::vec2(pX, pY))<4.f)
-			if (
+		/*	if (collisionDectectorAABB(
 				pX, pY, 4.f, 4.f,
 				position.x,
 				position.y,
 				2.f,
 				2.f
-				
-				) {
+				)
+				) {*/
 					activeObjects.push_back(currentSectors.at(i)->objects.at(j));
-			}
+			//}
 		}
 		
 	}
-
+	std::sort(activeObjects.begin(),activeObjects.end(), &compareDepths);
+	//std::cout << "Num elements drawn " << activeObjects.size() << std::endl;
 
 	//	}) << std::endl;
 
@@ -173,8 +175,8 @@ void LayerManager::PopulateCurrent(){
 //	std::cout << measure<>::execution( [&]() {  
 
 	//aflu sectorul curent
-	GLint x = static_cast<GLint>(player->getPhysics()->GetX());//this->visibleSizeInt;
-	GLint y = static_cast<GLint>(player->getPhysics()->GetY());//this->visibleSizeInt;
+	GLint x = static_cast<GLint>(cam->getX());//this->visibleSizeInt;
+	GLint y = static_cast<GLint>(cam->getY());//this->visibleSizeInt;
 
 	//verific daca sectoarele adiacente se afla in visitedSectors, daca nu le populez
 	

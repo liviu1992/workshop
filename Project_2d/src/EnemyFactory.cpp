@@ -61,7 +61,7 @@ EnemyFactory::EnemyFactory(TextureManager* tm, std::vector<Enemy*>* enemies, Spr
 		
 		//how many units of type C
 
-		int seed3 = assault_seed +std::rand()%3;
+		int seed3 =assault_seed +std::rand()%3;
 		
 
 		for (int i=0; i<seed3; i++){

@@ -1,11 +1,18 @@
 #include "Physics.h"
+#include "PhysicsManager.h"
+#include <cmath>
 #include "GL\glew.h"
+
+Physics* Physics::player;
+PhysicsManager* Physics::physicsManager;
 
 GLfloat Physics::getMass(){
 	return this->mass;
 }
 
-
+void Physics::setPlayer(Physics* player){
+	this->player=player;
+}
 void Physics::onCollision(Manifold* manifold, GLboolean isA){
 	
 	
@@ -101,11 +108,9 @@ GLfloat Physics::GetY(){
 
 void Physics::advanceTowards(GLfloat x, GLfloat y, GLboolean fast){
 	GLfloat AdvanceStep=0;
-	if (fast){
-		AdvanceStep = 60*advanceStep;
-	} else {
-		AdvanceStep = advanceStep;
-	}
+
+		AdvanceStep = 0.005f;
+	
 	if (x<this->x){
 		this->x-= AdvanceStep;
 		this->enemyOriginX-=AdvanceStep;
@@ -117,7 +122,7 @@ void Physics::advanceTowards(GLfloat x, GLfloat y, GLboolean fast){
 	if (y+fireDistance<this->y){
 		this->y-= AdvanceStep;
 		this->enemyOriginY-=AdvanceStep;
-	} else if (y+fireDistance>this->y){
+	} else if (y>this->y){
 		this->y+= AdvanceStep;
 		this->enemyOriginY+=AdvanceStep;
 	}
@@ -168,10 +173,12 @@ void  Physics::Rotate(GLfloat rotate){
 }
 GLfloat  Physics::getRotate(){
 	return this->rotate;
+	
 }
 
 void Physics::setRotate(GLfloat rotate){
 	this->rotate=rotate;
+	this->sprite->Rotate(this->rotate, this->GetX(), this->GetY());
 }
 Sprite* Physics::getSprite(){
 	return this->sprite;
@@ -187,20 +194,18 @@ void Physics::Update(){
 		
 		this->getCombatant()->checkModifierLifetime();    //verific ca dupa un interval de timp modifier-ul se dispara
 
+	
+
 		this->y+=cos(rotate)*speedY*speed*0.05f;
 		this->x+=-sin(rotate)*speedX*speed*0.05f;
 		
 		speedX*=0.98f;
 		speedY*=0.98f;
-
-
-		//this->x=this->x+speedX*mspeedX*this->speed;
-		//this->y=this->y+speedY*mspeedY*this->speed;
+				
 		this->sprite->move(this->x,this->y);
 		
-
-		this->getSprite()->getMatrix()->moveCamera(this->x, this->y);
-
+		
+		
 
 		break;
 	case physicsType::P_ROCKET:
@@ -253,75 +258,20 @@ void Physics::Update(){
 			}
 		}
 		break;
-
-
+	default:
+		AI_enemy();
+		break;
 
 	}
-	if (type==physicsType::P_SCOUT || type==physicsType::P_BASIC || type==physicsType::P_ASSAULT){
-	switch(this->mov){
-		case movement::LEFTRIGHT:
-		/*
-			LEFT-RIGHT MOVE
-		*/
-			if (left){
-				if (this->x<this->enemyOriginX + this->limit_left){
-					right=true;
-					left=false;
-				}
-				this->x-=speed*speedX;
-			}
-
-			if (right){
-				if (this->x>enemyOriginX + this->limit_right){
-					left=true;
-					right=false;
-				}
-				this->x+=speed*speedX;
-			}
-		
-			this->sprite->move(this->x, this->y);
-			break;
-		case movement::CIRC:
-		
-		/*
-			MISCARE CIRCULARA
-		*/
-			this->x=enemyOriginX +this->x +(float)this->speed*this->circ_width*(float)std::cos(glfwGetTime()*0.01);
-			this->y=enemyOriginY-0.5f +this->y + (float)this->speed*this->circ_height*(float)std::sin(glfwGetTime()*0.01);
-			this->sprite->move(this->x,this->y);		
-			break;
-
-		
-		/*
-			MISCARE SINUSOIDALA
-		*/
-		case movement::SIN:
-			this->y=this->y + (float)this->speed*(float)std::sin(glfwGetTime()*this->sine_amplitude);
-			if (left){
-				if (this->x<enemyOriginX +this->limit_left){
-					right=true;
-					left=false;
-				}
-				this->x-=speed*speedX;
-			}
-
-			if (right){
-				if (this->x>enemyOriginX + this->limit_right){
-					left=true;
-					right=false;
-				}
-				this->x+=speed*speedX;
-			}
-			this->sprite->move(this->x, this->y);
-		}
+	
+			
+	this->getSprite()->getMatrix()->updateMatrix();
 	}
 
 	
 
 
-	this->getSprite()->getMatrix()->updateMatrix();
 
-}
 //doar pentru proiectile
 void Physics::fire(){
 	this->fired=true;
@@ -364,4 +314,205 @@ Physics* Physics::getParentsPhysics(){
 void Physics::setParentsPhysics(Physics* physics){
 	this->parentsPhysics=physics;
 	
+}
+
+bool Physics::collisionDetectorAABB(GLfloat cxA, GLfloat cyA, GLfloat wA, GLfloat hA, GLfloat cxB, GLfloat cyB, GLfloat wB, GLfloat hB ){
+	GLfloat xA, yA, XA, YA, xB, yB, XB, YB;
+	
+	xA = cxA - wA/2;
+	XA = cxA + wA/2;
+	xB = cxB - wB/2;
+	XB = cxB + wB/2;
+	yA = cyA - wA/2;
+	YA = cyA + wA/2;
+	yB = cyB - hB/2;
+	YB = cyB + hB/2;
+
+	if (XA<xB || XB<xA || YA<yB || YB<yA){
+		return false;
+	}
+	return true;
+
+}
+
+GLfloat Physics::getCurrentCamX(){
+	return this->currentCamX;
+}
+GLfloat Physics::getCurrentCamY(){
+	return this->currentCamY;
+}
+
+void Physics::AI_enemy(){
+
+	GLboolean nearPlayer = checkDistance();
+	GLboolean aimingPlayer = checkAngle();
+//	std::cout << "Position " << x << "  " << y << " State " << AI_state << std::endl;
+	
+		//angle=0;
+	
+	
+	switch(AI_state){
+	case stateAI::ROTATE_TO_PLAYER:
+		//actions 
+
+	
+		angle = getAngle();
+	
+		if (abs(angle)>0.27){
+			angle = 0.27 * angle/abs(angle);
+		}
+		
+		 
+
+	//	 angle = -angle;
+
+		// std::cout << static_cast<int>(this->rotate * 180/3.14) %360 << std::endl;
+		// if ( abs(angle*180/3.141)>15){			 
+		this->Rotate(angle);
+		// }		
+		
+		//transitions
+	//	if (aimingPlayer){
+
+
+
+		if (nearPlayer){
+			AI_state = stateAI::FIRE_AT_PLAYER;
+		} else {
+			AI_state = stateAI::ADVANCE_TO_PLAYER;
+		}
+
+		/*} else {
+			AI_state =  stateAI::ROTATE_TO_PLAYER;
+		}*/
+	
+
+		break;
+
+	case stateAI::ADVANCE_TO_PLAYER:
+		//actions
+	//	std::cout << "Advancing " << y << std::endl;
+		//advanceTowards(player->GetX(),player->GetY() , false);
+		this->y-=cos(this->rotate)*0.02f;
+		this->x+=sin(this->rotate)*0.02f;
+		this->sprite->move(this->x,this->y);
+		//transitions
+		if (!aimingPlayer){
+			AI_state = stateAI::ROTATE_TO_PLAYER;
+			break;
+		}
+		if (nearPlayer){
+			AI_state = stateAI::FIRE_AT_PLAYER;
+		} else {
+			AI_state = stateAI::ADVANCE_TO_PLAYER;
+		}
+
+	
+
+		break;
+
+	case stateAI::FIRE_AT_PLAYER:
+		//actions
+		//physicsManager->LaunchProjectile(this);
+		if (this->canIFire()){
+			this->issueFireCommand(true);
+		}
+		
+	//	std::cout << "Fire "<< y << std::endl;
+		//transitions
+		if (!nearPlayer){
+			AI_state = stateAI::ADVANCE_TO_PLAYER;;
+			break;
+		}
+
+
+		if (!aimingPlayer){
+			AI_state = stateAI::ROTATE_TO_PLAYER;
+		} else {
+			AI_state = stateAI::FIRE_AT_PLAYER;
+		}		
+
+		break;
+
+
+	}
+}
+
+void Physics::setPhysicsManager(PhysicsManager* physicsManager){
+	this->physicsManager = physicsManager;
+}
+GLboolean Physics::checkAngle(){
+	
+	glm::vec2 enemyPosition = glm::vec2(this->x,this->y); //aflu pozitia inamicului
+	//glm::vec2 enemyFacing = glm::normalize(glm::vec2(0, -1)); //directia in care se uita inamicul, adica in jos 
+
+	glm::vec2 enemyFacing = glm::vec2(sin(this->rotate), -cos(this->rotate));
+	glm::vec2 playerPosition = glm::vec2(this->player->GetX(),this->player->GetY()); // stiu ca e playerul e la pozitia 0 in physics din 
+														   //physicsManager
+
+
+	glm::vec2 enemyToPlayer = glm::normalize(playerPosition - enemyPosition);
+
+	GLfloat angle = static_cast<GLfloat>(glm::acos(glm::dot(enemyFacing, enemyToPlayer))*180/3.141);
+	GLfloat fov = 30;
+
+	if (angle<fov/2){		
+		return true;
+	} else {
+		return false;
+	}
+	
+
+	
+
+}
+
+GLboolean Physics::checkDistance(){
+	GLfloat distance = glm::distance(glm::vec2(player->GetX(),player->GetY()), glm::vec2(this->x, this->y));
+	if (distance<1.f){//distance_to_engage){
+		return true;
+	} else {
+		return false;
+	}
+	
+}
+
+GLdouble Physics::getAngle(){
+	
+	/*glm::vec2 enemyPosition = glm::vec2(this->x,this->y); //aflu pozitia inamicului
+	//glm::vec2 enemyFacing = glm::normalize(glm::vec2(0, -1)); //directia in care se uita inamicul, adica in jos 
+
+	glm::vec2 enemyFacing = glm::vec2(sin(this->rotate), -cos(this->rotate));
+	glm::vec2 playerPosition = glm::vec2(this->player->GetX(),this->player->GetY()); // stiu ca e playerul e la pozitia 0 in physics din 
+														   //physicsManager
+
+
+	glm::vec2 enemyToPlayer = glm::normalize(playerPosition - enemyPosition);
+	GLfloat rad_angle = glm::acos(glm::dot(enemyFacing, enemyToPlayer));
+	GLfloat m_angle = static_cast<GLfloat>(rad_angle*180/3.141f);
+
+	GLfloat fov = 90;
+
+	if (angle<fov/2){
+		return rad_angle;
+	} else  {
+		return -rad_angle;
+		std::cout << "neg" << std::endl;
+	}
+	*/
+
+	return atan2(this->x, this->y) -  atan2(this->player->GetX() , this->player->GetY());
+	
+
+
+
+}
+
+void Physics::rotatingLeft(){
+	this->rotLeft=true;
+	this->rotRight=false;
+}
+void Physics::rotatingRight(){
+	this->rotLeft=false;
+	this->rotRight=true;
 }

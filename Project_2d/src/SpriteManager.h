@@ -4,10 +4,11 @@
 #include <vector>
 #include "Sprite.h"
 #include "Player.h"
+#include "Camera.h"
 
 class SpriteManager{
 public:
-	SpriteManager(Player* player);
+	SpriteManager(Camera* camera);
 	~SpriteManager();
 	bool Add(Sprite*  sprite);
 	bool Remove(Sprite*  sprite);
@@ -15,7 +16,7 @@ public:
 	int Size();
 private:
 	std::vector<Sprite* > sprites;
-	Player* player;
+	Camera* camera;
 	
 };
 

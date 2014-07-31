@@ -6,7 +6,9 @@
 #include <memory>
 #include "SettingsManager.h"
 #include "Combatant.h"
+//#include "PhysicsManager.h"
 
+class PhysicsManager;
 
 struct Manifold;
 
@@ -23,6 +25,13 @@ enum physicsType{
 
 enum movement{
 	LEFTRIGHT, CIRC, SIN
+};
+
+enum stateAI{
+	ROTATE_TO_PLAYER,
+	ADVANCE_TO_PLAYER,
+	FIRE_AT_PLAYER
+
 };
 
 class Physics{
@@ -57,7 +66,7 @@ public:
 		this->limit_left =  settingsManager.get("limit_left");
 		this->advanceStep = settingsManager.get("advance_step");
 		this->fireDistance = settingsManager.get("fire_distance");
-
+		this->distance_to_engage = settingsManager.get("distance_to_engage");
 		this->rocketMaximumRange=settingsManager.get("rocket_maximum_range");
 
 		GLfloat fire_limit=1;
@@ -125,10 +134,14 @@ public:
 
 		this->setEnemyOrigin(x,y);
 		
-
-
+		AI_state = stateAI::ROTATE_TO_PLAYER; //starea initiala a AI-ului
+		/*
+			acum distribui pozitia pe o suprafata de 1.f x 1.f  
+		*/
+		//srand((unsigned) time(0));
+		this->rotLeft = true;
+		this->rotRight = false;
 	
-
 	};
 	GLboolean fireCommandIssued();
 	void issueFireCommand(GLboolean value);
@@ -168,7 +181,28 @@ public:
 
 	Physics* getParentsPhysics();
 	void setParentsPhysics(Physics* physics);
+	bool collisionDetectorAABB(GLfloat cxA, GLfloat cyA, GLfloat wA, GLfloat hA, GLfloat cxB, GLfloat cyB, GLfloat wB, GLfloat hB );
+
+	GLfloat getCurrentCamX();
+	GLfloat getCurrentCamY();
+
+	void AI_enemy();
+
+	void setPlayer(Physics* player);
+	void setPhysicsManager(PhysicsManager* physicsManager);
+	GLboolean checkAngle();
+	GLdouble getAngle();
+	GLboolean checkDistance();
+
+	void rotatingLeft();
+	void rotatingRight();
+
 private:
+	stateAI AI_state;
+
+	static Physics* player;
+	static PhysicsManager* physicsManager;
+
 	GLboolean canFire;
 	GLdouble fireTimer;
 	GLdouble fireLimit;
@@ -224,6 +258,31 @@ private:
 	GLfloat fireDistance;
 
 	Physics* parentsPhysics;
+
+	GLfloat desiredOffsetX;
+	GLfloat desiredOffsetY;
+
+	GLfloat currentCamX;
+	GLfloat currentCamY;
+	GLfloat nextCamX;
+	GLfloat nextCamY;
+	GLfloat camBoundaryW;
+	GLfloat camBoundaryH;
+	GLfloat speedCam;
+	GLboolean camFollowMode;
+
+	GLboolean cam_left;
+	GLboolean cam_right;
+	GLboolean cam_down;
+	GLboolean cam_up;
+
+	GLfloat distance_to_engage;
+	GLdouble angle;
+
+	GLboolean rotLeft;
+	GLboolean rotRight;
+
+
 };
 
 struct Manifold{
