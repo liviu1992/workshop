@@ -27,7 +27,7 @@ void PhysicsManager::AllAttack(){
 			//std::cout << "Fire" << std::endl;
 			LaunchProjectile(this->physics.at(i));
 			physics.at(i)->issueFireCommand(false);
-
+			soundManager->Play(Sounds::ROCKET_LAUCHED);
 		}
 
 	}
@@ -215,8 +215,9 @@ void solveCollision(Physics* objectA, Physics* objectB, Manifold* manifold){
 
 }
 
-PhysicsManager::PhysicsManager(std::vector<Projectile*>* projectiles, TextureManager* tm, SpriteManager* sm){
+PhysicsManager::PhysicsManager(std::vector<Projectile*>* projectiles, TextureManager* tm, SpriteManager* sm, SoundManager* soundManager){
 	this->projectiles = projectiles;
+	this->soundManager = soundManager;
 	this->tm = tm;
 	this->sm = sm;
 	this->strange = 0;
@@ -357,4 +358,8 @@ int PhysicsManager::Size(){
 PhysicsManager::~PhysicsManager(){
 	this->physics.clear();
 	std::cout << "PhysicsManager terminated" << std::endl;
+}
+
+SoundManager* PhysicsManager::getSoundManager(){
+	return this->soundManager;
 }

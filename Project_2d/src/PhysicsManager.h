@@ -6,12 +6,13 @@
 #include "SpriteManager.h"
 #include <chrono>
 #include <iostream>
+#include "SoundManager.h"
 
 class Physics;
 
 class PhysicsManager{
 public:
-	PhysicsManager(std::vector<Projectile*>* projectiles, TextureManager* tm, SpriteManager* sm);
+	PhysicsManager(std::vector<Projectile*>* projectiles, TextureManager* tm, SpriteManager* sm, SoundManager* soundManager);
 	~PhysicsManager();
 	bool Add(Physics*  a_physics);
 	bool Remove(Physics*  a_physics);
@@ -23,14 +24,17 @@ public:
 	void LaunchProjectile(Physics* parent);
 	void AllAttack();
 	void AllSearch();
-	
+	SoundManager* getSoundManager();
 private:
 	std::vector<Physics*> physics;
 	std::vector<Projectile*>*projectiles;
 	TextureManager* tm;
 	SpriteManager* sm;
 	PhysicsManager* pm;
+	SoundManager* soundManager;
 	GLfloat distance_to_engage;
+
+
 
 	GLfloat desiredX;
 	GLfloat desiredY;

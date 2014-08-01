@@ -27,7 +27,7 @@
 #include "Camera.h"
 //#include "MapGenerator.h"
 #include "Powerup.h"
-
+#include "SoundManager.h"
 
 #ifdef _DEBUG
    #ifndef DBG_NEW
@@ -361,7 +361,7 @@ int main () {
 	std::vector<Enemy*> enemies;
 	std::vector<Projectile*> projectiles;
 	std::vector<Powerup*> powerups;
-
+	SoundManager soundManager;
 
 	TextureManager textManager;
 	Player player(&textManager);
@@ -371,7 +371,7 @@ int main () {
 	Camera cam(&player);
 	SpriteManager spriteManager(&cam);
 	//SpriteManager worldSpriteManager;
-	PhysicsManager physicsManager(&projectiles, &textManager, &spriteManager);
+	PhysicsManager physicsManager(&projectiles, &textManager, &spriteManager, &soundManager);
 	playerPhysics->setPhysicsManager(&physicsManager);
 	
 	
@@ -422,8 +422,8 @@ int main () {
 	double currentTime = glfwGetTime();
 	double accumulator = 0.0;
 
-
-
+	
+	soundManager.Play(Sounds::MUSIC);
 	glClearColor(0,0,0,0);
 
 
@@ -447,7 +447,7 @@ int main () {
 			 player.getPhysics()->Update();
 
 		 
-		  
+			soundManager.Update();
 
 		  //populez sectoarele din jur
 		  
@@ -462,6 +462,8 @@ int main () {
 
 		  for (unsigned int i=0; i<enemies.size(); i++){
 			  Physics* enemyPhysics = enemies.at(i)->getPhysics();
+			
+
 			  if (!enemies.at(i)->getSprite()->getDead()){
 				  enemyPhysics->setSpeed(speedPlayer*frameTime);
 				  enemyPhysics->Update();
@@ -640,6 +642,7 @@ int main () {
 			  if (playerPhysics->canIFire()){
 			
 				 playerPhysics->issueFireCommand(true);
+				// soundManager.Play(Sounds::ROCKET_LAUCHED);
 				  //penalizez jucatorul pentru consum excesiv de munitie
 				  if (score>defeat_score){
 					  score-=rocket_penalty;

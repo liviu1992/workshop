@@ -48,8 +48,11 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 		if (this->type!=physicsType::P_ROCKET && (manifold->objectA->getType()==physicsType::P_PLAYER) && manifold->objectB->getType()==physicsType::P_ROCKET && !manifold->objectB->getOwner()){
 			combatant->damage(damage);
 			manifold->objectB->getSprite()->Explode();
+			if (!manifold->objectB->isExploding){
+				manifold->objectB->isExploding=true;
+				this->physicsManager->getSoundManager()->Play(Sounds::EXPLOSION);
+			}
 			
-			manifold->objectB->isExploding=true;
 			//manifold->objectB->Rotate(-manifold->objectB->getRotate());
 			
 		}
@@ -64,8 +67,10 @@ void Physics::onCollision(Manifold* manifold, GLboolean isA){
 					} else {
 						combatant->damage(damage);
 					}
-
-					manifold->objectB->isExploding=true;
+					if (!manifold->objectB->isExploding){
+						manifold->objectB->isExploding=true;
+						this->physicsManager->getSoundManager()->Play(Sounds::EXPLOSION);
+					}
 				}
 			
 		
@@ -186,7 +191,7 @@ Sprite* Physics::getSprite(){
 
 void Physics::Update(){
 	if (isExploding){
-		this->Rotate(-this->getRotate());
+		this->setRotate(0);
 		return;
 	}
 	switch(this->type){
@@ -198,6 +203,8 @@ void Physics::Update(){
 
 		this->y+=cos(rotate)*speedY*speed*0.05f;
 		this->x+=-sin(rotate)*speedX*speed*0.05f;
+
+	
 		
 		speedX*=0.98f;
 		speedY*=0.98f;

@@ -68,7 +68,7 @@ glm::mat4 Matrix::cameraMatrix= glm::lookAt(glm::vec3(0,0,1),
 		
 		
 		
-		glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x+0.05f,-y+0.05f,0));
+		glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x+0.07,-y+0.07,0));
 		glm::mat4 rotateInCenter = glm::rotate(glm::mat4(1), angle, glm::vec3(0,0,1));
 		glm::mat4 transBack = glm::translate(glm::mat4(1), glm::vec3(x, y, 0));
 		

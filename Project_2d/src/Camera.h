@@ -10,6 +10,10 @@ public:
 	GLfloat getX();
 	GLfloat getY();
 private:
+	GLdouble easingFunction(GLdouble time);
+	GLboolean moving;
+	GLdouble limit_time;
+	GLdouble time0;
 	Player* player;
 	GLfloat x;   //player x
 	GLfloat y;   //player y
@@ -25,6 +29,8 @@ private:
 	GLboolean cam_right;
 	GLboolean cam_up;
 	GLboolean cam_down;
+	GLfloat oldCamX;
+	GLfloat oldCamY;
 
 
 

@@ -21,6 +21,8 @@
     <ClCompile Include="..\src\LayerManager.cpp" />
     <ClCompile Include="..\src\Powerup.cpp" />
     <ClCompile Include="..\src\Camera.cpp" />
+    <ClCompile Include="..\src\Sound.cpp" />
+    <ClCompile Include="..\src\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Matrix.h" />
@@ -42,5 +44,7 @@
     <ClInclude Include="..\src\LayerManager.h" />
     <ClInclude Include="..\src\Powerup.h" />
     <ClInclude Include="..\src\Camera.h" />
+    <ClInclude Include="..\src\Sound.h" />
+    <ClInclude Include="..\src\SoundManager.h" />
   </ItemGroup>
 </Project>
