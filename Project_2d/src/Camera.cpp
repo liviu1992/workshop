@@ -22,18 +22,15 @@ void Camera::updateCamera(){
 	//std::cout << "Cam x " << currentCamX << "Cam y " << currentCamY << std::endl;
 	this->x=player->getPhysics()->GetX();
 	this->y=player->getPhysics()->GetY();
-	//std::cout << "Player x " << x << "Player y " << y << std::endl;
 	if ((this->x >= this->currentCamX-0.3f && 
 			this->x <= this->currentCamX+0.3f &&
 			this->y >= this->currentCamY-0.3f &&
 			this->y <= this->currentCamY+0.3f
 			)){
 				moving = false;
-				std::cout << "Moving is false" << std::endl;
 				
 		} else {
 			if (!moving){
-				std::cout << "Movement initiated!" << std::endl;
 				this->nextCamX= this->x;
 				this->nextCamY = this->y;
 
@@ -41,22 +38,12 @@ void Camera::updateCamera(){
 				this->oldCamY = this->currentCamY;
 
 				
-			//	std::cout << "From: " << oldCamX << " " << oldCamY << " To: " << nextCamX << " " << nextCamY << std::endl;
 
 				moving = true;
 				time0=0.4;
 				limit_time = 0.99;
 			}
-			/*if (moving && (abs(this->x)> abs(nextCamX)+0.001f ||abs(this->y)> abs(nextCamY)+0.001f)){
-				std::cout << "Movement continued" << std::endl;
-				this->nextCamX = this->x;
-				this->nextCamY = this->y;
-
-				limit_time+=time0;
-
-			//	limit_time+=time0;
-				
-			}*/
+		
 		
 		}
 		if (moving){
@@ -64,8 +51,8 @@ void Camera::updateCamera(){
 				moving = false;
 			} 
 			time0+=0.01;
-			this->currentCamX = this->oldCamX + (this->nextCamX - this->oldCamX)*easingFunction(time0);//this->oldCamX + (this->nextCamX - this->oldCamX) * easingFunction(time0);
-			this->currentCamY = this->oldCamY + (this->nextCamY- this->oldCamY)*easingFunction(time0);//this->oldCamY + (this->nextCamY - this->oldCamY) * easingFunction(time0);
+			this->currentCamX = this->oldCamX + (this->nextCamX - this->oldCamX)*static_cast<GLfloat>(easingFunction(time0));//this->oldCamX + (this->nextCamX - this->oldCamX) * easingFunction(time0);
+			this->currentCamY = this->oldCamY + (this->nextCamY- this->oldCamY)*static_cast<GLfloat>(easingFunction(time0));//this->oldCamY + (this->nextCamY - this->oldCamY) * easingFunction(time0);
 		//	std::cout << "X: " << currentCamX << " Y: " << currentCamY << std::endl;
 			
 		}

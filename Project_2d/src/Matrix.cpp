@@ -12,7 +12,7 @@ glm::mat4 Matrix::cameraMatrix= glm::lookAt(glm::vec3(0,0,1),
 								   glm::vec3(0,1,0));
 
 
-	Matrix::Matrix(GLfloat x, GLfloat y, GLfloat angle){
+	Matrix::Matrix(GLfloat x, GLfloat y, GLfloat angle, GLuint type){
 	
 		translationMatrix = glm::translate(glm::mat4(), glm::vec3(0, 0, 0));
 		rotationMatrix = glm::rotate(glm::mat4(), 0.f, glm::vec3(0,0,1));
@@ -44,7 +44,8 @@ glm::mat4 Matrix::cameraMatrix= glm::lookAt(glm::vec3(0,0,1),
 		this->x=x;
 		this->y=y;
 		this->angle=angle;
-		
+		this->oldAngle = 0;
+		this->type = type;
 
 	}
 	/*
@@ -65,10 +66,27 @@ glm::mat4 Matrix::cameraMatrix= glm::lookAt(glm::vec3(0,0,1),
 
 		translationMatrix = glm::translate(glm::mat4(), glm::vec3(x, y, 0));
 	*/	
+		glm::mat4 transToCenter;
 		
-		
-		
-		glm::mat4 transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x+0.07,-y+0.07,0));
+		if (type >=58 && type<=81){
+			
+			if (this->oldAngle - this->angle<0){
+				transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x-0.07f,-y-0.03f,0));
+			} else if (this->oldAngle - this->angle>0){
+				transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x+0.07f,-y+0.03f,0));
+				
+			} 
+		} else if (type == 88){
+			// 0.02 0.02
+			if (this->oldAngle - this->angle<0){
+				transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x-0.03f,-y-0.02f,0));
+			} else {
+				transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x+0.03f,-y+0.02f,0));
+			}
+			
+		} else {
+			transToCenter = glm::translate(glm::mat4(1), glm::vec3(-x,-y,0));
+		}
 		glm::mat4 rotateInCenter = glm::rotate(glm::mat4(1), angle, glm::vec3(0,0,1));
 		glm::mat4 transBack = glm::translate(glm::mat4(1), glm::vec3(x, y, 0));
 		
@@ -129,7 +147,11 @@ glm::mat4 Matrix::cameraMatrix= glm::lookAt(glm::vec3(0,0,1),
 		//	currentY = -sin(rotate)*x0 + cos(rotate)*y0;
 		//	this->rotating = true;
 		//	this->currentR=rotate;
+		
+		this->oldAngle = this->angle;
+		
 		this->angle=rotate;
+		
 		
 	}
 

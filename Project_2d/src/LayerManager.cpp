@@ -192,8 +192,8 @@ void LayerManager::PopulateCurrent(){
 	for (unsigned int i=0; i<this->visitedSectors.size(); i++){
 		
 
-		GLfloat visitedX=visitedSectors.at(i)->x;
-		GLfloat visitedY=visitedSectors.at(i)->y;
+		GLfloat visitedX=static_cast<GLfloat>(visitedSectors.at(i)->x);
+		GLfloat visitedY=static_cast<GLfloat>(visitedSectors.at(i)->y);
 
 		if (x/visibleSizeInt==visitedX && y/visibleSizeInt+1==visitedY){
 			

@@ -46,7 +46,7 @@ void Combatant::removeModifier(modifier mod){
 	}
 }
 
-bool Combatant::hasModifier(modifier mod){
+GLboolean Combatant::hasModifier(modifier mod){
 	if (mod == modifier::HIGH_SPEED){
 		return modifier_speed;
 

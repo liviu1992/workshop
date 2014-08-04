@@ -96,9 +96,7 @@ public:
 		case physicsType::P_ROCKET:
 			this->left=true;
 			this->right=false;
-			this->fired=false;
-		
-		
+			this->fired=false;		
 			break;
 
 		case physicsType::P_SCOUT:

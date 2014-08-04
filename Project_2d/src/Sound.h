@@ -10,12 +10,13 @@
 #include "FMOD\fmod_dsp.h"
 #include "FMOD\fmod_memoryinfo.h"
 #include "FMOD\fmod_output.h"
-#include <windows.h> 
 #include <iostream>
 
 enum Sounds{
-	MUSIC,
 	ROCKET_LAUCHED,
+	MUSIC,
+	MUSIC2,
+	MUSIC3,
 	EXPLOSION
 
 
@@ -27,12 +28,17 @@ public:
 	void Play();
 	void FmodErrorCheck(FMOD_RESULT result);
 	void Update();
+	bool IsMusic();
+	void Stop();
+	void Pause(bool value);
+	FMOD::Channel* getChannel();
 	Sounds getID();
 private:
 	//FMOD_2D::System* fmodSystem;       // the global variable for talking to FMOD
 	FMOD::System* fmodSystem; 
 	FMOD::Sound* actionSound;
 	FMOD::Channel* channel;
+	FMOD::Channel* music_channel;
 	Sounds id;
 };
 

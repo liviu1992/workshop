@@ -20,10 +20,8 @@ public:
 	GLboolean TestCollision(Physics* objectA, Physics* objectB);
 	int Size();
 	bool collisionDetectorAABB(GLfloat cxA, GLfloat cyA, GLfloat wA, GLfloat hA, GLfloat cxB, GLfloat cyB, GLfloat wB, GLfloat hB );
-	void TestAttacks();
 	void LaunchProjectile(Physics* parent);
 	void AllAttack();
-	void AllSearch();
 	SoundManager* getSoundManager();
 private:
 	std::vector<Physics*> physics;
@@ -42,7 +40,7 @@ private:
 	GLfloat playerX;
 	GLfloat playerY;
 
-	GLdouble strange;   //folosit pentru a scadea predictibilitatea adversarilor
+	
 };
 
 #endif

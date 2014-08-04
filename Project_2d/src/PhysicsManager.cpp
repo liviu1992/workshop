@@ -34,30 +34,8 @@ void PhysicsManager::AllAttack(){
 
 
 }
-void PhysicsManager::LaunchProjectile(Physics* parent){
-	
+void PhysicsManager::LaunchProjectile(Physics* parent){	
 
-
-		//std::cout << measure<>::execution( [&]() {  
-	
-		/*
-		this->projectiles->push_back(new Projectile(this->tm ));
-		this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setPosition(parent->GetX(), parent->GetY());
-		if (parent->getType()==physicsType::P_PLAYER){
-			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setOwnerIfRocket(true);
-			this->sm->Add(this->projectiles->at(this->projectiles->size()-1)->getSprite());
-			this->Add(this->projectiles->at(this->projectiles->size()-1)->getPhysics());
-			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setParentSpeed(parent->getSpeedX(), parent->getSpeedY());
-			this->projectiles->at(this->projectiles->size()-1)->Fire(parent->GetX(), parent->GetY(),parent->getRotate());
-		} else {
-			this->projectiles->at(this->projectiles->size()-1)->getPhysics()->setRotate(180);
-			this->sm->Add(this->projectiles->at(this->projectiles->size()-1)->getSprite());
-			this->Add(this->projectiles->at(this->projectiles->size()-1)->getPhysics());
-			this->projectiles->at(this->projectiles->size()-1)->Fire(parent->GetX(), parent->GetY(),307.f * 3.14f/180.f);
-		}
-			
-
-		*/
 		
 		if (parent->getType()==physicsType::P_PLAYER){
 			this->projectiles->push_back(new Projectile(this->tm, true));
@@ -69,114 +47,28 @@ void PhysicsManager::LaunchProjectile(Physics* parent){
 		Projectile* projectile = this->projectiles->at(this->projectiles->size()-1);
 		
 		if (parent->getType()==physicsType::P_PLAYER){
-			physics->setPosition(parent->GetX(), parent->GetY());
+			//physics->setPosition(parent->GetX(), parent->GetY());
 			physics->setOwnerIfRocket(true);
 			this->sm->Add(projectile->getSprite());
 			this->Add(physics);
 			//physics->setParentSpeed(parent->getSpeedX(), parent->getSpeedY());
 			projectile->getPhysics()->setParentsPhysics(parent);
-			projectile->Fire(parent->GetX()+0.0025f, parent->GetY(),parent->getRotate()/*physics.at(i)->getRotate()*/);
+			projectile->Fire(parent->GetX(), parent->GetY(), parent->getRotate()/*physics.at(i)->getRotate()*/);
 		} else {
-			physics->setPosition(parent->GetX(), parent->GetY());
+			//physics->setPosition(parent->GetX(), parent->GetY());
 			//physics->setRotate(180);
 			this->sm->Add(projectile->getSprite());
 			this->Add(physics);
 			projectile->getPhysics()->setParentsPhysics(parent);
-			projectile->Fire(parent->GetX()+0.0025f, parent->GetY(),parent->getRotate()+  3.141f/*physics.at(i)->getRotate()*/);
+			projectile->Fire(parent->GetX(), parent->GetY(), parent->getRotate()/*physics.at(i)->getRotate()*/);
 		}  
 		
 		//}) << std::endl;
 
 }
-/*
-	tests if any enemy can fire at the player
-*/
-void PhysicsManager::TestAttacks(){
-	//std::cout << measure<>::execution( [&]() {  
-
-
-	/*for (unsigned int i=1; i<physics.size(); i++){
-		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP_1 || physics.at(i)->getType()==physicsType::P_POWERUP_2 || physics.at(i)->getType()==physicsType::P_POWERUP_3 ) 			
-			 &&  glm::distance(physics.at(i)->getSprite()->getPosition(), physics.at(0)->getSprite()->getPosition())<4.5f){
-			//then we have an enemy
-			// * stiu ca playerul este primul adaugat in PhysicsManager(de aia incep si de la 1 for-ul)
-			// acum testez daca inamicul poate "vedea" playerul
-			glm::vec2 enemyPosition = glm::vec2(physics.at(i)->GetX(), physics.at(i)->GetY());
-			glm::vec2 enemyFacing = glm::normalize(glm::vec2(0, -1)); //directia in care se uita inamicul, adica in jos 
-			glm::vec2 playerPosition = glm::vec2(physics.at(0)->GetX(), physics.at(0)->GetY()); // stiu ca e la pozitia 0
-
-			glm::vec2 enemyToPlayer = glm::normalize(playerPosition - enemyPosition);
-
-			GLfloat angle = static_cast<GLfloat>(glm::acos(glm::dot(enemyFacing, enemyToPlayer))*180/3.141);
-			GLfloat fov = this->physics.at(i)->getFov();
-			if (angle < fov/2){    //testez daca playerul e in raza vizuala a inamicului
-				if (physics.at(i)->canIFire()){
-					physics.at(i)->issueFireCommand(true);
-				}
-				
-			}
-		
-		
-		
 
 
 
-		}
-
-	}*/
-	//}) << std::endl;
-
-}
-
-void PhysicsManager::AllSearch(){
-/*	playerX = physics.at(0)->GetX();
-	playerY = physics.at(0)->GetY();
-	if (this->strange==0){
-		this->strange =  glfwGetTime();
-	
-		//obtin noi coordonate apropiate de cele dorite
-		desiredX = playerX + (rand()%1000)/1000.f-0.5f;
-		desiredY = playerY + (rand()%1000)/1000.f-0.5f;
-	} else {
-		if (this->strange+4 < glfwGetTime()){
-
-		} else {
-			this->strange=0;
-		}
-
-
-		
-	}
-
-
-
-
-	for (unsigned int i=0; i<physics.size(); i++){
-		if (!(physics.at(i)->getType()==physicsType::P_PLAYER || physics.at(i)->getType()==physicsType::P_ROCKET || physics.at(i)->getType()==physicsType::P_POWERUP_1 || physics.at(i)->getType()==physicsType::P_POWERUP_2 ||  physics.at(i)->getType()==physicsType::P_POWERUP_3  )){
-
-			//verific daca se afla playerul prin preajma
-			//testez daca distanta player - inamic este mai mica de o anumita valoare
-			//daca e asa, inamicul se va deplasa in pozitia de atac
-			
-					
-
-
-					 //acum ma deplasez catre player
-					 if (glm::distance(glm::vec2(physics.at(i)->GetX(), physics.at(i)->GetY()),
-				 glm::vec2(playerX, playerY))< distance_to_engage){
-					 this->physics.at(i)->advanceTowards(desiredX, desiredY, false);
-					 } else {
-						 this->physics.at(i)->advanceTowards(desiredX, desiredY, true);
-					 }
-
-
-
-			
-
-		}
-	}*/
-
-}
 
 /*
 	din manifold o sa iau viteza pe normala
@@ -220,7 +112,6 @@ PhysicsManager::PhysicsManager(std::vector<Projectile*>* projectiles, TextureMan
 	this->soundManager = soundManager;
 	this->tm = tm;
 	this->sm = sm;
-	this->strange = 0;
 	SettingsManager settingsManager;
 	
 	std::cout << "PhysicsManager initializes" << std::endl;

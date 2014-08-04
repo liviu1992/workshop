@@ -79,197 +79,200 @@ TextureManager::TextureManager(){
 	fid.file="defeat_screen.png";
 	fid.id = texture_id::DEF_SCREEN;					
 	images[21] = fid;
-	fid.file="text_score.png";
+	fid.file="t_score.png";
 	fid.id = texture_id::TEXT_SCORE;					
 	images[22] = fid;
-	fid.file="text_enemies.png";
-	fid.id = texture_id::TEXT_ENEMIES;					
+	fid.file="t_kills.png";
+	fid.id = texture_id::TEXT_KILLS;		
 	images[23] = fid;
+	fid.file="t_hp.png";
+	fid.id = texture_id::TEXT_HP;		
+	images[24] = fid;
 	fid.file="num_0.png";
 	fid.id = texture_id::NUM0;					
-	images[24] =fid;
+	images[25] =fid;
 	fid.file="num_1.png";
 	fid.id = texture_id::NUM1;					
-	images[25] =fid;
+	images[26] =fid;
 	fid.file="num_2.png";
 	fid.id = texture_id::NUM2;					
-	images[26] = fid;
+	images[27] = fid;
 	fid.file="num_3.png";
 	fid.id = texture_id::NUM3;					
-	images[27] =fid;
+	images[28] =fid;
 	fid.file="num_4.png";
 	fid.id = texture_id::NUM4;			
-	images[28] = fid;
+	images[29] = fid;
 	fid.file="num_5.png";
 	fid.id = texture_id::NUM5;					
-	images[29] = fid;
+	images[30] = fid;
 	fid.file="num_6.png";
 	fid.id = texture_id::NUM6;					
-	images[30] = fid;
+	images[31] = fid;
 	fid.file="num_7.png";
 	fid.id = texture_id::NUM7;				
-	images[31] =fid;
+	images[32] =fid;
 	fid.file="num_8.png";
 	fid.id = texture_id::NUM8;					
-	images[32] = fid;
+	images[33] = fid;
 	fid.file="num_9.png";
 	fid.id = texture_id::NUM9;					
-	images[33] = fid;
+	images[34] = fid;
 	
 	fid.file="green_planet.png";
 	fid.id=texture_id::PLANET_GREEN;
-	images[34] = fid;
+	images[35] = fid;
 
 	fid.file="jupiter.png";
 	fid.id=texture_id::PLANET_JUPITER;
-	images[35] = fid;
+	images[36] = fid;
 
 	fid.file="k_planet.png";
 	fid.id=texture_id::PLANET_K;
-	images[36] = fid;
+	images[37] = fid;
 
 	fid.file="lava_planet.png";
 	fid.id=texture_id::PLANET_LAVA;
-	images[37] = fid;
+	images[38] = fid;
 
 	fid.file= "planet_mars.png";
 	fid.id=texture_id::PLANET_MARS;
-	images[38] = fid;
+	images[39] = fid;
 
 	fid.file = "planet_pluto.png";
 	fid.id=texture_id::PLANET_PLUTO;
-	images[39]=fid;
+	images[40]=fid;
 
 	fid.file = "planet_neptune.png";
 	fid.id=texture_id::PLANET_NEPTUNE;
-	images[40]=fid;
+	images[41]=fid;
 
 	fid.file="planet1.png";
 	fid.id=texture_id::PLANET_ONE;
-	images[41]=fid;
+	images[42]=fid;
 
 	fid.file="planet_io.png";
 	fid.id=texture_id::PLANET_IO;
-	images[42]=fid;
+	images[43]=fid;
 
 	fid.file="planet_ceres.png";
 	fid.id=texture_id::PLANET_CERES;
-	images[43]=fid;
+	images[44]=fid;
 
 	fid.file="planet_water.png";
 	fid.id=texture_id::PLANET_WATER;
-	images[44]=fid;
+	images[45]=fid;
 
 	fid.file="meteor1.png";
 	fid.id=texture_id::METEOR_1;
-	images[45] = fid;
+	images[46] = fid;
 
 	fid.file="meteor2.png";
 	fid.id=texture_id::METEOR_2;
-	images[46] = fid;
+	images[47] = fid;
 
 	fid.file="meteor3.png";
 	fid.id=texture_id::METEOR_3;
-	images[47] = fid;
+	images[48] = fid;
 
 	fid.file="meteor4.png";
 	fid.id=texture_id::METEOR_4;
-	images[48] = fid;
+	images[49] = fid;
 
 	fid.file="meteor5.png";
 	fid.id=texture_id::METEOR_5;
-	images[49] = fid;
+	images[50] = fid;
 
 	fid.file="meteor6.png";
 	fid.id=texture_id::METEOR_6;
-	images[50] = fid;
+	images[51] = fid;
 
 	fid.file="venus.png";
 	fid.id=texture_id::PLANET_VENUS;
-	images[51] = fid;
+	images[52] = fid;
 
 	fid.file="star.png";
 	fid.id=texture_id::PLANET_STAR;
-	images[52] = fid;
+	images[53] = fid;
 
 	fid.file="powerup1.png";
 	fid.id=texture_id::POWERUP_1;
-	images[53] = fid;
+	images[54] = fid;
 
 	fid.file="powerup2.png";
 	fid.id=texture_id::POWERUP_2;
-	images[54] = fid;
+	images[55] = fid;
 
 	fid.file="powerup3.png";
 	fid.id=texture_id::POWERUP_3;
-	images[55] = fid;
+	images[56] = fid;
 
 	fid.file="space_ship_up_1.png";
 	fid.id=texture_id::ADV_1;
-	images[56] = fid;
+	images[57] = fid;
 
 	fid.file="space_ship_up_2.png";
 	fid.id=texture_id::ADV_2;
-	images[57] = fid;
+	images[58] = fid;
 
 	fid.file="space_ship_up_3.png";
 	fid.id=texture_id::ADV_3;
-	images[58] = fid;
+	images[59] = fid;
 
 	fid.file="space_ship_up_4.png";
 	fid.id=texture_id::ADV_4;
-	images[59] = fid;
+	images[60] = fid;
 
 	fid.file="space_ship_up_5.png";
 	fid.id=texture_id::ADV_5;
-	images[60] = fid;
+	images[61] = fid;
 
 	fid.file="space_ship_up_6.png";
 	fid.id=texture_id::ADV_6;
-	images[61] = fid;
+	images[62] = fid;
 
 	fid.file="space_ship_up_7.png";
 	fid.id=texture_id::ADV_7;
-	images[62] = fid;
+	images[63] = fid;
 
 	fid.file="space_ship_up_8.png";
 	fid.id=texture_id::ADV_8;
-	images[63] = fid;
+	images[64] = fid;
 
 	
 
 
 	fid.file="space_ship_left_1.png";
 	fid.id=texture_id::LEFT_1;
-	images[64] = fid;
+	images[65] = fid;
 
 	fid.file="space_ship_left_2.png";
 	fid.id=texture_id::LEFT_2;
-	images[65] = fid;
+	images[66] = fid;
 
 	fid.file="space_ship_left_3.png";
 	fid.id=texture_id::LEFT_3;
-	images[66] = fid;
+	images[67] = fid;
 
 	fid.file="space_ship_left_4.png";
 	fid.id=texture_id::LEFT_4;
-	images[67] = fid;
+	images[68] = fid;
 
 	fid.file="space_ship_left_5.png";
 	fid.id=texture_id::LEFT_5;
-	images[68] = fid;
+	images[69] = fid;
 
 	fid.file="space_ship_left_6.png";
 	fid.id=texture_id::LEFT_6;
-	images[69] = fid;
+	images[70] = fid;
 
 	fid.file="space_ship_left_7.png";
 	fid.id=texture_id::LEFT_7;
-	images[70] = fid;
+	images[71] = fid;
 
 	fid.file="space_ship_left_8.png";
 	fid.id=texture_id::LEFT_8;
-	images[71] = fid;
+	images[72] = fid;
 
 	
 
@@ -277,60 +280,64 @@ TextureManager::TextureManager(){
 
 	fid.file="space_ship_right_1.png";
 	fid.id=texture_id::RIGHT_1;
-	images[72] = fid;
+	images[73] = fid;
 
 	fid.file="space_ship_right_2.png";
 	fid.id=texture_id::RIGHT_2;
-	images[73] = fid;
+	images[74] = fid;
 
 	fid.file="space_ship_right_3.png";
 	fid.id=texture_id::RIGHT_3;
-	images[74] = fid;
+	images[75] = fid;
 
 	fid.file="space_ship_right_4.png";
 	fid.id=texture_id::RIGHT_4;
-	images[75] = fid;
+	images[76] = fid;
 
 	fid.file="space_ship_right_5.png";
 	fid.id=texture_id::RIGHT_5;
-	images[76] = fid;
+	images[77] = fid;
 
 	fid.file="space_ship_right_6.png";
 	fid.id=texture_id::RIGHT_6;
-	images[77] = fid;
+	images[78] = fid;
 
 	fid.file="space_ship_right_7.png";
 	fid.id=texture_id::RIGHT_7;
-	images[78] = fid;
+	images[79] = fid;
 
 	fid.file="space_ship_right_8.png";
 	fid.id=texture_id::RIGHT_8;
-	images[79] = fid;
+	images[80] = fid;
 
 	fid.file="powerup_speed_active.png";
 	fid.id=texture_id::PWUP_1;
-	images[80] = fid;
+	images[81] = fid;
 
 	fid.file="powerup_instagib_active.png";
 	fid.id=texture_id::PWUP_2;
-	images[81] = fid;
+	images[82] = fid;
 
 	fid.file = "rocket3.png";
 	fid.id = texture_id::ROCKET_2;
-	images[82] = fid;
+	images[83] = fid;
 
 	fid.file = "rocket4.png";
 	fid.id = texture_id::ROCKET_3;
-	images[83] = fid;
+	images[84] = fid;
 
 	fid.file = "rocket5.png";
 	fid.id = texture_id::ROCKET_4;
-	images[84] = fid;
+	images[85] = fid;
+
+	fid.file = "help70.png";
+	fid.id = texture_id::HELP;
+	images[86] = fid;
 
 
 	fid.file="rocket_light.png";
 	fid.id = texture_id::ROCKET;										
-	images[85] = fid;
+	images[87] = fid;
 	
 	
 	this->LoadTextures();

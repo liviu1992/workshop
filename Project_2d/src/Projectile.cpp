@@ -21,6 +21,7 @@ Projectile::Projectile(TextureManager* tm, GLboolean owner){
 	this->x=initialX;
 	this->y=initialY;
 	
+	
 	this->health = 5;
 	this->owner = owner;
 	
@@ -72,12 +73,12 @@ void Projectile::setAlive(GLboolean alive){
 
 
 void Projectile::Fire(GLfloat ux, GLfloat uy, GLfloat rotate){
-	this->physics->setPosition(ux,uy);	
+	this->physics->setPosition(ux,uy);
+	//this->sprite->move(x,y);
 	this->physics->fire();
 	this->alive=true;
 	this->getSprite()->setDead(false);
 	this->physics->Rotate(rotate);
-	
 	
 }
 

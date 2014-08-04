@@ -125,15 +125,18 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 					k=0;
 				}
 				//animatia pentru avansare
-				tm->getTexture(static_cast<texture_id>(texture_id::ADV_1+(k/5)%7), vertexArrayBuffers[TEXTURE_VB]);
+				this->textureId =  static_cast<texture_id>(texture_id::ADV_1+(k/5)%7);
+				tm->getTexture(this->textureId, vertexArrayBuffers[TEXTURE_VB]);
 				this->advancing=false;
+				
 				k++;
 			} else if (left){
 				if (k<0 || k>36){
 					k=0;
 				}
 				//animatia pentru stanga
-				tm->getTexture(static_cast<texture_id>(texture_id::LEFT_1+(k/5)%7), vertexArrayBuffers[TEXTURE_VB]);
+				this->textureId = static_cast<texture_id>(texture_id::LEFT_1+(k/5)%7);
+				tm->getTexture(this->textureId, vertexArrayBuffers[TEXTURE_VB]);
 				this->left=false;
 				k++;
 			} else if (right){
@@ -141,7 +144,8 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 					k=0;
 				}
 				//animatia pentru dreapta
-				tm->getTexture(static_cast<texture_id>(texture_id::RIGHT_1+(k/5)%7), vertexArrayBuffers[TEXTURE_VB]);
+				this->textureId = static_cast<texture_id>(texture_id::RIGHT_1+(k/5)%7);
+				tm->getTexture(this->textureId, vertexArrayBuffers[TEXTURE_VB]);
 				this->right=false;
 				k++;
 			} else {
@@ -228,10 +232,10 @@ Sprite::Sprite(GLfloat x, GLfloat y, GLfloat width, GLfloat height, texture_id t
 		this->width=width;
 		this->height=height;
 
-
-		matrix = new Matrix(x,y,0);
 	
-
+		matrix = new Matrix(x, y,0, static_cast<GLuint>(textureId));
+		
+	
 		this->vectors[0]=Vector3(x-width/2,y+height/2, 0);
 		this->vectors[1]=Vector3(x-width/2,y-height/2, 0);
 		this->vectors[2]=Vector3(x+width/2,y-height/2, 0);

@@ -192,6 +192,7 @@ Sprite* Physics::getSprite(){
 void Physics::Update(){
 	if (isExploding){
 		this->setRotate(0);
+		
 		return;
 	}
 	switch(this->type){
@@ -199,7 +200,7 @@ void Physics::Update(){
 		
 		this->getCombatant()->checkModifierLifetime();    //verific ca dupa un interval de timp modifier-ul se dispara
 
-	
+		//this->Rotate(this->rotate);
 
 		this->y+=cos(rotate)*speedY*speed*0.05f;
 		this->x+=-sin(rotate)*speedX*speed*0.05f;
@@ -218,8 +219,16 @@ void Physics::Update(){
 	case physicsType::P_ROCKET:
 		if (this->fired){
 			this->sprite->Rotate(this->rotate, this->GetX(), this->GetY());
-			this->speedX=2;
-			this->speedY=2;
+			if (this->owner){
+				this->speedX=2;
+				this->speedY=2;
+				
+			} else {
+				this->speedX=-2;
+				this->speedY=-2;
+			}
+
+			
 			//if (this->owner){
 		//	speed*=1.5f;
 			//}
@@ -237,6 +246,7 @@ void Physics::Update(){
 			}
 
 			if (this->fired){
+
 				this->y+=cos(rotate)*speedY*m_speed;
 				this->x+=-sin(rotate)*speedX*m_speed;
 				this->sprite->move(this->x, this->y);
@@ -375,7 +385,7 @@ void Physics::AI_enemy(){
 
 		// std::cout << static_cast<int>(this->rotate * 180/3.14) %360 << std::endl;
 		// if ( abs(angle*180/3.141)>15){			 
-		this->Rotate(angle);
+		this->Rotate(static_cast<float>(angle));
 		// }		
 		
 		//transitions

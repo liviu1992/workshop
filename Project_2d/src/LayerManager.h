@@ -6,7 +6,9 @@
 #include <chrono>
 #include "Camera.h"
 
-
+/*
+	pentru masurarea performantei
+*/
 template<typename TimeT = std::chrono::milliseconds>
 struct measure
 {

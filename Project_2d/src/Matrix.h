@@ -13,9 +13,10 @@
 #include "GLM\gtc\matrix_transform.hpp"
 #include "GLM\gtx\projection.hpp"
 
+
 class Matrix{
 public:
-	Matrix(GLfloat x, GLfloat y, GLfloat angle);
+	Matrix(GLfloat x, GLfloat y, GLfloat angle, GLuint type);
 	void translateTo(GLfloat x, GLfloat y);
 	glm::mat4 Matrix::getData();
 	void rotate(GLfloat rotate);
@@ -35,6 +36,10 @@ private:
 	GLfloat x;
 	GLfloat y;
 	GLfloat angle;
+	GLfloat oldAngle;
+	GLboolean r_left;
+	GLboolean r_right;
+	GLuint type;
 
 
 };

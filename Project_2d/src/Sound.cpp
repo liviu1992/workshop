@@ -10,14 +10,24 @@ Sound::Sound(Sounds id){
 
 	this->id = id;
 	switch(id){
-	case Sounds::MUSIC:
-		result = fmodSystem->createStream("../data/sounds/music.mp3", FMOD_SOFTWARE | FMOD_LOOP_NORMAL, 0, &actionSound);
-		FmodErrorCheck(result);
-
-		break;
 	case Sounds::ROCKET_LAUCHED:
 		result = fmodSystem->createSound("../data/sounds/launch_rocket.wav", FMOD_SOFTWARE, 0, &actionSound);
 		FmodErrorCheck(result);
+		break;
+	case Sounds::MUSIC:
+		result = fmodSystem->createStream("../data/sounds/music.mp3", FMOD_SOFTWARE , 0, &actionSound);
+		FmodErrorCheck(result);
+
+		break;
+	case Sounds::MUSIC2:
+		result = fmodSystem->createStream("../data/sounds/music2.mp3", FMOD_SOFTWARE , 0, &actionSound);
+		FmodErrorCheck(result);
+
+		break;
+	case Sounds::MUSIC3:
+		result = fmodSystem->createStream("../data/sounds/music3.mp3", FMOD_SOFTWARE, 0, &actionSound);
+		FmodErrorCheck(result);
+
 		break;
 	case Sounds::EXPLOSION:
 		result = fmodSystem->createSound("../data/sounds/explosion.wav", FMOD_SOFTWARE, 0, &actionSound);
@@ -32,13 +42,19 @@ Sound::Sound(Sounds id){
 }
 void Sound::Play(){
 	FMOD_RESULT result;
-	result = fmodSystem->playSound(FMOD_CHANNEL_FREE, actionSound, false, &channel );
+
+	if (id==Sounds::MUSIC || id==Sounds::MUSIC2 || id==Sounds::MUSIC3){
+		result = fmodSystem->playSound(FMOD_CHANNEL_FREE, actionSound, false, &channel );
+	} else {
+		result = fmodSystem->playSound(FMOD_CHANNEL_FREE, actionSound, false, &channel );
+	}
+	
 	if (id==Sounds::ROCKET_LAUCHED){
-		channel->setVolume(0.1);
+		channel->setVolume(0.1f);
 	}else if (id==Sounds::EXPLOSION){
-		channel->setVolume(0.2);
-	} else if (id==Sounds::MUSIC){
-		//channel->setVolume(0.4);
+		channel->setVolume(0.2f);
+	} else if (id==Sounds::MUSIC || id==Sounds::MUSIC2 || id==Sounds::MUSIC3){
+		//music_channel->setVolume(0.4);
 	}
 	FmodErrorCheck(result);
 }
@@ -56,4 +72,31 @@ void Sound::FmodErrorCheck(FMOD_RESULT result){
 
 Sounds Sound::getID(){
 	return this->id;
+}
+
+bool Sound::IsMusic(){
+	if (this->id == Sounds::MUSIC || this->id == Sounds::MUSIC2 || this->id == Sounds::MUSIC3){
+		std::cout << "We have music!" << std::endl;
+		return true;
+	} else {
+		return false;
+	}
+}
+
+FMOD::Channel* Sound::getChannel(){
+	return this->channel;
+	
+}
+
+
+void Sound::Stop(){
+	
+		channel->stop();
+	
+}
+
+void Sound::Pause(bool value){
+	
+		channel->setPaused(value);
+	
 }

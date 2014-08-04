@@ -26,7 +26,7 @@ public:
 };
 	void increaseHealth(GLint amount);
 	void addModifier(modifier mod);
-	bool hasModifier(modifier mod);
+	GLboolean hasModifier(modifier mod);
 	void removeModifier(modifier mod);
 	void checkModifierLifetime();
 	GLint getHealth();

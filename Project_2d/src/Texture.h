@@ -52,7 +52,8 @@ enum texture_id{
 	NUM8,
 	NUM9,
 	TEXT_SCORE,
-	TEXT_ENEMIES,
+	TEXT_KILLS,
+	TEXT_HP,
 	PLANET_GREEN,
 	PLANET_JUPITER,
 	PLANET_VENUS,
@@ -104,6 +105,7 @@ enum texture_id{
 	ROCKET_2,
 	ROCKET_3,
 	ROCKET_4,
+	HELP,
 	ROCKET
 };
 class Texture{
