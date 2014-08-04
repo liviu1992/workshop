@@ -328,7 +328,7 @@ int main () {
 	vmode->width, vmode->height, "Extended GL Init", mon, NULL
 	);
   } else {
-	  window = glfwCreateWindow (g_gl_width, g_gl_height, "Workshop1", NULL, NULL);
+	  window = glfwCreateWindow (g_gl_width, g_gl_height, "Space Warfare", NULL, NULL);
   }
 
   // Se creeaza fereastra
@@ -363,6 +363,12 @@ int main () {
 	GLboolean hintscreen=true;
 	GLdouble hintscreen_timer;
 	GLdouble hintscreen_limit=0.5;
+
+	GLdouble musicswitch_timer;
+	GLdouble musicswitch_limit=1;
+
+	GLdouble cheat_timer;
+	GLdouble cheat_limit=0.5;
 
 	/*
 		Mai jos sunt variabilele pe care le voi folosi sa calculez 
@@ -439,8 +445,9 @@ int main () {
 	double currentTime = glfwGetTime();
 	double accumulator = 0.0;
 	hintscreen_timer = glfwGetTime();
+	musicswitch_timer = glfwGetTime();
+	cheat_timer = glfwGetTime();
 
-	
 	soundManager.Play(Sounds::MUSIC);
 	soundManager.PauseMusic();
 	glClearColor(0,0,0,0);
@@ -655,22 +662,28 @@ int main () {
 
 				  // instagib cheat
 				   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_I)){
-					   if (!player.getCombatant()->hasModifier(modifier::INSTAGIB)){
-							player.getCombatant()->addModifier(modifier::INSTAGIB);
-							std::cout << "IG" << std::endl;
-					   } else {
-						   player.getCombatant()->removeModifier(modifier::INSTAGIB);
-						   std::cout << "NIG" << std::endl;
+					   if (glfwGetTime()-cheat_timer>cheat_limit){
+						   if (!player.getCombatant()->hasModifier(modifier::INSTAGIB)){
+								player.getCombatant()->addModifier(modifier::INSTAGIB);
+								std::cout << "IG" << std::endl;
+						   } else {
+							   player.getCombatant()->removeModifier(modifier::INSTAGIB);
+							   std::cout << "NIG" << std::endl;
+						   }
+						   cheat_timer = glfwGetTime();
 					   }
 				  }
 					// instagib cheat
 				   if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_H)){
-					   if (!player.getCombatant()->hasModifier(modifier::HIGH_SPEED)){
-							player.getCombatant()->addModifier(modifier::HIGH_SPEED);
-							std::cout << "HS" << std::endl;
-					   } else {
-						   player.getCombatant()->removeModifier(modifier::HIGH_SPEED);
-						   std::cout << "NHS" << std::endl;
+					   if (glfwGetTime()-cheat_timer>cheat_limit){
+						   if (!player.getCombatant()->hasModifier(modifier::HIGH_SPEED)){
+								player.getCombatant()->addModifier(modifier::HIGH_SPEED);
+								std::cout << "HS" << std::endl;
+						   } else {
+							   player.getCombatant()->removeModifier(modifier::HIGH_SPEED);
+							   std::cout << "NHS" << std::endl;
+						   }
+						   cheat_timer = glfwGetTime();
 					   }
 				  }
 
@@ -691,8 +704,11 @@ int main () {
 					  }
 				  }
 				  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_N)){
-					  soundManager.NextSong();
-					  std::cout << "Next song " << std::endl;
+					  if (glfwGetTime()-musicswitch_timer >musicswitch_limit){
+						  soundManager.NextSong(false);
+						  std::cout << "Next song " << std::endl;
+						  musicswitch_timer = glfwGetTime();
+					  }
 				  }
 				  if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_ENTER)){
 					  if (glfwGetTime()-hintscreen_timer >hintscreen_limit){

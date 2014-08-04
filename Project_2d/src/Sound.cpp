@@ -29,6 +29,23 @@ Sound::Sound(Sounds id){
 		FmodErrorCheck(result);
 
 		break;
+	case Sounds::MUSIC4:
+		result = fmodSystem->createStream("../data/sounds/music4.mp3", FMOD_SOFTWARE, 0, &actionSound);
+		FmodErrorCheck(result);
+
+		break;
+	case Sounds::MUSIC5:
+		result = fmodSystem->createStream("../data/sounds/music5.mp3", FMOD_SOFTWARE, 0, &actionSound);
+		FmodErrorCheck(result);
+
+		break;
+	case Sounds::MUSIC6:
+		result = fmodSystem->createStream("../data/sounds/music6.mp3", FMOD_SOFTWARE, 0, &actionSound);
+		FmodErrorCheck(result);
+
+		break;
+
+
 	case Sounds::EXPLOSION:
 		result = fmodSystem->createSound("../data/sounds/explosion.wav", FMOD_SOFTWARE, 0, &actionSound);
 		FmodErrorCheck(result);		
@@ -43,11 +60,9 @@ Sound::Sound(Sounds id){
 void Sound::Play(){
 	FMOD_RESULT result;
 
-	if (id==Sounds::MUSIC || id==Sounds::MUSIC2 || id==Sounds::MUSIC3){
-		result = fmodSystem->playSound(FMOD_CHANNEL_FREE, actionSound, false, &channel );
-	} else {
-		result = fmodSystem->playSound(FMOD_CHANNEL_FREE, actionSound, false, &channel );
-	}
+	
+	result = fmodSystem->playSound(FMOD_CHANNEL_FREE, actionSound, false, &channel );
+	
 	
 	if (id==Sounds::ROCKET_LAUCHED){
 		channel->setVolume(0.1f);
@@ -55,6 +70,8 @@ void Sound::Play(){
 		channel->setVolume(0.2f);
 	} else if (id==Sounds::MUSIC || id==Sounds::MUSIC2 || id==Sounds::MUSIC3){
 		//music_channel->setVolume(0.4);
+	} else if (id==Sounds::MUSIC6){
+		channel->setVolume(0.5);
 	}
 	FmodErrorCheck(result);
 }

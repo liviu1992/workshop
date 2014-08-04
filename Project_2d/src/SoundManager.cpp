@@ -1,10 +1,10 @@
 #include "SoundManager.h"
-
+#include <time.h>
 SoundManager::SoundManager(){
 
 	//incarc efectele sonore si muzica de fundal
 	for (unsigned int i=0; i<Sounds::EXPLOSION+1; i++){
-		if (i == static_cast<unsigned int>(Sounds::MUSIC) || i == static_cast<unsigned int>(Sounds::MUSIC2) || i == static_cast<unsigned int>(Sounds::MUSIC3)){
+		if (i == static_cast<unsigned int>(Sounds::MUSIC) || i == static_cast<unsigned int>(Sounds::MUSIC2) || i == static_cast<unsigned int>(Sounds::MUSIC3) || i == static_cast<unsigned int>(Sounds::MUSIC4) || i == static_cast<unsigned int>(Sounds::MUSIC5) || i == static_cast<unsigned int>(Sounds::MUSIC6)){
 			playlist.push_back(new Sound(static_cast<Sounds>(i)));
 		} else {
 			sounds.push_back(new Sound(static_cast<Sounds>(i)));
@@ -15,7 +15,8 @@ SoundManager::SoundManager(){
 		}*/
 
 	}
-	playlistNum = 1;
+	srand((unsigned) time(0));
+	playlistNum = rand()%(playlist.size());
 	
 
 
@@ -34,11 +35,11 @@ void SoundManager::Play(Sounds sound){
 	}
 }
 void SoundManager::Update(){
-	int loopcount;
+
 	bool isplaying;
 	if (playlist.at(playlistNum)->getChannel()->isPlaying(&isplaying)==FMOD_OK && isplaying==false){
 		std::cout << "Next!" << std::endl;
-		NextSong();
+		NextSong(true);
 	}
 	for (unsigned int i=0; i<sounds.size(); i++){		
 			sounds.at(i)->Update();		
@@ -88,14 +89,30 @@ bool SoundManager::MusicPause(){
 	}
 }
 
-void SoundManager::NextSong(){
-	StopMusic();
-	playlistNum++;
-	if (playlistNum>=playlist.size()){
-		playlistNum=0;
+void SoundManager::NextSong(bool random){
+	if (random==false){
+		StopMusic();
+		playlistNum++;
+		if (playlistNum>=playlist.size()){
+			playlistNum=0;
+		}
+		playlist.at(playlistNum)->Play();
+
+	} else {
+		StopMusic();
+		unsigned int oldPlaylistNum = playlistNum;
+		playlistNum = rand() % (playlist.size()-1);
+		if (playlistNum==oldPlaylistNum){
+			playlistNum = playlistNum + 2;
+		}
+		if (playlistNum>=playlist.size()){
+			playlistNum=0;
+		}
+		playlist.at(playlistNum)->Play();
 	}
-	playlist.at(playlistNum)->Play();
 	//playlistNum = (playlistNum+1)%(playlist.size());
 //	music = playlist.at(2);
 
 }
+
+

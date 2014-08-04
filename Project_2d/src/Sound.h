@@ -5,7 +5,6 @@
 #include "FMOD\fmod.h"
 #include "FMOD\fmod.hpp"
 #include "FMOD\fmod_errors.h"
-
 #include "FMOD\fmod_codec.h"
 #include "FMOD\fmod_dsp.h"
 #include "FMOD\fmod_memoryinfo.h"
@@ -17,6 +16,9 @@ enum Sounds{
 	MUSIC,
 	MUSIC2,
 	MUSIC3,
+	MUSIC4,
+	MUSIC5,
+	MUSIC6,
 	EXPLOSION
 
 

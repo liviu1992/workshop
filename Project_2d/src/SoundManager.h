@@ -15,7 +15,7 @@ public:
 	void ResumeMusic();
 	bool MusicPlaying();
 	bool MusicPause();
-	void NextSong();
+	void NextSong(bool random);
 	~SoundManager();
 private:
 	std::vector<Sound*> sounds;

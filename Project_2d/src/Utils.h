@@ -69,7 +69,7 @@ namespace Utils{
 			double fps = (double)frame_count / elapsed_seconds;
 			//char tmp[128];
 		
-			std::string tmp = "opengl @ fps: " + std::to_string(fps).substr(0,4);
+			std::string tmp = "Space Warfare @ fps: " + std::to_string(fps).substr(0,4);
 			glfwSetWindowTitle (window, tmp.c_str());
 			frame_count = 0;
 		}
